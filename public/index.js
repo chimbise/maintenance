@@ -285,6 +285,14 @@ function addNewQuestionAuto(newRoom, id,userQuestion,value){
 
     // Append the <p> element to the new question div
     newQuestionDiv.appendChild(questionParagraph);
+    var deleteQ = document.createElement('a')
+    deleteQ.classList.add("btn-floating", "btn-small", "waves-effect", "waves-light", "red", "right");
+    var deleteIconQ  = document.createElement("i");  
+    deleteIconQ .classList.add("material-icons");      
+    deleteIconQ .textContent = "delete"; 
+    deleteQ .appendChild(deleteIconQ); 
+
+    newQuestionDiv.appendChild(deleteQ)
 
 
     // Create the comment form
@@ -302,7 +310,6 @@ function addNewQuestionAuto(newRoom, id,userQuestion,value){
     // Append elements to the new question container
     commentForm.appendChild(commentLabel);
     commentForm.appendChild(commentInput);
-    newQuestionDiv.appendChild(commentForm);
 
     if (value === '1') {
 
@@ -336,24 +343,20 @@ function addNewQuestionAuto(newRoom, id,userQuestion,value){
 
                     newQuestionDiv.appendChild(yesLabel);
                     newQuestionDiv.appendChild(noLabel);
+                    newQuestionDiv.appendChild(commentForm);
 
                     checkRadioButtons(newQuestionDiv)
 
     } else if (value === '2') {
+        newQuestionDiv.appendChild(commentForm);
         commentForm.style.display = "block";
     } else {
         alert('Invalid selection. Please choose either 1 or 2.');
         return;
     }   
+    
 
-    var deleteQ = document.createElement('a')
-    deleteQ.classList.add("btn-floating", "btn-small", "waves-effect", "waves-light", "red", "right");
-    var deleteIconQ  = document.createElement("i");  
-    deleteIconQ .classList.add("material-icons");      
-    deleteIconQ .textContent = "delete"; 
-    deleteQ .appendChild(deleteIconQ); 
-
-    newQuestionDiv.appendChild(deleteQ)
+    
 
     deleteQ.addEventListener('click', function(){
         newQuestionDiv.remove();
@@ -390,7 +393,12 @@ function addNewQuestion(newRoom){
 
     // Append the <p> element to the new question div
     newQuestionDiv.appendChild(questionParagraph);
-
+    var deleteQ = document.createElement('a')
+    deleteQ.classList.add("btn-floating", "btn-small", "waves-effect", "waves-light", "red", "right");
+    var deleteIconQ  = document.createElement("i");  
+    deleteIconQ .classList.add("material-icons");      
+    deleteIconQ .textContent = "delete"; 
+    deleteQ .appendChild(deleteIconQ);
 
     // Create the comment form
     var commentForm = document.createElement('form');
@@ -407,7 +415,7 @@ function addNewQuestion(newRoom){
     // Append elements to the new question container
     commentForm.appendChild(commentLabel);
     commentForm.appendChild(commentInput);
-    newQuestionDiv.appendChild(commentForm);
+    
 
     selectValue = prompt('Select type of answer: \n1. yes or no question with comment \n2. comment only');
     if (selectValue === '1') {
@@ -441,22 +449,17 @@ function addNewQuestion(newRoom){
 
                     newQuestionDiv.appendChild(yesLabel);
                     newQuestionDiv.appendChild(noLabel);
+                    newQuestionDiv.appendChild(commentForm);
 
                     checkRadioButtons(newQuestionDiv)
 
     } else if (selectValue === '2') {
+        newQuestionDiv.appendChild(commentForm);
         commentForm.style.display = "block";
     } else {
         alert('Invalid selection. Please choose either 1 or 2.');
         return;
-    }   
-
-    var deleteQ = document.createElement('a')
-    deleteQ.classList.add("btn-floating", "btn-small", "waves-effect", "waves-light", "red", "right");
-    var deleteIconQ  = document.createElement("i");  
-    deleteIconQ .classList.add("material-icons");      
-    deleteIconQ .textContent = "delete"; 
-    deleteQ .appendChild(deleteIconQ); 
+    } 
 
     newQuestionDiv.appendChild(deleteQ)
     deleteQ.addEventListener('click', function(){
@@ -482,7 +485,6 @@ const commentDiv = newQuestionDiv.querySelector('.form');
                 // Neither 'yes' nor 'no' radio button is checked
                 return true;
             } 
-            return false;
         });
     });
 }
