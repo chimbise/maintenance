@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>maintenance</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+    <nav class="nav-wraper waves-light">
+        <a href="#" class="brand-logo center">Inspection</a>
+    </nav>
+    <!--outer tabs list-->
+    <div class="" >
+        <ul class="tabs" >
+            <li class="tab"><a href="#test1">building Specifications</a></li>
+            <li class="tab"><a href="#test2">checklist</a></li>
+            <li class="tab"><a href="#report-container">Report</a></li>
+        </ul>
+    </div>
+
+    <!-- Overlay and Popup Form -->
+    <div class="overlay" id="overlaybuild">
+        <form class="popup-form" id="bui">
+            <!-- Your form fields go here -->
+            <label for="buildingName"> Enter Building name:</label>
+            <input type="text" id="buildingName" name="buildingName" >  
+            <button type="submit" onclick="buildtogglePopup()">add / cancel</button>
+        </form>  
+    </div>  
+    <div class="overlay" id="overlayinspector">
+        <form class="popup-form" id="ins">
+            <!-- Your form fields go here -->
+            <label for="inspectorName"> Enter Inspector name:</label>
+            <input type="text" id="inspectorName" name="inspectorName" >  
+            <button type="submit" onclick="inspectortogglePopup()">add / cancel</button>
+        </form>  
+    </div>
+    
+    <!--outer tabs-->
+    <div class="" id="test1">
+        <p>Enter building Specifications</p>
+        <div class="build" id="buildingDiv">
+            <label>Select Building Name</label>
+            <select title="awe" class="browser-default" id="bb">
+                <option value="addbuilding">Add New Building</option>
+                <br>
+                <option value="" disabled selected>Choose from list</option>
+            </select>
+        </div>
+        <div class="inspect" id="inspectorDiv">
+            <label>Select Inspector Name</label>
+            <select title="awe" class="browser-default" id="ii">
+                <option value="addInspector">Add New Inspector</option>
+                <br>
+                <option value="" disabled selected>Choose from list</option>
+            </select>
+        </div>
+        <div class="date">
+            <!-- Dropdown Structure -->
+            <label for="inspection Date">Inspection Date: </label>
+            <input title="Date" type="text" class="datepicker" placeholder="SELECT DATE">
+        </div>
+        <button type="submit" class="waves-effect waves-light btn-small" id="myButton">submit</button>
+    </div>
+    
+    <div class="" id="test2">
+        <!-- add new question -->
+        <a class="waves-effect waves-light btn-small" id="fabButton"><i class="material-icons right">add</i>room</a>
+        <!--Check list inner tabs-->
+            <ul class="innerTabs">
+
+            </ul>
+        <!--inner tabs-->
+        <a class="waves-effect waves-light btn-small" id="submit2"><i class="material-icons right">send</i>submit</a>           
+    </div>
+    <div id="report-container">
+        <h5>Inspection Report</h5>
+
+        <!-- Building Information -->
+        <p><strong>Building Name:</strong> <span id="presentBuildingName"></span></p>
+        <p><strong>Inspector Name:</strong> <span id="presentInspectorName"></span></p>
+        <p><strong>Date of Inspection:</strong> <span id="inspectionDate"></span></p>
+
+        <!-- Undetermined Rooms and Questions/Answers -->
+        <div id="undeterminedRooms"></div>
+
+    </div>
+    
+    <!-- Compiled and minified JavaScript -->
+    <script type="module" src="/public/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+       
+    //initialize date
+    var elems1 = document.querySelectorAll('.datepicker')
+    M.Datepicker.init(elems1, 'autoClose')
+
+    //initialize tabs
+    var elems = document.querySelectorAll('.tabs');
+    M.Tabs.init(elems);
+    
+    
+
+    function buildtogglePopup() {
+        var overlay = document.getElementById('overlaybuild');
+        overlay.style.display = (overlay.style.display === 'none' || overlay.style.display === '') ? 'flex' : 'none';
+    }
+    function inspectortogglePopup() {
+        var overlay = document.getElementById('overlayinspector');
+        overlay.style.display = (overlay.style.display === 'none' || overlay.style.display === '') ? 'flex' : 'none';
+    }
+    </script>
+</body>
+</html>

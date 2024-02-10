@@ -1,0 +1,105 @@
+nav {
+    color: rgb(255, 255, 255);
+    background-color: #474685;
+    width: 100%;
+    
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    }
+
+.question {
+    margin-bottom: 20px;
+}
+
+.code {
+    margin-top: 10px;
+}
+
+.comment {
+    margin-top: 10px;
+    display: block;
+    color: red;
+}
+.form {
+    display: none;
+}
+/* Styles for the overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    align-items: center;
+    justify-content: center;
+}
+
+/* Styles for the popup form */
+.popup-form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.tabs {
+    display: flex;
+    background-color: rgba(79, 82, 92, 0.445);
+    justify-content: space-between;
+}
+.tabs .tab a:hover, .tabs .tab a.active {
+    background-color: rgb(17, 16, 16);
+    color: #c9161c;
+    font-style: italic;
+
+}
+
+.tabs .tab a {
+    color: rgba(8, 4, 4, 0.7);
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0 24px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.tab {
+    width: 100%;
+    flex: 1;
+    padding: 15px;
+    text-align: justify;
+    cursor: pointer;
+    border-bottom: 2px solid #ccc;
+
+}
+.tab-content {
+    display: none;
+}
+#report-container {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+h3 {
+    text-align: center;
+}
+
+.room-section {
+    margin-bottom: 20px;
+}
+
+.question-answer {
+    margin-left: 20px;
+}
+/* Define a class for the dotted line */
+.dotted-line {
+    border-top: 1px dotted #000; /* Set the border style, width, and color */
+    margin-top: 10px; /* Adjust the margin for spacing */
+}
