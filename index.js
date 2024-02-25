@@ -526,7 +526,7 @@ function addNewTabAuto(room) {
     var newTabLink = document.createElement('a');
     newTabLink.href = `#newRoom${newTabIndex}`;
     newTabLink.textContent = room;
-    newTabLink.className = 'tab-container active'
+    newTabLink.className = 'tab-container'
     newTab.appendChild(newTabLink);
     
 
@@ -643,7 +643,7 @@ function addNewTab() {
     var newTabLink = document.createElement('a');
     newTabLink.href = `#newRoom${newTabIndex}`;
     newTabLink.textContent = `Room${newTabIndex}`;
-    newTabLink.className = 'tab-container active'
+    newTabLink.className = 'tab-container'
     newTab.appendChild(newTabLink);
     
 

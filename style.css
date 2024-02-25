@@ -72,6 +72,11 @@ body {
     width: 100%;
     text-align: center;
 }
+
+.datepicker::placeholder {
+    color: black;
+    padding-left: 10px;
+}
 .content {
     display: none;
 }
@@ -80,7 +85,7 @@ body {
     background-color:rgb(243, 231, 216);
     margin-bottom: 20px;
 }
-.tab-container {
+.tab-container {  /* tab element to make the whole space clickable */
     display: block;
     width: 100%;
   }
@@ -94,9 +99,11 @@ body {
 .tab a {
     text-decoration: none;
     color: green
-    
 }
 
+#fabButton {
+    margin-top: 20px; /* Adjust the value as needed */
+}
 #report-container {
     background-color:rgb(243, 231, 216);
     margin: 20px auto;
