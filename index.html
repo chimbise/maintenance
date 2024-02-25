@@ -7,14 +7,14 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>maintenance</title>
-    <link rel="stylesheet" href="/public/style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <nav class="nav-wraper waves-light">
         <a href="#" class="brand-logo center">Inspection</a>
     </nav>
     <!--outer tabs list-->
-    <div class="" >
+    <div class="content" >
         <ul class="tabs" >
             <li class="tab"><a href="#test1">building Specifications</a></li>
             <li class="tab"><a href="#test2">checklist</a></li>
@@ -62,7 +62,7 @@
         <div class="date">
             <!-- Dropdown Structure -->
             <label for="inspection Date">Inspection Date: </label>
-            <input title="Date" type="text" class="datepicker" placeholder="SELECT DATE">
+            <input title="Date" class="datepicker white" placeholder="SELECT DATE">
         </div>
         <button type="submit" class="waves-effect waves-light btn-small" id="myButton">submit</button>
     </div>
@@ -75,7 +75,8 @@
 
             </ul>
         <!--inner tabs-->
-        <a class="waves-effect waves-light btn-small" id="submit2"><i class="material-icons right">send</i>submit</a>           
+        <a class="waves-effect waves-light btn-small" id="submit2"></i>submit</a>
+        <a class="waves-effect waves-light btn-small right" id="back"></i>back</a>           
     </div>
     <div id="report-container">
         <h5>Inspection Report</h5>
@@ -87,11 +88,13 @@
 
         <!-- Undetermined Rooms and Questions/Answers -->
         <div id="undeterminedRooms"></div>
+        <a class="waves-effect waves-light btn-small" id="exportToExcel"></i>export</a> 
+        <a class="waves-effect waves-light btn-small right" id="back2"></i>back</a> 
 
     </div>
     
     <!-- Compiled and minified JavaScript -->
-    <script type="module" src="/public/index.js"></script>
+    <script type="module" src="/index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>

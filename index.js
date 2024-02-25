@@ -3,7 +3,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebas
 import {
     getFirestore, collection, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
-import isEqual from '../node_modules/lodash-es/isEqual.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
+
+import isEqual from '/node_modules/lodash-es/isEqual.js';
 
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -17,9 +19,20 @@ const firebaseConfig = {
     measurementId: "G-Q0SJDFDPBP"
   }
 
-  initializeApp(firebaseConfig)
+  const firebaseApp = initializeApp(firebaseConfig)
 
   const db = getFirestore()
+  //const auth = getAuth(firebaseApp);
+
+    // // Sign up with email and password
+    // firebase.auth().createUserWithEmailAndPassword(email, password)
+    // .then((userCredential) => {
+    //     // User signed up successfully
+    //     const user = userCredential.user;
+    // })
+    // .catch((error) => {
+    //     console.error(error.message);
+    // });
 
 
 
@@ -110,6 +123,7 @@ async function updateBuilding(id, ataObject){
     
         if (documentSnapshot.exists()) {
           var data = documentSnapshot.data();
+          console.log(data)
     
           Object.keys(data).forEach((room) => {
             var rom = room;
@@ -273,7 +287,7 @@ function addNewQuestionAuto(newRoom, id,userQuestion,value){
 
     //var innerDivsCount = addNewRoomContainer.getElementsByClassName('question').length;
     if(number === 0){
-        number = addNewRoomContainer.getElementsByClassName('question').length; + 1;
+        number = addNewRoomContainer.getElementsByClassName('question').length + 1;
     }else{
         number = number + 1
     }
@@ -291,6 +305,7 @@ function addNewQuestionAuto(newRoom, id,userQuestion,value){
     deleteIconQ .classList.add("material-icons");      
     deleteIconQ .textContent = "delete"; 
     deleteQ .appendChild(deleteIconQ); 
+    deleteQ.style.margin = '10px'
 
     newQuestionDiv.appendChild(deleteQ)
 
@@ -389,7 +404,7 @@ function addNewQuestion(newRoom){
         number = number + 1
     }
     var questionParagraph = document.createElement('p');
-    questionParagraph.textContent = "Q"+number + ". " + userQuestion;
+    questionParagraph.textContent = userQuestion;
 
     // Append the <p> element to the new question div
     newQuestionDiv.appendChild(questionParagraph);
@@ -399,7 +414,8 @@ function addNewQuestion(newRoom){
     deleteIconQ .classList.add("material-icons");      
     deleteIconQ .textContent = "delete"; 
     deleteQ .appendChild(deleteIconQ);
-
+    deleteQ.style.margin = '10px'
+    newQuestionDiv.appendChild(deleteQ)
     // Create the comment form
     var commentForm = document.createElement('form');
     commentForm.classList.add('form');
@@ -461,7 +477,7 @@ function addNewQuestion(newRoom){
         return;
     } 
 
-    newQuestionDiv.appendChild(deleteQ)
+    
     deleteQ.addEventListener('click', function(){
         newQuestionDiv.remove();
          console.log('Clicked tab:', newQuestionDiv);
@@ -502,6 +518,7 @@ function addNewTabAuto(room) {
     }
     //var newTabIndex = document.querySelectorAll('.innerTabs .tab').length + 1;
     var newTab = document.createElement('li');
+    // Clear existing content in the container
     newTab.classList.add('tab');
     newTab.id = room
     
@@ -509,6 +526,7 @@ function addNewTabAuto(room) {
     var newTabLink = document.createElement('a');
     newTabLink.href = `#newRoom${newTabIndex}`;
     newTabLink.textContent = room;
+    newTabLink.className = 'tab-container active'
     newTab.appendChild(newTabLink);
     
 
@@ -519,20 +537,25 @@ function addNewTabAuto(room) {
 
     // Create content for the new tab
     var newTabContent = document.createElement('div');
+    // Clear existing content in the container
     newTabContent.id = `newRoom${newTabIndex}`;
+    
+
     
     
     var questionButton = document.createElement('a');
-    questionButton.innerHTML = '<i class="material-icons right">add</i>Q';
+    questionButton.innerHTML = '<i class=" right"></i>+';
     questionButton.className = 'waves-effect waves-light btn-small';
     questionButton.id = 'questionButton';
     questionButton.href = '#';
+    
 
     var editButton = document.createElement("a");
     editButton.classList.add("btn-floating", "btn-small", "waves-effect", "waves-light", "green", "right");
     var editIcon = document.createElement("i");     
     editIcon.classList.add("material-icons");      
-    editIcon.textContent = "edit";     
+    editIcon.textContent = "edit"; 
+    editButton.style.margin = '10px'    
     editButton.appendChild(editIcon);      
 
     var deleteButton = document.createElement('a')
@@ -540,6 +563,7 @@ function addNewTabAuto(room) {
     var deleteIcon  = document.createElement("i");  
     deleteIcon .classList.add("material-icons");      
     deleteIcon .textContent = "delete"; 
+    deleteButton.style.margin = '10px'
     deleteButton .appendChild(deleteIcon); 
 
     newTabContent.appendChild(questionButton);
@@ -612,12 +636,14 @@ function addNewTab() {
     }
     //var newTabIndex = document.querySelectorAll('.innerTabs .tab').length + 1;
     var newTab = document.createElement('li');
+    // Clear existing content in the container
     newTab.classList.add('tab');
     
     
     var newTabLink = document.createElement('a');
     newTabLink.href = `#newRoom${newTabIndex}`;
     newTabLink.textContent = `Room${newTabIndex}`;
+    newTabLink.className = 'tab-container active'
     newTab.appendChild(newTabLink);
     
 
@@ -628,6 +654,7 @@ function addNewTab() {
 
     // Create content for the new tab
     var newTabContent = document.createElement('div');
+    // Clear existing content in the container
     newTabContent.id = `newRoom${newTabIndex}`;
     
     
@@ -641,7 +668,8 @@ function addNewTab() {
     editButton.classList.add("btn-floating", "btn-small", "waves-effect", "waves-light", "green", "right");
     var editIcon = document.createElement("i");     
     editIcon.classList.add("material-icons");      
-    editIcon.textContent = "edit";     
+    editIcon.textContent = "edit";
+    editButton.style.margin = '2px'     
     editButton.appendChild(editIcon);      
 
     var deleteButton = document.createElement('a')
@@ -649,6 +677,7 @@ function addNewTab() {
     var deleteIcon  = document.createElement("i");  
     deleteIcon .classList.add("material-icons");      
     deleteIcon .textContent = "delete"; 
+    deleteButton.style.margin = '2px'  
     deleteButton .appendChild(deleteIcon); 
 
     newTabContent.appendChild(questionButton);
@@ -780,11 +809,12 @@ myButton.addEventListener('click', function() {
     // This function will be executed when the button is clicked
     //alert('Button clicked!');
     var array = getSelectedValue();
-    populateQuestions(array)
+    
     
     //button click
     if(array[0]&&array[1]&&array[2] !== ''){
         switchToTab('test2')
+        populateQuestions(array)
 
     }else{
         alert("enter all values to continue")
@@ -792,32 +822,49 @@ myButton.addEventListener('click', function() {
     
 });
         
-function checked(selectValue){
-    if(selectValue === '1'){
-        const questions = document.querySelectorAll('.question');
-        for (const question of questions){
-            const radioButtons = question.querySelectorAll('input[type="radio"]');
-            var isAnyRadioButtonChecked = Array.from(radioButtons).some((radio) => radio.checked);
+// function checked(selectValue){
+//     if(selectValue === '1'){
+//         const questions = document.querySelectorAll('.question');
+//         for (const question of questions){
+//             const radioButtons = question.querySelectorAll('input[type="radio"]');
+//             var isAnyRadioButtonChecked = Array.from(radioButtons).some((radio) => radio.checked);
 
-            if (!isAnyRadioButtonChecked && radioButtons.length !== 0) {
-                // At least one radio button is checked for this question
-                return false;
-            }
-        }
-    }else{
+//             if (!isAnyRadioButtonChecked && radioButtons.length !== 0) {
+//                 // At least one radio button is checked for this question
+//                 return false;
+//             }
+//         }
+//     }else{
 
-        return true;            
-    }
-}
+//         return true;            
+//     }
+// }
 const mySendButton = document.getElementById('submit2');
+const backButton = document.getElementById('back');
+const backButton2 = document.getElementById('back2');
+const exportTo = document.getElementById('exportToExcel');
+
+backButton.addEventListener('click', function() {
+    
+    window.location.reload();
+    
+})
+backButton2.addEventListener('click', function() {
+    
+    switchToTab('test2')
+    
+    
+})
+
+exportTo.addEventListener('click', function() {
+    exportToExcel();
+})
+function exportToExcel(){
+
+}
 
 mySendButton.addEventListener('click', function() {
-            
-    
-    
-    var array = getSelectedValue()
-    
-    
+    var array = getSelectedValue()    
     var dataObject = getSelectedChecklistValues()
         // Your custom logic goes here
         dataObject[0]['buildingName'] = array[0];
@@ -836,10 +883,11 @@ mySendButton.addEventListener('click', function() {
             }).then(function() {
                 //window.location.reload();
                 switchToTab('report-container')
-                killTab('tab')
-                killTab('tabs')
+                //killTab('tab')
+                //killTab('tabs')
+                console.log(dataObject[0])
                 presentData(dataObject[0]);
-                
+                exportToExcel(dataObject[0])
                 })
                 uploadBuildings(array[0],array[0], dataObject[1])
     }else if(array[0] === '' || array[1] === '' || array[2] === ''){
@@ -850,9 +898,7 @@ mySendButton.addEventListener('click', function() {
     }
 
 })
-function killTab(tab){
-    
-}
+
 function presentData(inspectionData){
     console.log(inspectionData.buildingName);
     // Update HTML with inspection data
@@ -862,6 +908,8 @@ function presentData(inspectionData){
     document.getElementById("inspectionDate").innerHTML = inspectionData.inspectionTime;
 
     var undeterminedRoomsContainer = document.getElementById("undeterminedRooms");
+
+    undeterminedRoomsContainer.innerHTML = '';//clear the container
 
     // Iterate over undetermined rooms
     for (var room in inspectionData) {

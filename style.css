@@ -7,8 +7,32 @@ nav {
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
+    background-color: rgb(192, 208, 223)
     }
 
+
+#test1 > div {
+        margin-bottom: 20px; /* Adjust the margin-bottom as needed */
+    }
+    .build label {
+        /*font-weight: bold;*/
+        color: black;
+    }
+    .inspect label {
+        /*font-weight: bold;*/
+        color: black;
+    }
+    
+    .date {
+        color: #0a0202; /* Set your desired text color */
+     /* Add padding for better appearance */
+    }
+    .date label {
+            /*font-weight: bold;*/
+            color: black;
+    }
+    
+    
 .question {
     margin-bottom: 20px;
 }
@@ -48,43 +72,36 @@ body {
     width: 100%;
     text-align: center;
 }
-
-.tabs {
-    display: flex;
-    background-color: rgba(79, 82, 92, 0.445);
-    justify-content: space-between;
-}
-.tabs .tab a:hover, .tabs .tab a.active {
-    background-color: rgb(17, 16, 16);
-    color: #c9161c;
-    font-style: italic;
-
-}
-
-.tabs .tab a {
-    color: rgba(8, 4, 4, 0.7);
-    display: block;
-    width: 100%;
-    height: 100%;
-    padding: 0 24px;
-    font-size: 14px;
-    font-weight: bold;
-}
-.tab {
-    width: 100%;
-    flex: 1;
-    padding: 15px;
-    text-align: justify;
-    cursor: pointer;
-    border-bottom: 2px solid #ccc;
-
-}
-.tab-content {
+.content {
     display: none;
 }
+.tab {
+    padding: 10px;
+    background-color:rgb(243, 231, 216);
+    margin-bottom: 20px;
+}
+.tab-container {
+    display: block;
+    width: 100%;
+  }
+
+.tab .active {
+    background-color: white;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.tab a {
+    text-decoration: none;
+    color: green
+    
+}
+
 #report-container {
-    max-width: 600px;
+    background-color:rgb(243, 231, 216);
     margin: 20px auto;
+    height: 100%;
+    padding: 8px;
 }
 
 h3 {
@@ -103,3 +120,5 @@ h3 {
     border-top: 1px dotted #000; /* Set the border style, width, and color */
     margin-top: 10px; /* Adjust the margin for spacing */
 }
+
+
