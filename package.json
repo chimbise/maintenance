@@ -2,13 +2,13 @@
     "devDependencies": {
         "webpack": "^5.89.0",
         "webpack-cli": "^5.1.4"
-        
     },
     "dependencies": {
+        "docxtemplater": "^3.46.0",
         "firebase": "^10.5.2",
         "lodash": "^4.17.21",
         "lodash-es": "^4.17.21",
-        "lodash.isequal": "^4.5.0"
+        "lodash.isequal": "^4.5.0",
+        "mammoth": "^1.7.0"
     }
-    
 }

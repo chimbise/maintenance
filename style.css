@@ -40,12 +40,6 @@ body {
 .code {
     margin-top: 10px;
 }
-
-.comment {
-    margin-top: 10px;
-    display: block;
-    color: red;
-}
 .form {
     display: none;
 }
@@ -101,6 +95,10 @@ body {
     color: green
 }
 
+#comment {
+    background-color: rgb(212, 203, 203);
+}
+
 #fabButton {
     margin-top: 20px; /* Adjust the value as needed */
 }
@@ -127,5 +125,3 @@ h3 {
     border-top: 1px dotted #000; /* Set the border style, width, and color */
     margin-top: 10px; /* Adjust the margin for spacing */
 }
-
-

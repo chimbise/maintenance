@@ -79,18 +79,19 @@
         <a class="waves-effect waves-light btn-small right" id="back"></i>back</a>           
     </div>
     <div id="report-container">
-        <h5>Inspection Report</h5>
 
-        <!-- Building Information -->
+
+        <!-- Building Information  -->
+        <h5>Inspection Report</h5> 
         <p><strong>Building Name:</strong> <span id="presentBuildingName"></span></p>
         <p><strong>Inspector Name:</strong> <span id="presentInspectorName"></span></p>
         <p><strong>Date of Inspection:</strong> <span id="inspectionDate"></span></p>
 
-        <!-- Undetermined Rooms and Questions/Answers -->
         <div id="undeterminedRooms"></div>
         <a class="waves-effect waves-light btn-small" id="exportToExcel"></i>export</a> 
-        <a class="waves-effect waves-light btn-small right" id="back2"></i>back</a> 
-
+        <a class="waves-effect waves-light btn-small right" id="back2"></i>back</a>   
+        
+    
     </div>
     
     <!-- Compiled and minified JavaScript -->
@@ -118,5 +119,7 @@
         overlay.style.display = (overlay.style.display === 'none' || overlay.style.display === '') ? 'flex' : 'none';
     }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.0.3/mammoth.browser.min.js"></script>
 </body>
 </html>

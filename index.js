@@ -8,6 +8,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 import isEqual from '/node_modules/lodash-es/isEqual.js';
 
 
+
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyDU5een_L9w9ArISJLeLFRl5B-i5400IaA",
@@ -316,11 +317,12 @@ function addNewQuestionAuto(newRoom, id,userQuestion,value){
 
     var commentLabel = document.createElement('label');
     commentLabel.htmlFor = 'comment';
-    commentLabel.appendChild(document.createTextNode('Comment:'));
+    //commentLabel.appendChild(document.createTextNode('Comment:'));
 
     var commentInput = document.createElement('input');
     commentInput.type = 'text';
     commentInput.id = 'comment';
+    commentInput.placeholder = 'Enter your comment...';
 
     // Append elements to the new question container
     commentForm.appendChild(commentLabel);
@@ -422,11 +424,12 @@ function addNewQuestion(newRoom){
 
     var commentLabel = document.createElement('label');
     commentLabel.htmlFor = 'comment';
-    commentLabel.appendChild(document.createTextNode('Comment:'));
+    //commentLabel.appendChild(document.createTextNode('Comment:'));
 
     var commentInput = document.createElement('input');
     commentInput.type = 'text';
     commentInput.id = 'comment';
+    commentInput.placeholder = 'Enter your comment...';
 
     // Append elements to the new question container
     commentForm.appendChild(commentLabel);
@@ -659,7 +662,7 @@ function addNewTab() {
     
     
     var questionButton = document.createElement('a');
-    questionButton.innerHTML = '<i class="material-icons right">add</i>Q';
+    questionButton.innerHTML = '<i class=" right"></i>+';
     questionButton.className = 'waves-effect waves-light btn-small';
     questionButton.id = 'questionButton';
     questionButton.href = '#';
@@ -845,22 +848,33 @@ const backButton2 = document.getElementById('back2');
 const exportTo = document.getElementById('exportToExcel');
 
 backButton.addEventListener('click', function() {
-    
     window.location.reload();
-    
 })
 backButton2.addEventListener('click', function() {
-    
     switchToTab('test2')
-    
-    
 })
 
 exportTo.addEventListener('click', function() {
-    exportToExcel();
+    exportToExcel(data);
 })
-function exportToExcel(){
+function exportToExcel(data){
 
+//export to word
+    // const content = JSON.stringify(data, null, 2);
+
+    // mammoth.extractRawText({ arrayBuffer: new TextEncoder().encode(content) })
+    //     .then(result => {
+    //         const blob = new Blob([result.value], { type: 'application/msword' });
+    //         const link = document.createElement('a');
+    //         link.href = URL.createObjectURL(blob);
+    //         link.download = 'exported_data.docx';
+    //         link.click();
+    //     });
+    //export to excel    
+    const ws = XLSX.utils.json_to_sheet([data]);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet 1");
+            XLSX.writeFile(wb, "exported_data.xlsx");
 }
 
 mySendButton.addEventListener('click', function() {
@@ -873,8 +887,6 @@ mySendButton.addEventListener('click', function() {
         
     if(array[0] !== '' && array[1] !== '' && array[2] !== ''){
         
-        
-
         addDoc(inspectionsRef, dataObject[0])
             .then((doc)=>{
             console.log(doc)
@@ -888,7 +900,7 @@ mySendButton.addEventListener('click', function() {
                 console.log(dataObject[0])
                 presentData(dataObject[0]);
                 exportToExcel(dataObject[0])
-                })
+            })
                 uploadBuildings(array[0],array[0], dataObject[1])
     }else if(array[0] === '' || array[1] === '' || array[2] === ''){
         //switch to building specification tab
@@ -900,7 +912,9 @@ mySendButton.addEventListener('click', function() {
 })
 
 function presentData(inspectionData){
-    console.log(inspectionData.buildingName);
+
+
+    // console.log(inspectionData.buildingName);
     // Update HTML with inspection data
     
     document.getElementById("presentBuildingName").innerHTML = inspectionData.buildingName;
