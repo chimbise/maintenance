@@ -862,13 +862,23 @@ while (undeterminedRoomsContainer.firstChild) {
 exportTo.addEventListener('click', function() {
     exportToExcel(data);
 })
-function exportToExcel(data){
-
+function exportToExcel(tables){
+   
     //const flattenedData = flattenData(data);
     // const ws = XLSX.utils.json_to_sheet([flattenedData]);
     //         const wb = XLSX.utils.book_new();
     //         XLSX.utils.book_append_sheet(wb, ws, "Sheet 1");
     //         XLSX.writeFile(wb, "exported_data.xlsx");
+    const wb = XLSX.utils.book_new();
+
+    // Iterate through stored tables and add each to the workbook
+    tables.forEach(({ title, table }) => {
+        const ws = XLSX.utils.table_to_sheet(table);
+        XLSX.utils.book_append_sheet(wb, ws, title);
+    });
+
+    // Save the workbook to a file
+    XLSX.writeFile(wb, 'exported_data.xlsx');
 
     
 }
@@ -898,20 +908,20 @@ mySendButton.addEventListener('click', function() {
         dataObject[0]['inspectionTime'] = array[2];
         
     if(array[0] !== '' && array[1] !== '' && array[2] !== ''){
-        
         addDoc(inspectionsRef, dataObject[0])
             .then((doc)=>{
             console.log(doc)
             alert("your report has been submitted")
-
+            
             }).then(function() {
                 //window.location.reload();
                 switchToTab('report-container')
                 //killTab('tab')
                 //killTab('tabs')
                 console.log(dataObject[0])
-                presentData(dataObject[0]);
-                exportToExcel(dataObject[0])
+                var a = presentData(dataObject[0]);
+                console.log(a)
+                exportToExcel(a)
             })
                 uploadBuildings(array[0],array[0], dataObject[1])
     }else if(array[0] === '' || array[1] === '' || array[2] === ''){
@@ -924,8 +934,6 @@ mySendButton.addEventListener('click', function() {
 })
 
 function presentData(data){
-
-
     // Function to create HTML table for a given set of nested data
     var undeterminedRoomsContainer = document.getElementById("undeterminedRooms");
 
@@ -933,6 +941,8 @@ function presentData(data){
     document.getElementById("presentInspectorName").innerHTML = data.inspectorName;
     document.getElementById("inspectionDate").innerHTML = data.inspectionTime;
 
+    // Array to store references to created tables
+    const tables = [];
     function createTable(title, nestedData) {
         const table = document.createElement('table');
         const headerRow = table.insertRow(0);
@@ -956,6 +966,9 @@ function presentData(data){
         const titleNode = document.createTextNode(title);
         undeterminedRoomsContainer.appendChild(titleNode);
         undeterminedRoomsContainer.appendChild(table);
+        // Store the reference to the created table
+        tables.push({ title, table });
+        
     }
 
     // Iterate through the data and create tables
@@ -964,7 +977,7 @@ function presentData(data){
             createTable(title, data[title]);
         }
     }
-    
+    return tables
 }
 
 function getSelectedChecklistValues(){
