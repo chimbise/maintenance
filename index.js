@@ -851,6 +851,11 @@ backButton.addEventListener('click', function() {
     window.location.reload();
 })
 backButton2.addEventListener('click', function() {
+    var undeterminedRoomsContainer = document.getElementById("undeterminedRooms");
+    // Remove all child elements
+while (undeterminedRoomsContainer.firstChild) {
+    undeterminedRoomsContainer.removeChild(undeterminedRoomsContainer.firstChild);
+}
     switchToTab('test2')
 })
 
@@ -859,23 +864,30 @@ exportTo.addEventListener('click', function() {
 })
 function exportToExcel(data){
 
-//export to word
-    // const content = JSON.stringify(data, null, 2);
+    //const flattenedData = flattenData(data);
+    // const ws = XLSX.utils.json_to_sheet([flattenedData]);
+    //         const wb = XLSX.utils.book_new();
+    //         XLSX.utils.book_append_sheet(wb, ws, "Sheet 1");
+    //         XLSX.writeFile(wb, "exported_data.xlsx");
 
-    // mammoth.extractRawText({ arrayBuffer: new TextEncoder().encode(content) })
-    //     .then(result => {
-    //         const blob = new Blob([result.value], { type: 'application/msword' });
-    //         const link = document.createElement('a');
-    //         link.href = URL.createObjectURL(blob);
-    //         link.download = 'exported_data.docx';
-    //         link.click();
-    //     });
-    //export to excel    
-    const ws = XLSX.utils.json_to_sheet([data]);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Sheet 1");
-            XLSX.writeFile(wb, "exported_data.xlsx");
+    
 }
+// function flattenData(data) {
+//     const flattenedData = {};
+
+//     function flattenObject(obj, prefix = ' ') {
+//         for (const key in obj) {
+//             if (typeof obj[key] === 'object') {
+//                 flattenObject(obj[key], `${prefix}${key}_`);
+//             } else {
+//                 flattenedData[`${prefix}${key}`] = obj[key];
+//             }
+//         }
+//     }
+
+//     flattenObject(data);
+//     return flattenedData;
+// }
 
 mySendButton.addEventListener('click', function() {
     var array = getSelectedValue()    
@@ -911,44 +923,45 @@ mySendButton.addEventListener('click', function() {
 
 })
 
-function presentData(inspectionData){
+function presentData(data){
 
 
-    // console.log(inspectionData.buildingName);
-    // Update HTML with inspection data
-    
-    document.getElementById("presentBuildingName").innerHTML = inspectionData.buildingName;
-    document.getElementById("presentInspectorName").innerHTML = inspectionData.inspectorName;
-    document.getElementById("inspectionDate").innerHTML = inspectionData.inspectionTime;
-
+    // Function to create HTML table for a given set of nested data
     var undeterminedRoomsContainer = document.getElementById("undeterminedRooms");
 
-    undeterminedRoomsContainer.innerHTML = '';//clear the container
+    document.getElementById("presentBuildingName").innerHTML = data.buildingName;
+    document.getElementById("presentInspectorName").innerHTML = data.inspectorName;
+    document.getElementById("inspectionDate").innerHTML = data.inspectionTime;
 
-    // Iterate over undetermined rooms
-    for (var room in inspectionData) {
-        if (room !== "buildingName" && room !== "inspectorName" && room !== "inspectionTime" ) {
-            var roomSection = document.createElement("div");
-            roomSection.classList.add("room-section");
-            roomSection.classList.add("dotted-line");
+    function createTable(title, nestedData) {
+        const table = document.createElement('table');
+        const headerRow = table.insertRow(0);
+        const questionHeader = headerRow.insertCell(0);
+        const answerHeader = headerRow.insertCell(1);
 
+        questionHeader.innerHTML = '<strong>Question</strong>';
+        answerHeader.innerHTML = '<strong>Answer</strong>';
 
-            // Display room name
-            var roomHeading = document.createElement("h6");
-            roomHeading.innerText =  room;
-            roomSection.appendChild(roomHeading);
+        for (const question in nestedData) {
+            const row = table.insertRow(-1);
+            const questionCell = row.insertCell(0);
+            const answerCell = row.insertCell(1);
 
-            // Display questions and answers
-            var questionsAnswersContainer = document.createElement("div");
-            for (var qa in inspectionData[room]) {
-                console.log(qa);
-                var questionAnswer = document.createElement("h7");
-                questionAnswer.classList.add("question-answer");
-                questionAnswer.innerHTML = `<strong>${qa}:</strong> ${inspectionData[room][qa]}<br>`;
-                questionsAnswersContainer.appendChild(questionAnswer);
-            }
-            roomSection.appendChild(questionsAnswersContainer);
-            undeterminedRoomsContainer.appendChild(roomSection);
+            questionCell.textContent = question;
+            answerCell.textContent = nestedData[question].join(', ');
+        }
+
+        undeterminedRoomsContainer.appendChild(document.createElement('br'));
+        // Assuming 'title' is the title string
+        const titleNode = document.createTextNode(title);
+        undeterminedRoomsContainer.appendChild(titleNode);
+        undeterminedRoomsContainer.appendChild(table);
+    }
+
+    // Iterate through the data and create tables
+    for (const title in data) {
+        if (typeof data[title] === 'object') {
+            createTable(title, data[title]);
         }
     }
     
