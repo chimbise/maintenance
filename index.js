@@ -860,7 +860,7 @@ while (undeterminedRoomsContainer.firstChild) {
 })
 
 exportTo.addEventListener('click', function() {
-    exportToExcel(data);
+    exportToExcel(a);
 })
 function exportToExcel(tables){
    
@@ -898,7 +898,7 @@ function exportToExcel(tables){
 //     flattenObject(data);
 //     return flattenedData;
 // }
-
+let a;
 mySendButton.addEventListener('click', function() {
     var array = getSelectedValue()    
     var dataObject = getSelectedChecklistValues()
@@ -919,9 +919,9 @@ mySendButton.addEventListener('click', function() {
                 //killTab('tab')
                 //killTab('tabs')
                 console.log(dataObject[0])
-                var a = presentData(dataObject[0]);
+                a = presentData(dataObject[0]);
                 console.log(a)
-                exportToExcel(a)
+                
             })
                 uploadBuildings(array[0],array[0], dataObject[1])
     }else if(array[0] === '' || array[1] === '' || array[2] === ''){
