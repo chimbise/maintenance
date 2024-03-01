@@ -350,8 +350,6 @@ function addNewQuestion(newRoom){
     var newQuestionDiv = document.createElement('div');
     newQuestionDiv.classList.add('question');
 
-    //var innerDivsCount = addNewRoomContainer.getElementsByClassName('question').length;
-
     // Create the <p> element with the user's question
     if(number === 0){
         number = addNewRoomContainer.getElementsByClassName('question').length + 1;
@@ -551,7 +549,7 @@ function addNewTabAuto(room) {
     deleteButton.addEventListener('click', function(){
          tabLink.remove();
          console.log('Clicked tab:', tabLink);
-     })   
+    })   
     
 
     var ed = `newRoom${newTabIndex}`;
