@@ -126,93 +126,46 @@ async function updateBuilding(id, ataObject){
           var data = documentSnapshot.data();
           console.log(data)
     
-          Object.keys(data).forEach((room) => {
-            var rom = room;
-            const roomData = data[room];
-            console.log(`Room: ${room}`);
-            var id = addNewTabAuto(room);
-    
-            Object.keys(roomData).forEach((question) => {
-              const ans = roomData[question];
-
-              addNewQuestionAuto(rom, id, question, ans);
-            });
-          });
+            loadData(data)
         } else {
           console.log('Document does not exist');
+          //load a load a default template
+          defaultTemplate()
         }
       } catch (error) {
         console.error('Error retrieving document:', error);
       }
-    // Get the document snapshot
-    // const documentSnapshot = await getDoc(documentRef);
-
-    // var data = documentSnapshot.data();
-
-    // Object.keys(data).forEach((room) => {
-    //     var rom = room
-    //     const roomData = data[room];
-    //     console.log(`Room: ${room}`);
-    //     var id  = addNewTabAuto(room)
-        
-    //     Object.keys(roomData).forEach((question) => {
-    //       const ans = roomData[question];
-    //       console.log(`  Question: ${question} ANS ${ans}`);
-    //       addNewQuestionAuto(rom,id,question,ans)
-
-    //     });
-    //   });
-    // documentSnapshot.forEach((room) => {
-    //     addNewTabAuto(room)
-    //     doc.forEach((question) => {
-
-    //         var num = question.value
-    //         addNewQuestionAuto(room,question,num)
-         
-    //     })
-    // })
-
+   
 }
+        //load available data function
+        function loadData(data){
+            Object.keys(data).forEach((room) => {
+                var rom = room;
+                const roomData = data[room];
+                console.log(`Room: ${room}`);
+                var id = addNewTabAuto(room);
 
+                Object.keys(roomData).forEach((question) => {
+                const ans = roomData[question];
 
+                addNewQuestionAuto(rom, id, question, ans);
+                });
+            });
+        }
 
-// onSnapshot(q, (snapshot) => {
-    
-//     snapshot.docs.forEach((doc) => {
-
-//     var searchString = doc.data().buildingName;
-//     var searchString2 = doc.data().inspectorName;
-
-//     governmentBuildings.includes(searchString)  || governmentBuildings.push(searchString);
-//     inspectorNames.includes(searchString2) || inspectorNames.push(searchString2);
-
-//     console.log(doc.data())
-
-//     })
-
-//     governmentBuildings.forEach((build) => {
-//         build !== 'default' && addOptionsBuild(build);
-//     })
-    
-//     inspectorNames.forEach((name) => {
-//         name !== 'default' && addOptionsInspector(name);
-//     })
-// })
-
-
-//rooms reference
-// const CBDBursBuildingRoomsRef = collection(db, 'Government Building','CBD Burs Building','Rooms')
-// let CBDBursBuildingRooms = []
-// onSnapshot(CBDBursBuildingRoomsRef, (snapshot) => {
-//     snapshot.docs.forEach((doc)=> {
-//     CBDBursBuildingRooms.push({id: doc.id, ...doc.data()}) 
-//     })
-//     console.log(CBDBursBuildingRooms)
-// })
-
-
-
-
+function defaultTemplate(){
+    //add default questions
+    const template = {
+        'Living room': {
+           'all windows working?': '1'
+        },
+        'Kitchen': {
+            'Is the stove faulty?': '1',
+            'what is the pressure cook temperature': '2'
+        }
+    }
+    loadData(template)
+}
 
 //adding comments to answers
 document.addEventListener('DOMContentLoaded', function () {
