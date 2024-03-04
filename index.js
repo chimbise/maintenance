@@ -4,9 +4,8 @@ import {
     getFirestore, collection, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
-import { getDatabase } from '/firebase/database';
-
 import isEqual from '/node_modules/lodash-es/isEqual.js';
+import {getDatabase, ref,get, set, update,push,onValue } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 
 
 
@@ -23,8 +22,9 @@ const firebaseConfig = {
 
   const firebaseApp = initializeApp(firebaseConfig)
 
-  const db = getFirestore()
+  const db = getFirestore(firebaseApp)
   const auth = getAuth(firebaseApp);
+  const database = getDatabase(firebaseApp);
 
     // // Sign up with email and password
     // firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -35,108 +35,111 @@ const firebaseConfig = {
     // .catch((error) => {
     //     console.error(error.message);
     // });
-    const authModal = document.getElementById('authModal');
-    const closeSignin = document.getElementById('closeSignIn');
-    const signin = document.getElementById('submitSignIn');
-    const signup = document.getElementById('submitSignUp');
+        const authModal = document.getElementById('authModal');
+        const closeSignin = document.getElementById('closeSignIn');
+        const signin = document.getElementById('submitSignIn');
+        const signup = document.getElementById('submitSignUp');
 
-   
-    closeSignin.addEventListener('click', function() {
-        closeModal()
-    })
-    signin.addEventListener('click', function() {
-        signIn()
-    })
-    signup.addEventListener('click', function() {
-        signUp()
-    })
     
-    function openModal() {
-      authModal.style.display = 'block';
-    }
-    
-    function closeModal() {
-        authModal.style.display = 'none';
-      }
-      
-      function signIn() {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        // Implement Firebase sign-in logic here
-        signInWithEmailAndPassword(auth,email, password)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          console.log(`Signed in as ${user.email}`);
-          closeModal();
+        closeSignin.addEventListener('click', function() {
+            closeModal()
         })
-        .catch((error) => {
-          console.error(error.message);
-        });
-      }
-      
-      function signUp() {
-
-        const newEmail = document.getElementById('newEmail').value;
-        const newPassword = document.getElementById('newPassword').value;
-        // Implement Firebase sign-up logic here
-        createUserWithEmailAndPassword(auth,newEmail, newPassword)
-        .then((userCredential) => {
-          // Signed up
-          const user = userCredential.user;
-          console.log(`Signed up as ${user.email}`);
-          closeModal();
+        signin.addEventListener('click', function() {
+            signIn()
         })
-        .catch((error) => {
-          console.error(error.message);
-        });
-      }
-    
-    // Open the modal on page load
-    
-    const database = getDatabase(firebaseApp);
-
-    // Check user authentication state
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in
-        checkUserRole(user.uid);
-      } else {
-        // User is signed out
-        openModal;
-        // Handle accordingly (e.g., redirect to login)
-      }
-    });
-    
-    // Function to check user role
-    function checkUserRole(userId) {
-      // Retrieve user role from Firebase Realtime Database
-      database.ref(`users/${userId}/role`).once('value').then((snapshot) => {
-        const userRole = snapshot.val();
+        signup.addEventListener('click', function() {
+            signUp()
+        })
         
-        // Check user role and enable/disable features accordingly
-        if (userRole === 'admin') {
-          // Enable admin features
-          enableAdminFeatures();
-        } else {
-          // Disable admin features
-          disableAdminFeatures();
+        function openModal() {
+        authModal.style.display = 'block';
         }
-      });
-    }
-    
-    // Example: Enable admin features
-    function enableAdminFeatures() {
-      // Code to enable admin-specific features
-      console.log('Admin features enabled');
-    }
-    
-    // Example: Disable admin features
-    function disableAdminFeatures() {
-      // Code to disable admin-specific features
-      console.log('Admin features disabled');
-    }
-    
+        
+        function closeModal() {
+            authModal.style.display = 'none';
+        }
+        
+        function signIn() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            // Implement Firebase sign-in logic here
+            signInWithEmailAndPassword(auth,email, password)
+            .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            console.log(`Signed in as ${user.email}`);
+            closeModal();
+            })
+            .catch((error) => {
+            console.error(error.message);
+            });
+        }
+        
+        function signUp() {
+
+            const newEmail = document.getElementById('newEmail').value;
+            const newPassword = document.getElementById('newPassword').value;
+            // Implement Firebase sign-up logic here
+            createUserWithEmailAndPassword(auth,newEmail, newPassword)
+            .then((userCredential) => {
+            // Signed up
+            const user = userCredential.user;
+            console.log(`Signed up as ${user.email}`);
+            closeModal();
+            })
+            .catch((error) => {
+            console.error(error.message);
+            });
+        }
+        
+        // Open the modal on page load
+        
+        
+
+        // Check user authentication state
+        auth.onAuthStateChanged((user) => {
+        if (user) {
+            // User is signed in
+            checkUserRole(user.uid);
+        } else {
+            // User is signed out
+            openModal;
+            // Handle accordingly (e.g., redirect to login)
+        }
+        });
+        
+        // Function to check user role
+       
+        function checkUserRole(userId) {
+            // Retrieve user role from Firebase Realtime Database
+            get(ref(database, `users/${userId}/role`)).then((snapshot) => {
+                const userRole = snapshot.val();
+        
+                // Check user role and enable/disable features accordingly
+                if (userRole === 'admin') {
+                    // Enable admin features
+                    enableAdminFeatures();
+                } else {
+                    // Disable admin features
+                    disableAdminFeatures();
+                }
+            }).catch((error) => {
+                console.error('Error getting user role:', error);
+            });
+        }
+        
+        // Example: Enable admin features
+        function enableAdminFeatures() {
+        // Code to enable admin-specific features
+        console.log('Admin features enabled');
+        }
+        
+        // Example: Disable admin features
+        function disableAdminFeatures() {
+        // Code to disable admin-specific features
+        console.log('Admin features disabled');
+        }
+        
 
 //building reference for reading firebase
 const buildingsRef = collection(db, 'buildings')
