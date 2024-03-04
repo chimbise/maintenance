@@ -90,14 +90,42 @@
         <div id="undeterminedRooms"></div>
         <a class="waves-effect waves-light btn-small" id="exportToExcel"></i>export</a> 
         <a class="waves-effect waves-light btn-small right" id="back2"></i>back</a>   
-        
-    
     </div>
+
+    <!-- Sign-in/Sign-up Modal -->
+<div id="authModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()" id="closeSignIn">&times;</span>
+      <div id="signInForm">
+        <h4>Sign In</h4>
+        <form>
+          <label for="email">Email:</label>
+          <input type="email" id="email" required>
+          <label for="password">Password:</label>
+          <input type="password" id="password" required>
+          <button type="submit" id="submitSignIn">Sign In</button>
+        </form>
+      </div>
+      <div id="signUpForm">
+        <h4>Sign Up</h4>
+        <form >
+          <label for="newEmail">Email:</label>
+          <input type="email" id="newEmail" required>
+          <label for="newPassword">Password:</label>
+          <input type="password" id="newPassword" required>
+          <button type="submit" id="submitSignUp">Sign Up</button>
+        </form>
+      </div>
+    </div>
+  </div>
     
     <!-- Compiled and minified JavaScript -->
     <script type="module" src="/index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
+
     <script>
        
     //initialize date
@@ -118,6 +146,7 @@
         var overlay = document.getElementById('overlayinspector');
         overlay.style.display = (overlay.style.display === 'none' || overlay.style.display === '') ? 'flex' : 'none';
     }
+    
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.0.3/mammoth.browser.min.js"></script>
