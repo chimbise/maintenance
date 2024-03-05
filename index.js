@@ -1,12 +1,9 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js"
-import {
-    getFirestore, collection, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
+import { getFirestore, collection, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
-import isEqual from '/node_modules/lodash-es/isEqual.js';
 import {getDatabase, ref,get, set, update,push,onValue } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
-
+import isEqual from '/node_modules/lodash-es/isEqual.js';
 
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -23,7 +20,7 @@ const firebaseConfig = {
   const firebaseApp = initializeApp(firebaseConfig)
 
   const db = getFirestore(firebaseApp)
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   const database = getDatabase(firebaseApp);
 
     // // Sign up with email and password
@@ -63,9 +60,11 @@ const firebaseConfig = {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             // Implement Firebase sign-in logic here
+            
             signInWithEmailAndPassword(auth,email, password)
             .then((userCredential) => {
             // Signed in
+            
             const user = userCredential.user;
             console.log(`Signed in as ${user.email}`);
             closeModal();
@@ -93,9 +92,7 @@ const firebaseConfig = {
         }
         
         // Open the modal on page load
-        
-        
-
+    
         // Check user authentication state
         auth.onAuthStateChanged((user) => {
         if (user) {
@@ -103,7 +100,8 @@ const firebaseConfig = {
             checkUserRole(user.uid);
         } else {
             // User is signed out
-            openModal;
+            console.log(user)
+            openModal();
             // Handle accordingly (e.g., redirect to login)
         }
         });
@@ -130,6 +128,7 @@ const firebaseConfig = {
         
         // Example: Enable admin features
         function enableAdminFeatures() {
+            adminFeauters()
         // Code to enable admin-specific features
         console.log('Admin features enabled');
         }
@@ -138,6 +137,16 @@ const firebaseConfig = {
         function disableAdminFeatures() {
         // Code to disable admin-specific features
         console.log('Admin features disabled');
+        }
+        function adminFeauters(){
+            var chooseFromListOption = buildingName.querySelector('option[value="addbuilding"]');
+            if (chooseFromListOption) {
+                chooseFromListOption.disabled = false;
+            }
+            var chooseFromListOption2 = inspectorName.querySelector('option[value="addInspector"]');
+            if (chooseFromListOption2) {
+                chooseFromListOption2.disabled = false;
+            }
         }
         
 

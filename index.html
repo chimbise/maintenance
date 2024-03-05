@@ -46,7 +46,7 @@
         <div class="build" id="buildingDiv">
             <label>Select Building Name</label>
             <select title="awe" class="browser-default" id="bb">
-                <option value="addbuilding">Add New Building</option>
+                <option value="addbuilding" disabled selected>Add New Building</option>
                 <br>
                 <option value="" disabled selected>Choose from list</option>
             </select>
@@ -54,7 +54,7 @@
         <div class="inspect" id="inspectorDiv">
             <label>Select Inspector Name</label>
             <select title="awe" class="browser-default" id="ii">
-                <option value="addInspector">Add New Inspector</option>
+                <option value="addInspector" disabled selected>Add New Inspector</option>
                 <br>
                 <option value="" disabled selected>Choose from list</option>
             </select>
@@ -95,7 +95,7 @@
     <!-- Sign-in/Sign-up Modal -->
 <div id="authModal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal()" id="closeSignIn">&times;</span>
+      <span class="close" id="closeSignIn">&times;</span>
       <div id="signInForm">
         <h4>Sign In</h4>
         <form>
