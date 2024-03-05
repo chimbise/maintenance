@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js"
 import { getFirestore, collection, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
-import {getDatabase, ref,get, set, update,push,onValue } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+import { getDatabase, ref,get, set, update,push,onValue } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 import isEqual from '/node_modules/lodash-es/isEqual.js';
 
 
@@ -16,11 +16,12 @@ const firebaseConfig = {
     appId: "1:778706467871:web:12a3a7818fffe14c1a692a",
     measurementId: "G-Q0SJDFDPBP"
   }
+  
 
   const firebaseApp = initializeApp(firebaseConfig)
 
   const db = getFirestore(firebaseApp)
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   const database = getDatabase(firebaseApp);
 
     // // Sign up with email and password
