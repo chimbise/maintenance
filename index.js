@@ -10,6 +10,7 @@ import isEqual from '/node_modules/lodash-es/isEqual.js';
 const firebaseConfig = {
     apiKey: "AIzaSyDU5een_L9w9ArISJLeLFRl5B-i5400IaA",
     authDomain: "maintenance-4f183.firebaseapp.com",
+    databaseURL: "https://maintenance-4f183-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "maintenance-4f183",
     storageBucket: "maintenance-4f183.appspot.com",
     messagingSenderId: "778706467871",
@@ -94,26 +95,17 @@ const firebaseConfig = {
         
         // Open the modal on page load
     
-        // Check user authentication state
-        auth.onAuthStateChanged((user) => {
-        if (user) {
-            // User is signed in
-            checkUserRole(user.uid);
-        } else {
-            // User is signed out
-            console.log(user)
-            openModal();
-            // Handle accordingly (e.g., redirect to login)
-        }
-        });
+ 
         
         // Function to check user role
-       
         function checkUserRole(userId) {
             // Retrieve user role from Firebase Realtime Database
+            
+            console.log(userId);
             get(ref(database, `users/${userId}/role`)).then((snapshot) => {
                 const userRole = snapshot.val();
-        
+                console.log(userRole);
+
                 // Check user role and enable/disable features accordingly
                 if (userRole === 'admin') {
                     // Enable admin features
@@ -129,7 +121,7 @@ const firebaseConfig = {
         
         // Example: Enable admin features
         function enableAdminFeatures() {
-            adminFeauters()
+        adminFeauters(false)
         // Code to enable admin-specific features
         console.log('Admin features enabled');
         }
@@ -137,20 +129,24 @@ const firebaseConfig = {
         // Example: Disable admin features
         function disableAdminFeatures() {
         // Code to disable admin-specific features
+        adminFeauters(true)
         console.log('Admin features disabled');
         }
-        function adminFeauters(){
+
+        //list of items to be disabled.
+        function adminFeauters(check){
             var chooseFromListOption = buildingName.querySelector('option[value="addbuilding"]');
             if (chooseFromListOption) {
-                chooseFromListOption.disabled = false;
+                chooseFromListOption.disabled = check;
             }
             var chooseFromListOption2 = inspectorName.querySelector('option[value="addInspector"]');
             if (chooseFromListOption2) {
-                chooseFromListOption2.disabled = false;
+                chooseFromListOption2.disabled = check;
             }
         }
         
-
+ 
+        
 //building reference for reading firebase
 const buildingsRef = collection(db, 'buildings')
 const inspectionsRef = collection(db, 'inspections')
@@ -1153,5 +1149,16 @@ return [buildingNameValue, inspectorNameValue, inputValue]
 
 
 
-
+      // Check user authentication state
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+            // User is signed in
+            checkUserRole(user.uid);
+        } else {
+            // User is signed out
+            console.log(user)
+            openModal();
+            // Handle accordingly (e.g., redirect to login)
+        }
+        });
 
