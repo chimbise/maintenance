@@ -92,6 +92,20 @@ const firebaseConfig = {
             console.error(error.message);
             });
         }
+        // Sign out the current user
+        function signOutUser() {
+            signOut(auth)
+                .then(() => {
+                    // Sign-out successful.
+                    alert('User signed out successfully');
+                    console.log("User signed out successfully");
+                    // Redirect or perform other actions as needed
+                })
+                .catch((error) => {
+                    // An error happened.
+                    console.error("Error signing out:", error);
+                });
+        }
         
         // Open the modal on page load
     
@@ -161,6 +175,8 @@ const inspectorsRef = collection(db, 'inspectors')
 //const i = query(inspectorsRef);
 var buildingNames = [];
 var inspectorNames = [];
+
+
 
 const querySnapshot = await getDocs(buildingsRef);
 
@@ -961,6 +977,7 @@ function exportToExcel(tables){
 // }
 let a;
 mySendButton.addEventListener('click', function() {
+    
     var array = getSelectedValue()    
     var dataObject = getSelectedChecklistValues()
         // Your custom logic goes here
@@ -1138,27 +1155,38 @@ var inputValue = datepickerInput.value;
 return [buildingNameValue, inspectorNameValue, inputValue]
 }
 
+//signout menu button
+const menu = document.getElementById('sign-out-link')
+// Add event listener to each menu item
+// Add event listener to the "signout" link
+menu.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent default link behavior
+    if(menu.textContent === "Sign In"){
+        openModal();
+    }else{
+        signOutUser(); // Call the signOutUser function to sign out the user
+    }
+    menu.textContent = "Sign In"
+})
 
-    //request building Name when Option add is clicked
+checkAuth();
 
+function checkAuth(){
+    // Check user authentication state
+    auth.onAuthStateChanged((user) => {
+    if (user) {
+        // User is signed in
+        const menu = document.getElementById('sign-out-link')
+        menu.textContent = "Sign Out"
+        checkUserRole(user.uid);
+    } else {
+        // User is signed out
+        menu.textContent = "Sign In"
+        console.log(user)
+        openModal();
+        // Handle accordingly (e.g., redirect to login)
+    }
+    });
+}
 
-
-
-    // Call the function to add options when the page loads
-
-
-
-
-      // Check user authentication state
-      auth.onAuthStateChanged((user) => {
-        if (user) {
-            // User is signed in
-            checkUserRole(user.uid);
-        } else {
-            // User is signed out
-            console.log(user)
-            openModal();
-            // Handle accordingly (e.g., redirect to login)
-        }
-        });
 

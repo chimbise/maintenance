@@ -2,8 +2,10 @@ nav {
     color: rgb(255, 255, 255);
     background-color: #474685;
     width: 100%;
-    
+    border-radius: 10px; /* Adjust the value to change the amount of curve */
+
 }
+
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
@@ -13,35 +15,43 @@ body {
 
 #test1 > div {
         margin-bottom: 20px; /* Adjust the margin-bottom as needed */
+        border-radius: 10px;
     }
     .build label {
         /*font-weight: bold;*/
         color: black;
+        border-radius: 10px;
     }
     .inspect label {
         /*font-weight: bold;*/
         color: black;
+        border-radius: 10px;
     }
     
     .date {
         color: #0a0202; /* Set your desired text color */
+        border-radius: 10px;
      /* Add padding for better appearance */
     }
     .date label {
             /*font-weight: bold;*/
             color: black;
+            border-radius: 10px;
     }
     
     
 .question {
     margin-bottom: 20px;
+    border-radius: 10px;
 }
 
 .code {
     margin-top: 10px;
+    border-radius: 10px;
 }
 .form {
     display: none;
+    border-radius: 10px;
 }
 /* Styles for the overlay */
 .overlay {
@@ -54,6 +64,7 @@ body {
     background: rgba(0, 0, 0, 0.7);
     align-items: center;
     justify-content: center;
+    border-radius: 10px;
 }
 
 /* Styles for the popup form */
@@ -65,23 +76,28 @@ body {
     max-width: 400px;
     width: 100%;
     text-align: center;
+    border-radius: 10px;
 }
 
 .datepicker::placeholder {
     color: black;
     padding-left: 10px;
+    border-radius: 10px;
 }
 .content {
     display: none;
+    border-radius: 10px;
 }
 .tab {
     padding: 10px;
     background-color:rgb(243, 231, 216);
     margin-bottom: 20px;
+    border-radius: 10px;
 }
 .tab-container {  /* tab element to make the whole space clickable */
     display: block;
     width: 100%;
+    border-radius: 10px;
   }
 
 .tab .active {
@@ -97,16 +113,19 @@ body {
 
 #comment {
     background-color: rgb(212, 203, 203);
+    border-radius: 10px;
 }
 
 #fabButton {
     margin-top: 20px; /* Adjust the value as needed */
+    border-radius: 10px;
 }
 #report-container {
     background-color:rgb(243, 231, 216);
     margin: 20px auto;
     height: 100%;
     padding: 8px;
+    border-radius: 10px;
 }
 
 h3 {
@@ -115,10 +134,12 @@ h3 {
 
 .room-section {
     margin-bottom: 20px;
+    border-radius: 10px;
 }
 
 .question-answer {
     margin-left: 20px;
+    border-radius: 10px;
 }
 /* Define a class for the dotted line */
 .dotted-line {
@@ -130,6 +151,7 @@ table {
     border-collapse: collapse;
     width: 50%;
     margin-bottom: 20px;
+    border-radius: 10px;
 }
 
 table, th, td {
@@ -157,6 +179,7 @@ th {
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
   }
   
   .modal-content {
@@ -167,6 +190,7 @@ th {
     border: 1px solid #888;
     width: 80%;
     max-width: 400px;
+    border-radius: 10px;
   }
   
   .close {
@@ -175,15 +199,18 @@ th {
     right: 0;
     padding: 10px;
     cursor: pointer;
+    border-radius: 10px;
   }
   
   form {
     display: flex;
     flex-direction: column;
+    border-radius: 10px;
   }
   
   button {
     margin-top: 10px;
     cursor: pointer;
+    border-radius: 10px;
   }
   
