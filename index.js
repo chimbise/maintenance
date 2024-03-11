@@ -39,6 +39,7 @@ const firebaseConfig = {
         const signin = document.getElementById('submitSignIn');
         const signup = document.getElementById('submitSignUp');
 
+        var authValue = false
     
         closeSignin.addEventListener('click', function() {
             closeModal()
@@ -118,7 +119,7 @@ const firebaseConfig = {
             console.log(userId);
             get(ref(database, `users/${userId}/role`)).then((snapshot) => {
                 const userRole = snapshot.val();
-                console.log(userRole);
+                console.log(userRole);       
 
                 // Check user role and enable/disable features accordingly
                 if (userRole === 'admin') {
@@ -978,36 +979,43 @@ function exportToExcel(tables){
 let a;
 mySendButton.addEventListener('click', function() {
     
-    var array = getSelectedValue()    
-    var dataObject = getSelectedChecklistValues()
-        // Your custom logic goes here
-        dataObject[0]['buildingName'] = array[0];
-        dataObject[0]['inspectorName'] = array[1];
-        dataObject[0]['inspectionTime'] = array[2];
+    if(authValue){
         
-    if(array[0] !== '' && array[1] !== '' && array[2] !== ''){
-        addDoc(inspectionsRef, dataObject[0])
-            .then((doc)=>{
-            console.log(doc)
-            alert("your report has been submitted")
+        var array = getSelectedValue()    
+        var dataObject = getSelectedChecklistValues()
+            // Your custom logic goes here
+            dataObject[0]['buildingName'] = array[0];
+            dataObject[0]['inspectorName'] = array[1];
+            dataObject[0]['inspectionTime'] = array[2];
             
-            }).then(function() {
-                //window.location.reload();
-                switchToTab('report-container')
-                //killTab('tab')
-                //killTab('tabs')
-                console.log(dataObject[0])
-                a = presentData(dataObject[0]);
-                console.log(a)
+        if(array[0] !== '' && array[1] !== '' && array[2] !== ''){
+            addDoc(inspectionsRef, dataObject[0])
+                .then((doc)=>{
+                console.log(doc)
+                alert("your report has been submitted")
                 
-            })
-                uploadBuildings(array[0],array[0], dataObject[1])
-    }else if(array[0] === '' || array[1] === '' || array[2] === ''){
-        //switch to building specification tab
-        alert("Enter all Building specifications to continue")
+                }).then(function() {
+                    //window.location.reload();
+                    switchToTab('report-container')
+                    //killTab('tab')
+                    //killTab('tabs')
+                    console.log(dataObject[0])
+                    a = presentData(dataObject[0]);
+                    console.log(a)
+                    
+                })
+                    uploadBuildings(array[0],array[0], dataObject[1])
+        }else if(array[0] === '' || array[1] === '' || array[2] === ''){
+            //switch to building specification tab
+            alert("Enter all Building specifications to continue")
+        }else{
+            alert("answer all questions to submit")
+        }
     }else{
-        alert("answer all questions to submit")
+        alert("Sign In to submit report")
+        openModal()
     }
+    
 
 })
 
@@ -1170,22 +1178,22 @@ menu.addEventListener('click', function(event) {
 })
 
 checkAuth();
-
 function checkAuth(){
     // Check user authentication state
     auth.onAuthStateChanged((user) => {
-    if (user) {
-        // User is signed in
-        const menu = document.getElementById('sign-out-link')
-        menu.textContent = "Sign Out"
-        checkUserRole(user.uid);
-    } else {
-        // User is signed out
-        menu.textContent = "Sign In"
-        console.log(user)
-        openModal();
-        // Handle accordingly (e.g., redirect to login)
-    }
+        if (user) {
+            // User is signed in
+            const menu = document.getElementById('sign-out-link')
+            menu.textContent = "Sign Out"
+            checkUserRole(user.uid);
+            authValue = true
+        } else {
+            // User is signed out
+            menu.textContent = "Sign In"
+            console.log(user)
+            openModal();
+            // Handle accordingly (e.g., redirect to login)
+        }
     });
 }
 
