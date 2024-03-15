@@ -159,12 +159,12 @@ const firebaseConfig = {
                 chooseFromListOption2.disabled = check;
             }
         }
-const image = document.getElementById("signInImage");
-image.addEventListener('click', function() {
-    // Add your click event actions here
-    //alert("Image clicked!");
-    // You can perform any action you want here, such as opening a modal, navigating to another page, etc.
-});
+// const image = document.getElementById("signInImage");
+// image.addEventListener('click', function() {
+//     // Add your click event actions here
+//     //alert("Image clicked!");
+//     // You can perform any action you want here, such as opening a modal, navigating to another page, etc.
+// });
  
         
 //building reference for reading firebase

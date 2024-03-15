@@ -43,10 +43,43 @@
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
-    background-color: rgb(192, 208, 223)
+    background-color: rgb(146, 157, 168)
     
     }
 
+
+    .main {
+        display: block;
+        background: linear-gradient(to top, #87ceeb, #ffffff); /* Gradient from sky blue to white */
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+    .home {
+        display: block;
+    }
+    .test1 {
+        display: none;
+    }
+    .test2 {
+        display: none;
+    }
+    .Configure{
+        display: none;
+    }
+    .chart-container {
+        margin-top: 20px;
+    }
+    #report-container {
+        display: none;
+        background-color:rgb(243, 231, 216);
+        margin: 20px auto;
+        height: 100%;
+        padding: 8px;
+        border-radius: 10px;
+    }
 
 
 #test1 > div {
@@ -76,12 +109,7 @@ body {
             border-radius: 10px;
     }
     
-.test1 {
-    display: none;
-}
-.test2 {
-    display: none;
-}
+
 
 .question {
     margin-bottom: 20px;
@@ -163,14 +191,7 @@ body {
     margin-top: 20px; /* Adjust the value as needed */
     border-radius: 10px;
 }
-#report-container {
-    display: none;
-    background-color:rgb(243, 231, 216);
-    margin: 20px auto;
-    height: 100%;
-    padding: 8px;
-    border-radius: 10px;
-}
+
 
 h3 {
     text-align: center;
