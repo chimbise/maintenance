@@ -171,16 +171,16 @@ querySnapshot.forEach((doc) => {
     // Access document data using doc.data()
     
     buildingNames.push(doc);
-    addBuildingToList(doc.id);
+    addBuildingToList(doc);
   });
 
   function addBuildingToList(buildingName) {
     const buildingItem = document.createElement("div");
-    buildingItem.textContent = buildingName;
+    buildingItem.textContent = buildingName.id;
     buildingItem.classList.add("building-item");
     buildingItem.addEventListener("click", function() {
         // Handle click event for the building item (e.g., show details, etc.)
-        const keys = Object.keys(buildingNames[buildingName].data());
+        const keys = Object.keys(buildingName.data());
         keys.forEach((room) => {
             // Access document data using doc.data()
             addRoomToList(room);
@@ -195,7 +195,6 @@ function addRoomToList(roomName){
     roomItem.classList.add("room-item");
     roomItem.addEventListener("click", function() {
         // Handle click event for the building item (e.g., show details, etc.)
-
         console.log(roomName)
     });
     roomList.appendChild(roomItem);
