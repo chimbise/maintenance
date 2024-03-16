@@ -124,41 +124,21 @@ const firebaseConfig = {
                 // Check user role and enable/disable features accordingly
                 if (userRole === 'admin') {
                     // Enable admin features
-                    enableAdminFeatures();
-                } else {
-                    // Disable admin features
-                    disableAdminFeatures();
-                }
+                    enableConfig();
+                } 
+
             }).catch((error) => {
                 console.error('Error getting user role:', error);
             });
         }
         
         // Example: Enable admin features
-        function enableAdminFeatures() {
-        adminFeauters(false)
+        function enableConfig() {
+            
         // Code to enable admin-specific features
-        console.log('Admin features enabled');
         }
         
-        // Example: Disable admin features
-        function disableAdminFeatures() {
-        // Code to disable admin-specific features
-        adminFeauters(true)
-        console.log('Admin features disabled');
-        }
 
-        //list of items to be disabled.
-        function adminFeauters(check){
-            var chooseFromListOption = buildingName.querySelector('option[value="addbuilding"]');
-            if (chooseFromListOption) {
-                chooseFromListOption.disabled = check;
-            }
-            var chooseFromListOption2 = inspectorName.querySelector('option[value="addInspector"]');
-            if (chooseFromListOption2) {
-                chooseFromListOption2.disabled = check;
-            }
-        }
 // const image = document.getElementById("signInImage");
 // image.addEventListener('click', function() {
 //     // Add your click event actions here
@@ -182,7 +162,7 @@ const inspectorsRef = collection(db, 'inspectors')
 var buildingNames = [];
 var inspectorNames = [];
 
-
+var buildingList = document.getElementById("buildingDiv");
 
 const querySnapshot = await getDocs(buildingsRef);
 
@@ -190,9 +170,52 @@ const querySnapshot = await getDocs(buildingsRef);
 querySnapshot.forEach((doc) => {
     // Access document data using doc.data()
     
-    buildingNames.push(doc.id);
-    doc.id !== 'default' && addOptionsBuild(doc.id);
+    buildingNames.push(doc);
+    addBuildingToList(doc.id);
   });
+
+  function addBuildingToList(buildingName) {
+    const buildingItem = document.createElement("div");
+    buildingItem.textContent = buildingName;
+    buildingItem.classList.add("building-item");
+    buildingItem.addEventListener("click", function() {
+        // Handle click event for the building item (e.g., show details, etc.)
+        const keys = Object.keys(buildingNames[buildingName].data());
+        keys.forEach((room) => {
+            // Access document data using doc.data()
+            addRoomToList(room);
+        });        
+    });
+    buildingList.appendChild(buildingItem);
+}
+var roomList = document.getElementById("roomDiv");
+function addRoomToList(roomName){
+    const roomItem = document.createElement("div");
+    roomItem.textContent = roomName;
+    roomItem.classList.add("room-item");
+    roomItem.addEventListener("click", function() {
+        // Handle click event for the building item (e.g., show details, etc.)
+
+        console.log(roomName)
+    });
+    roomList.appendChild(roomItem);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const insQuerySnapshot = await getDocs(inspectorsRef);
 // Iterate through the documents in the query snapshot
@@ -249,16 +272,17 @@ async function updateBuilding(id, ataObject){
     var building = array[0]//building name
 
     const documentRef = doc(buildingsRef, building);
+
     //new data is equal to ataObject
     try {
         // Get the document snapshot
         const documentSnapshot = await getDoc(documentRef);
-    
+        
+
         if (documentSnapshot.exists()) {
           var data = documentSnapshot.data();
           console.log(data)
-    
-            loadData(data)
+            loadData(manipulateArray(data));
         } else {
           console.log('Document does not exist');
           //load a load a default template
@@ -269,6 +293,7 @@ async function updateBuilding(id, ataObject){
       }
    
 }
+
         //load available data function
         function loadData(data){
             Object.keys(data).forEach((room) => {
@@ -824,34 +849,35 @@ function addNewTab() {
 }
 
 // adding buildings 
-function addOptionsBuild(index) {
-    // Get the container div
-    var buildingContainer = document.getElementById('buildingDiv');
-    // get a select element
-    var selectElement = buildingContainer.querySelector('#bb');
-    // Add some options
-    var option1 = document.createElement('option');
-    option1.value = index;
-    option1.text = index;
+// function addOptionsBuild(index) {
+//     // Get the container div
+//     var buildingContainer = document.getElementById('buildingDiv');
+//     // get a select element
+//     var selectElement = buildingContainer.querySelector('#bb');
+//     // Add some options
+//     var option1 = document.createElement('option');
+//     option1.value = index;
+//     option1.text = index;
 
-    // Append options to the select element
-    if (!(index instanceof Event)) {
-        selectElement.add(option1);
-    }
+//     // Append options to the select element
+//     if (!(index instanceof Event)) {
+//         selectElement.add(option1);
+//     }
 
-    // Append the select element to the container div
-    //container.appendChild(selectElement1);
+//     // Append the select element to the container div
+//     //container.appendChild(selectElement1);
 
-    selectElement.addEventListener('change', function() {
-        // Check if the selected option is the trigger option
-        if (this.value === 'addbuilding') {
-            // If yes, display the popup form
-            myButton.style.display = 'none';//hide submit button
-            buildtogglePopup();
-            selectElement.selectedIndex = 1;
-        }
-    });
-}
+//     selectElement.addEventListener('change', function() {
+//         // Check if the selected option is the trigger option
+//         if (this.value === 'addbuilding') {
+//             // If yes, display the popup form
+//             myButton.style.display = 'none';//hide submit button
+//             buildtogglePopup();
+//             selectElement.selectedIndex = 1;
+//         }
+//     });
+// }
+
 function addOptionsInspector(index) {
     // Get the container div
     var inspectorContainer = document.getElementById('inspectorDiv');
@@ -884,7 +910,7 @@ function addOptionsInspector(index) {
     });
 }
 window.addEventListener('load', addOptionsInspector);
-window.addEventListener('load', addOptionsBuild);    
+//window.addEventListener('load', addOptionsBuild);    
     // Get the select element by its ID
     const buildingName = document.getElementById('bb');
     const inspectorName = document.getElementById('ii');

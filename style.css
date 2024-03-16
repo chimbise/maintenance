@@ -27,7 +27,7 @@
 .navbar ul li a:hover{
     color: #000;
     border-radius: 5px; /* Rounded corners */
-    transform: scale(1.4); /* Converge when clicked */
+    transform: scale(1.2); /* Converge when clicked */
     background-color: rgb(27, 106, 138);
 }
 .sigin-image {
@@ -74,11 +74,22 @@ body {
     }
     #report-container {
         display: none;
-        background-color:rgb(243, 231, 216);
+        background-color:#ffffff00;
         margin: 20px auto;
         height: 100%;
         padding: 8px;
         border-radius: 10px;
+    }
+
+
+    .building-item {
+        background: linear-gradient(to bottom, #87ceeb, #ffffff); /* Gradient from sky blue to white */
+        margin: 20px;
+        padding: 10px;
+    }
+    .building-item:hover {
+        background: rgb(27, 106, 138);;/* Gradient from sky blue to white */
+      
     }
 
 
