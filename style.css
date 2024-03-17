@@ -81,6 +81,17 @@ body {
         border-radius: 10px;
     }
 
+    
+    .back-arrow {
+        position: absolute;
+        left: 70;
+        top: 28%;
+        transform: translateY(-50%);
+        font-size: 25px; /* Adjust size as needed */
+        cursor: pointer;
+    }
+    
+    
 
     .building-item {
         background: linear-gradient(to bottom, #87ceeb, #ffffff); /* Gradient from sky blue to white */
@@ -91,6 +102,15 @@ body {
         background: rgb(27, 106, 138);;/* Gradient from sky blue to white */
       
     }
+    .room-item {
+        background: linear-gradient(to bottom, #87ceeb, #ffffff); /* Gradient from sky blue to white */
+        margin: 20px;
+        padding: 10px;
+    }
+    .room-item:hover {
+        background: rgb(27, 106, 138);;/* Gradient from sky blue to white */
+      
+    }
 
 
 #test1 > div {
@@ -98,11 +118,7 @@ body {
         border-radius: 10px;
         
     }
-    .build label {
-        /*font-weight: bold;*/
-        color: black;
-        border-radius: 10px;
-    }
+
     .inspect label {
         /*font-weight: bold;*/
         color: black;

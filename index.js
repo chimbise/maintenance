@@ -162,7 +162,9 @@ const inspectorsRef = collection(db, 'inspectors')
 var buildingNames = [];
 var inspectorNames = [];
 
-var buildingList = document.getElementById("buildingDiv");
+var buildingList = document.getElementById("buildingDiv");      //building display
+var roomList = document.getElementById("roomDiv");              //room display
+roomList.style.display = "none";                                //default display
 
 const querySnapshot = await getDocs(buildingsRef);
 
@@ -183,25 +185,92 @@ querySnapshot.forEach((doc) => {
         const keys = Object.keys(buildingName.data());
         keys.forEach((room) => {
             // Access document data using doc.data()
+            displayRooms();
             addRoomToList(room);
         });        
     });
     buildingList.appendChild(buildingItem);
 }
-var roomList = document.getElementById("roomDiv");
+
 function addRoomToList(roomName){
     const roomItem = document.createElement("div");
     roomItem.textContent = roomName;
     roomItem.classList.add("room-item");
+
+    const dashSymbol = document.createElement("span");
+    dashSymbol.textContent = "-";
+    dashSymbol.classList.add("dashsymbol");
+    dashSymbol.style.color = "red"; // Set color to red
+    dashSymbol.style.fontSize = "35px"; // Adjust font size for thicker stroke
+    // Append the dashSymbol to the roomItem
+    dashSymbol.style.display = "flex";
+    dashSymbol.style.alignItems = "center";
+    
+
     roomItem.addEventListener("click", function() {
         // Handle click event for the building item (e.g., show details, etc.)
         console.log(roomName)
     });
-    roomList.appendChild(roomItem);
+    dashSymbol.addEventListener("click", function() {
+        // Handle click event for the building item (e.g., show details, etc.)
+        roomItem.remove();
+        dashSymbol.remove();
+        console.log("delete")
+    });
+
+    const container = document.createElement("div");
+    container.style.display = "flex"; // Set display to flex
+    // Set flex-grow property for roomItem and dashSymbol
+    roomItem.style.flexGrow = "9.5"; // Takes up 90%
+    dashSymbol.style.flexGrow = "0.5"; // Takes up 10%
+
+    // Append roomItem and dashSymbol to the container
+    container.appendChild(roomItem);
+    container.appendChild(dashSymbol);
+
+    roomList.appendChild(container);
 }
+function displayRooms(){
+    buildingList.style.display = "none";
+    roomList.style.display = "block";
+}
+const backArrow = document.getElementById("backArrow");
+
+    // Add click event listener to the back arrow
+    backArrow.addEventListener("click", function() {
+        // Handle click event (for example, navigate back)
+        buildingList.style.display = "block";
+        roomList.style.display = "none";
+        while (roomList.childNodes.length > 1) {
+            roomList.removeChild(roomList.lastChild);
+        }
+    });
 
 
-
+buildingNames.forEach((doc) => {
+    // Access document data using doc.data()
+    switch(doc.id) {
+        case "Home":
+            
+            // Add your code to handle the "Home" click event
+            break;
+        case "Inspection":
+            
+            // Add your code to handle the "Inspection" click event
+            break;
+        case "Report":
+            
+            // Add your code to handle the "Report" click event
+            break;
+        case "Configure":
+            
+            // Add your code to handle the "Configure" click event
+            break;
+        default:
+            // Default case, if needed
+            break;
+    }   
+})
 
 
 
@@ -270,12 +339,12 @@ async function updateBuilding(id, ataObject){
   async function populateQuestions(array){
     var building = array[0]//building name
 
-    const documentRef = doc(buildingsRef, building);
+    //const documentRef = doc(buildingsRef, building);
 
     //new data is equal to ataObject
     try {
         // Get the document snapshot
-        const documentSnapshot = await getDoc(documentRef);
+        //const documentSnapshot = await getDoc(documentRef);
         
 
         if (documentSnapshot.exists()) {
@@ -342,11 +411,11 @@ var tabsElement = document.querySelector('.innerTabs');
 // //switchToTab2(clickedTabId)
 // });
 
-function switchToTab(tabId) {
-    var elem = document.querySelector('.tabs');
-    var instance = M.Tabs.getInstance(elem);
-    instance.select(tabId);
-}
+// function switchToTab(tabId) {
+//     var elem = document.querySelector('.tabs');
+//     var instance = M.Tabs.getInstance(elem);
+//     instance.select(tabId);
+// }
 function switchToTab2(tabId) {
     var elem = document.querySelector('.innerTabs');
     var instance = M.Tabs.getInstance(elem);
@@ -919,17 +988,13 @@ window.addEventListener('load', addOptionsInspector);
 myButton.addEventListener('click', function() {
     // This function will be executed when the button is clicked
     //alert('Button clicked!');
-    var array = getSelectedValue();
+    //var array = getSelectedValue();
     
     
     //button click
-    if(array[0]&&array[1]&&array[2] !== ''){
-        switchToTab('test2')
+        //switchToTab('test2')
         populateQuestions(array)
 
-    }else{
-        alert("enter all values to continue")
-    }
     
 });
         
@@ -1177,21 +1242,21 @@ function getSelectedChecklistValues(){
     // Add a document to the subcollection 
 }
 
-function getSelectedValue() {
+// function getSelectedValue() {
 
-// Get the selected building options
-var selectedOption1 = buildingName.options[buildingName.selectedIndex];
-var selectedOption2 = inspectorName.options[inspectorName.selectedIndex];
+// // Get the selected building options
+// var selectedOption1 = buildingName.options[buildingName.selectedIndex];
+// var selectedOption2 = inspectorName.options[inspectorName.selectedIndex];
 
-// Get the value of the selected option
-var buildingNameValue = selectedOption1.value;
-var inspectorNameValue = selectedOption2.value;
-var inputValue = datepickerInput.value;
+// // Get the value of the selected option
+// var buildingNameValue = selectedOption1.value;
+// var inspectorNameValue = selectedOption2.value;
+// var inputValue = datepickerInput.value;
 
-// Log or use the selected value as needed
-// Your custom logic goes here
-return [buildingNameValue, inspectorNameValue, inputValue]
-}
+// // Log or use the selected value as needed
+// // Your custom logic goes here
+// return [buildingNameValue, inspectorNameValue, inputValue]
+// }
 
 //signout menu button
 const menu = document.getElementById('sign-out-link')
