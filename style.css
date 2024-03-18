@@ -90,7 +90,9 @@ body {
         font-size: 25px; /* Adjust size as needed */
         cursor: pointer;
     }
-    
+    .waves-effect {    /* inspect button */
+        pointer-events: none;
+    }
     
 
     .building-item {
@@ -111,13 +113,17 @@ body {
         background: rgb(27, 106, 138);;/* Gradient from sky blue to white */
       
     }
-
-
-#test1 > div {
+    .test1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center; /* Center the content vertically */
         margin-bottom: 20px; /* Adjust the margin-bottom as needed */
         border-radius: 10px;
-        
     }
+
+
+
 
     .inspect label {
         /*font-weight: bold;*/

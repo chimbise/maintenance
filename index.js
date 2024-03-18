@@ -187,6 +187,7 @@ querySnapshot.forEach((doc) => {
             // Access document data using doc.data()
             displayRooms();
             addRoomToList(room);
+            populateQuestions()
         });        
     });
     buildingList.appendChild(buildingItem);
@@ -215,8 +216,21 @@ function addRoomToList(roomName){
         // Handle click event for the building item (e.g., show details, etc.)
         roomItem.remove();
         dashSymbol.remove();
+        updateRooms(roomItem);
         console.log("delete")
     });
+
+    function updateRooms(roomItem){
+        // Remove the item with value 3
+        // Get the document data
+        // const docData = doc.data();
+        const index = buildingNames.findIndex(doc => doc.id === roomItem);
+        // // Remove the specified key from the document data
+        // delete docData[keyToRemove];
+
+        console.log(buildingNames[index].value)
+        
+    }
 
     const container = document.createElement("div");
     container.style.display = "flex"; // Set display to flex
@@ -233,44 +247,36 @@ function addRoomToList(roomName){
 function displayRooms(){
     buildingList.style.display = "none";
     roomList.style.display = "block";
+    myButton.style.pointerEvents = 'auto'
 }
 const backArrow = document.getElementById("backArrow");
 
-    // Add click event listener to the back arrow
-    backArrow.addEventListener("click", function() {
-        // Handle click event (for example, navigate back)
-        buildingList.style.display = "block";
-        roomList.style.display = "none";
-        while (roomList.childNodes.length > 1) {
-            roomList.removeChild(roomList.lastChild);
-        }
-    });
+// Add click event listener to the back arrow
+backArrow.addEventListener("click", function() {
+    // Handle click event (for example, navigate back)
+    buildingList.style.display = "block";
+    roomList.style.display = "none";
+    myButton.style.pointerEvents = 'none'
+    while (roomList.childNodes.length > 1) {
+        roomList.removeChild(roomList.lastChild);
+    }
+});
 
+const myButton = document.getElementById('myButton');
+// Add a click event listener to the button
+myButton.addEventListener('click', function() {
+    // This function will be executed when the button is clicked
+    //alert('Button clicked!');
+    //var array = getSelectedValue();
+    
+    
+    //button click
+    //switchToTab('test2')
+    populateQuestions(array)
 
-buildingNames.forEach((doc) => {
-    // Access document data using doc.data()
-    switch(doc.id) {
-        case "Home":
-            
-            // Add your code to handle the "Home" click event
-            break;
-        case "Inspection":
-            
-            // Add your code to handle the "Inspection" click event
-            break;
-        case "Report":
-            
-            // Add your code to handle the "Report" click event
-            break;
-        case "Configure":
-            
-            // Add your code to handle the "Configure" click event
-            break;
-        default:
-            // Default case, if needed
-            break;
-    }   
-})
+    
+});
+
 
 
 
@@ -337,28 +343,17 @@ async function updateBuilding(id, ataObject){
       }
 }
   async function populateQuestions(array){
-    var building = array[0]//building name
-
-    //const documentRef = doc(buildingsRef, building);
-
-    //new data is equal to ataObject
-    try {
-        // Get the document snapshot
-        //const documentSnapshot = await getDoc(documentRef);
-        
 
         if (documentSnapshot.exists()) {
           var data = documentSnapshot.data();
           console.log(data)
-            loadData(manipulateArray(data));
+            loadData(data);
         } else {
           console.log('Document does not exist');
           //load a load a default template
           defaultTemplate()
         }
-      } catch (error) {
-        console.error('Error retrieving document:', error);
-      }
+     
    
 }
 
@@ -977,26 +972,13 @@ function addOptionsInspector(index) {
         }
     });
 }
-window.addEventListener('load', addOptionsInspector);
+//window.addEventListener('load', addOptionsInspector);
 //window.addEventListener('load', addOptionsBuild);    
     // Get the select element by its ID
     const buildingName = document.getElementById('bb');
     const inspectorName = document.getElementById('ii');
-    const datepickerInput = document.querySelector('.datepicker');
-    const myButton = document.getElementById('myButton');
-// Add a click event listener to the button
-myButton.addEventListener('click', function() {
-    // This function will be executed when the button is clicked
-    //alert('Button clicked!');
-    //var array = getSelectedValue();
-    
-    
-    //button click
-        //switchToTab('test2')
-        populateQuestions(array)
+    //const datepickerInput = document.querySelector('.datepicker');
 
-    
-});
         
 // function checked(selectValue){
 //     if(selectValue === '1'){
