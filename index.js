@@ -204,17 +204,22 @@ function addRoomToList(data, roomName){
     dashSymbol.classList.add("dashsymbol");
     dashSymbol.style.color = "red"; // Set color to red
     dashSymbol.style.fontSize = "35px"; // Adjust font size for thicker stroke
+    dashSymbol.style.background = 'linear-gradient(to bottom, #87ceeb, #ffffff)';
+
     
     // Set display to flex and align items to center
     dashSymbol.style.display = "flex";
+    dashSymbol.style.justifyContent = "center"
     dashSymbol.style.alignItems = "center";
 
     roomItem.addEventListener("click", function() {
         // Handle click event for the building item (e.g., show details, etc.)
         if (questionContainer.style.display === "block") {
             questionContainer.style.display = "none";
+            roomItem.style.background = 'linear-gradient(to bottom, #87ceeb, #ffffff)';
         } else {
             questionContainer.style.display = "block";
+            roomItem.style.background = '#1b6a8a';
         }
         
         console.log(roomName)
@@ -222,6 +227,7 @@ function addRoomToList(data, roomName){
     dashSymbol.addEventListener("click", function() {
         // Handle click event for the building item (e.g., show details, etc.)
         roomItem.remove();
+        questionContainer.remove()
         dashSymbol.remove();
         console.log("delete")
     });
@@ -267,6 +273,7 @@ function addQuestions(questionContainer,roomList, data){
 function displayRooms(){
     buildingList.style.display = "none";
     roomList.style.display = "block";
+    
 }
 const backArrow = document.getElementById("backArrow");
 
@@ -307,7 +314,113 @@ function loadData(data){
         });
     });
 }
+function addNewQuestionAuto(div,userQuestion,value){
+    // if (userQuestion === null || userQuestion.trim() === '') {
+    //     // Exit if the user cancels or provides an empty question
+    //     return;
+    // }
 
+
+    // Create a new question div
+     var newQuestionDiv = document.createElement('div');
+     newQuestionDiv.classList.add('question');
+
+    //var innerDivsCount = addNewRoomContainer.getElementsByClassName('question').length;
+    if(number === 0){
+        number = newQuestionDiv.getElementsByClassName('question').length + 1;
+    }else{
+        number = number + 1
+    }
+
+    // Create the <p> element with the user's question
+    
+    var questionParagraph = document.createElement('p');
+    questionParagraph.textContent = userQuestion;
+    questionParagraph.classList.add("par")
+
+    // Append the <p> element to the new question div
+    newQuestionDiv.appendChild(questionParagraph);
+    
+    // var deleteQ = document.createElement('a')
+    // deleteQ.classList.add("btn-floating", "btn-small", "waves-effect", "waves-light", "red", "right");
+    // var deleteIconQ  = document.createElement("i");  
+    // deleteIconQ .classList.add("material-icons");      
+    // deleteIconQ .textContent = "delete"; 
+    // deleteQ .appendChild(deleteIconQ); 
+    // deleteQ.style.margin = '10px'
+
+    // newQuestionDiv.appendChild(deleteQ)
+
+
+    // Create the comment form
+    var commentForm = document.createElement('form');
+    commentForm.classList.add('form');
+
+    var commentLabel = document.createElement('label');
+    commentLabel.htmlFor = 'comment';
+    //commentLabel.appendChild(document.createTextNode('Comment:'));
+
+    var commentInput = document.createElement('input');
+    commentInput.type = 'text';
+    commentInput.id = 'comment';
+    commentInput.placeholder = 'Enter your comment...';
+
+    // Append elements to the new question container
+    commentForm.appendChild(commentLabel);
+    commentForm.appendChild(commentInput);
+
+    if (value === '1') {
+
+                    // Create radio buttons for 'Yes' and 'No'
+                    var yesRadioButton = document.createElement('input');
+                    yesRadioButton.type = 'radio';
+                    yesRadioButton.name =  number;
+                    yesRadioButton.value = 'yes';
+
+                    var yesLabel = document.createElement('label');
+                    yesLabel.appendChild(yesRadioButton);
+
+                    var yesSpan = document.createElement('span');
+                    yesSpan.id = 'yesSpan';
+                    yesSpan.appendChild(document.createTextNode('Yes'));
+
+                    yesLabel.appendChild(yesSpan);
+                    yesLabel.classList.add("yesLabel")
+
+                    var noRadioButton = document.createElement('input');
+                    noRadioButton.type = 'radio';
+                    noRadioButton.name =  number;
+                    noRadioButton.value = 'no';
+
+                    var noLabel = document.createElement('label');
+                    noLabel.appendChild(noRadioButton);
+                    var noSpan = document.createElement('span');
+                    noSpan.id = 'noSpan';
+                    noSpan.appendChild(document.createTextNode('No'));
+
+                    noLabel.appendChild(noSpan);
+                    noLabel.classList.add("noLabel")
+
+                    newQuestionDiv.appendChild(yesLabel);
+                    newQuestionDiv.appendChild(noLabel);
+                    newQuestionDiv.appendChild(commentForm);
+
+                    checkRadioButtons(newQuestionDiv)
+
+    } else if (value === '2') {
+        newQuestionDiv.appendChild(commentForm);
+        commentForm.style.visibility = "visible";
+
+    } else {
+        alert('Invalid selection. Please choose either 1 or 2.');
+        return;
+    }   
+    // deleteQ.addEventListener('click', function(){
+    //     newQuestionDiv.remove();
+    //  })   
+     div.appendChild(newQuestionDiv)
+    
+}
 
 
 
@@ -438,24 +551,24 @@ function switchToTab2(tabId) {
 
 //store form values
 
-const addBuildingForm = document.querySelector('#bui')
-const addInspectorForm = document.querySelector('#ins')
+// const addBuildingForm = document.querySelector('#bui')
+// const addInspectorForm = document.querySelector('#ins')
 
-addBuildingForm.addEventListener('submit',(e) => {
-    e.preventDefault()
-    myButton.style.display = 'block';//show submit button
-    var building = addBuildingForm.buildingName.value
-    if(building.trim()){addOptionsBuild(building)}
-    addBuildingForm.reset()
-})
-addInspectorForm.addEventListener('submit',(e) => {
-    e.preventDefault()
-    myButton.style.display = 'block';//show submit button
-    var inspector = addInspectorForm.inspectorName.value
-    if(inspector.trim()){addOptionsInspector(inspector)} 
-    addInspectorForm.reset()
+// addBuildingForm.addEventListener('submit',(e) => {
+//     e.preventDefault()
+//     myButton.style.display = 'block';//show submit button
+//     var building = addBuildingForm.buildingName.value
+//     if(building.trim()){addOptionsBuild(building)}
+//     addBuildingForm.reset()
+// })
+// addInspectorForm.addEventListener('submit',(e) => {
+//     e.preventDefault()
+//     myButton.style.display = 'block';//show submit button
+//     var inspector = addInspectorForm.inspectorName.value
+//     if(inspector.trim()){addOptionsInspector(inspector)} 
+//     addInspectorForm.reset()
     
-})
+// })
 
 // Add a click event listener to the FAB button
 document.getElementById('fabButton').addEventListener('click', function () {
@@ -466,211 +579,109 @@ document.getElementById('fabButton').addEventListener('click', function () {
 
 var selectValue = '1';
 var number = 0
-function addNewQuestionAuto(div,userQuestion,value){
-    // if (userQuestion === null || userQuestion.trim() === '') {
-    //     // Exit if the user cancels or provides an empty question
-    //     return;
-    // }
 
+// function addNewQuestion(newRoom){
+//     var userQuestion = prompt('Enter a question:');
+//     if (userQuestion === null || userQuestion.trim() === '') {
+//         // Exit if the user cancels or provides an empty question
+//         return;
+//     }
 
-    // Create a new question div
-     var newQuestionDiv = document.createElement('div');
-     newQuestionDiv.classList.add('question');
+//     var addNewRoomContainer = document.getElementById(newRoom);
 
-    //var innerDivsCount = addNewRoomContainer.getElementsByClassName('question').length;
-    if(number === 0){
-        number = newQuestionDiv.getElementsByClassName('question').length + 1;
-    }else{
-        number = number + 1
-    }
+//     // Create a new question div
+//     var newQuestionDiv = document.createElement('div');
+//     newQuestionDiv.classList.add('question');
 
-    // Create the <p> element with the user's question
-    
-    var questionParagraph = document.createElement('p');
-    questionParagraph.textContent = userQuestion;
+//     // Create the <p> element with the user's question
+//     if(number === 0){
+//         number = addNewRoomContainer.getElementsByClassName('question').length + 1;
+//     }else{
+//         number = number + 1
+//     }
+//     var questionParagraph = document.createElement('p');
+//     questionParagraph.textContent = userQuestion;
 
-    // Append the <p> element to the new question div
-    newQuestionDiv.appendChild(questionParagraph);
-    
-    // var deleteQ = document.createElement('a')
-    // deleteQ.classList.add("btn-floating", "btn-small", "waves-effect", "waves-light", "red", "right");
-    // var deleteIconQ  = document.createElement("i");  
-    // deleteIconQ .classList.add("material-icons");      
-    // deleteIconQ .textContent = "delete"; 
-    // deleteQ .appendChild(deleteIconQ); 
-    // deleteQ.style.margin = '10px'
+//     // Append the <p> element to the new question div
+//     newQuestionDiv.appendChild(questionParagraph);
+//     var deleteQ = document.createElement('a')
+//     deleteQ.classList.add("btn-floating", "btn-small", "waves-effect", "waves-light", "red", "right");
+//     var deleteIconQ  = document.createElement("i");  
+//     deleteIconQ .classList.add("material-icons");      
+//     deleteIconQ .textContent = "delete"; 
+//     deleteQ .appendChild(deleteIconQ);
+//     deleteQ.style.margin = '10px'
+//     newQuestionDiv.appendChild(deleteQ)
+//     // Create the comment form
+//     var commentForm = document.createElement('form');
+//     commentForm.classList.add('form');
 
-    // newQuestionDiv.appendChild(deleteQ)
+//     var commentLabel = document.createElement('label');
+//     commentLabel.htmlFor = 'comment';
+//     //commentLabel.appendChild(document.createTextNode('Comment:'));
 
+//     var commentInput = document.createElement('input');
+//     commentInput.type = 'text';
+//     commentInput.id = 'comment';
+//     commentInput.placeholder = 'Enter your comment...';
 
-    // Create the comment form
-    var commentForm = document.createElement('form');
-    commentForm.classList.add('form');
-
-    var commentLabel = document.createElement('label');
-    commentLabel.htmlFor = 'comment';
-    //commentLabel.appendChild(document.createTextNode('Comment:'));
-
-    var commentInput = document.createElement('input');
-    commentInput.type = 'text';
-    commentInput.id = 'comment';
-    commentInput.placeholder = 'Enter your comment...';
-
-    // Append elements to the new question container
-    commentForm.appendChild(commentLabel);
-    commentForm.appendChild(commentInput);
-
-    if (value === '1') {
-
-                    // Create radio buttons for 'Yes' and 'No'
-                    var yesRadioButton = document.createElement('input');
-                    yesRadioButton.type = 'radio';
-                    yesRadioButton.name =  number;
-                    yesRadioButton.value = 'yes';
-
-                    var yesLabel = document.createElement('label');
-                    yesLabel.appendChild(yesRadioButton);
-
-                    var yesSpan = document.createElement('span');
-                    yesSpan.id = 'yesSpan';
-                    yesSpan.appendChild(document.createTextNode('Yes'));
-
-                    yesLabel.appendChild(yesSpan);
-
-                    var noRadioButton = document.createElement('input');
-                    noRadioButton.type = 'radio';
-                    noRadioButton.name =  number;
-                    noRadioButton.value = 'no';
-
-                    var noLabel = document.createElement('label');
-                    noLabel.appendChild(noRadioButton);
-                    var noSpan = document.createElement('span');
-                    noSpan.id = 'noSpan';
-                    noSpan.appendChild(document.createTextNode('No'));
-
-                    noLabel.appendChild(noSpan);
-
-                    newQuestionDiv.appendChild(yesLabel);
-                    newQuestionDiv.appendChild(noLabel);
-                    newQuestionDiv.appendChild(commentForm);
-
-                    checkRadioButtons(newQuestionDiv)
-
-    } else if (value === '2') {
-        newQuestionDiv.appendChild(commentForm);
-        commentForm.style.display = "block";
-    } else {
-        alert('Invalid selection. Please choose either 1 or 2.');
-        return;
-    }   
-    // deleteQ.addEventListener('click', function(){
-    //     newQuestionDiv.remove();
-    //  })   
-     div.appendChild(newQuestionDiv)
-    
-}
-function addNewQuestion(newRoom){
-    var userQuestion = prompt('Enter a question:');
-    if (userQuestion === null || userQuestion.trim() === '') {
-        // Exit if the user cancels or provides an empty question
-        return;
-    }
-
-    var addNewRoomContainer = document.getElementById(newRoom);
-
-    // Create a new question div
-    var newQuestionDiv = document.createElement('div');
-    newQuestionDiv.classList.add('question');
-
-    // Create the <p> element with the user's question
-    if(number === 0){
-        number = addNewRoomContainer.getElementsByClassName('question').length + 1;
-    }else{
-        number = number + 1
-    }
-    var questionParagraph = document.createElement('p');
-    questionParagraph.textContent = userQuestion;
-
-    // Append the <p> element to the new question div
-    newQuestionDiv.appendChild(questionParagraph);
-    var deleteQ = document.createElement('a')
-    deleteQ.classList.add("btn-floating", "btn-small", "waves-effect", "waves-light", "red", "right");
-    var deleteIconQ  = document.createElement("i");  
-    deleteIconQ .classList.add("material-icons");      
-    deleteIconQ .textContent = "delete"; 
-    deleteQ .appendChild(deleteIconQ);
-    deleteQ.style.margin = '10px'
-    newQuestionDiv.appendChild(deleteQ)
-    // Create the comment form
-    var commentForm = document.createElement('form');
-    commentForm.classList.add('form');
-
-    var commentLabel = document.createElement('label');
-    commentLabel.htmlFor = 'comment';
-    //commentLabel.appendChild(document.createTextNode('Comment:'));
-
-    var commentInput = document.createElement('input');
-    commentInput.type = 'text';
-    commentInput.id = 'comment';
-    commentInput.placeholder = 'Enter your comment...';
-
-    // Append elements to the new question container
-    commentForm.appendChild(commentLabel);
-    commentForm.appendChild(commentInput);
+//     // Append elements to the new question container
+//     commentForm.appendChild(commentLabel);
+//     commentForm.appendChild(commentInput);
     
 
-    selectValue = prompt('Select type of answer: \n1. yes or no question with comment \n2. comment only');
-    if (selectValue === '1') {
-                    // Create radio buttons for 'Yes' and 'No'
-                    var yesRadioButton = document.createElement('input');
-                    yesRadioButton.type = 'radio';
-                    yesRadioButton.name = newRoom + number;
-                    yesRadioButton.value = 'yes';
+//     selectValue = prompt('Select type of answer: \n1. yes or no question with comment \n2. comment only');
+//     if (selectValue === '1') {
+//                     // Create radio buttons for 'Yes' and 'No'
+//                     var yesRadioButton = document.createElement('input');
+//                     yesRadioButton.type = 'radio';
+//                     yesRadioButton.name = newRoom + number;
+//                     yesRadioButton.value = 'yes';
 
-                    var yesLabel = document.createElement('label');
-                    yesLabel.appendChild(yesRadioButton);
+//                     var yesLabel = document.createElement('label');
+//                     yesLabel.appendChild(yesRadioButton);
 
-                    var yesSpan = document.createElement('span');
-                    yesSpan.id = 'yesSpan';
-                    yesSpan.appendChild(document.createTextNode('Yes'));
+//                     var yesSpan = document.createElement('span');
+//                     yesSpan.id = 'yesSpan';
+//                     yesSpan.appendChild(document.createTextNode('Yes'));
 
-                    yesLabel.appendChild(yesSpan);
+//                     yesLabel.appendChild(yesSpan);
 
-                    var noRadioButton = document.createElement('input');
-                    noRadioButton.type = 'radio';
-                    noRadioButton.name = newRoom + number;
-                    noRadioButton.value = 'no';
+//                     var noRadioButton = document.createElement('input');
+//                     noRadioButton.type = 'radio';
+//                     noRadioButton.name = newRoom + number;
+//                     noRadioButton.value = 'no';
 
-                    var noLabel = document.createElement('label');
-                    noLabel.appendChild(noRadioButton);
-                    var noSpan = document.createElement('span');
-                    noSpan.id = 'noSpan';
-                    noSpan.appendChild(document.createTextNode('No'));
+//                     var noLabel = document.createElement('label');
+//                     noLabel.appendChild(noRadioButton);
+//                     var noSpan = document.createElement('span');
+//                     noSpan.id = 'noSpan';
+//                     noSpan.appendChild(document.createTextNode('No'));
 
-                    noLabel.appendChild(noSpan);
+//                     noLabel.appendChild(noSpan);
 
-                    newQuestionDiv.appendChild(yesLabel);
-                    newQuestionDiv.appendChild(noLabel);
-                    newQuestionDiv.appendChild(commentForm);
+//                     newQuestionDiv.appendChild(yesLabel);
+//                     newQuestionDiv.appendChild(noLabel);
+//                     newQuestionDiv.appendChild(commentForm);
 
-                    checkRadioButtons(newQuestionDiv)
+//                     checkRadioButtons(newQuestionDiv)
 
-    } else if (selectValue === '2') {
-        newQuestionDiv.appendChild(commentForm);
-        commentForm.style.display = "block";
-    } else {
-        alert('Invalid selection. Please choose either 1 or 2.');
-        return;
-    } 
+//     } else if (selectValue === '2') {
+//         newQuestionDiv.appendChild(commentForm);
+//         commentForm.style.display = "block";
+//     } else {
+//         alert('Invalid selection. Please choose either 1 or 2.');
+//         return;
+//     } 
 
     
-    deleteQ.addEventListener('click', function(){
-        newQuestionDiv.remove();
-         console.log('Clicked tab:', newQuestionDiv);
-     })  
-    // Add the new question div to the 'addNewRoom' container
-    addNewRoomContainer.appendChild(newQuestionDiv);    
-}
+//     deleteQ.addEventListener('click', function(){
+//         newQuestionDiv.remove();
+//          console.log('Clicked tab:', newQuestionDiv);
+//      })  
+//     // Add the new question div to the 'addNewRoom' container
+//     addNewRoomContainer.appendChild(newQuestionDiv);    
+// }
 
 function checkRadioButtons(newQuestionDiv){
     
@@ -680,21 +691,15 @@ const commentDiv = newQuestionDiv.querySelector('.form');
     radioButtons.forEach((radio) => {
         radio.addEventListener('change', function () {
             if (this.value === 'no') {
-                commentDiv.style.display = "block";
-            } else if(this.value === 'yes') {
-                commentDiv.style.display = "none";
-            } else {
-                // Neither 'yes' nor 'no' radio button is checked
-                return true;
-            } 
+                commentDiv.style.visibility = "visible";
+             } else{
+                commentDiv.style.visibility = "hidden";
+             }
         });
     });
 }
     
-function reloadTabs(){
 
-    //get 
-}
 function addNewTabAuto(room) {
     // Create a new tab
     if(newTabIndex === 0){

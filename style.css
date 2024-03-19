@@ -61,8 +61,19 @@ body {
         display: block;
     }
     .test1 {
-        display: none;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px; /* Adjust the margin-bottom as needed */
+        border-radius: 10px;
     }
+        .rm {
+            display: flex;
+            align-items: center;
+        }
+        .back-arrow {
+            font-size: 25px; /* Adjust size as needed */
+            cursor: pointer;
+        }
     .test2 {
         display: none;
     }
@@ -82,14 +93,7 @@ body {
     }
 
     
-    .back-arrow {
-        position: absolute;
-        left: 70;
-        top: 28%;
-        transform: translateY(-50%);
-        font-size: 25px; /* Adjust size as needed */
-        cursor: pointer;
-    }
+    
     .waves-effect {    /* inspect button */
         pointer-events: none;
     }
@@ -101,26 +105,20 @@ body {
         padding: 10px;
     }
     .building-item:hover {
-        background: rgb(27, 106, 138);;/* Gradient from sky blue to white */
+        background: rgb(27, 106, 138);/* Gradient from sky blue to white */
       
     }
     .room-item {
         background: linear-gradient(to bottom, #87ceeb, #ffffff); /* Gradient from sky blue to white */
-        margin: 20px;
         padding: 10px;
+        margin-right: 0px;
     }
     .room-item:hover {
-        background: rgb(27, 106, 138);;/* Gradient from sky blue to white */
+        background: #1b6a8a;/* Gradient from sky blue to white */
       
     }
-    .test1 {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center; /* Center the content vertically */
-        margin-bottom: 20px; /* Adjust the margin-bottom as needed */
-        border-radius: 10px;
-    }
+  
+
 
 
   
@@ -128,10 +126,13 @@ body {
 
 
 .questions {
+    background: linear-gradient(to bottom, #87ceeb, #ffffff); /* Gradient from sky blue to white */
     margin-bottom: 5px;
     border-radius: 10px;
     display: none;
     padding: 20px;
+    transition: display 0.5s ease-in-out 0.2s; /* Transition the display property over 0.5 seconds with ease-in-out timing function and a delay of 0.2 seconds */
+
 }
 .question {
     display: flex;
@@ -140,16 +141,45 @@ body {
     align-items: center;
     justify-content: space-between; /* Center the content vertically */
 }
+.form {
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    margin-left: 10px;
+}
+    #comment {
+        background-color: rgb(212, 203, 203);
+        border-radius: 10px;
+        align-self: center;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+    }
+.noLabel {
+    width: 10%;
+
+}
+.yesLabel {
+    width: 10%;
+
+}
+.par{
+    width: 60%;
+    text-align: left;
+    padding-left: 5px;
+}
+
+
 
 
 .code {
     margin-top: 10px;
     border-radius: 10px;
 }
-.form {
-    display: none;
-    border-radius: 10px;
-}
+
 /* Styles for the overlay */
 .overlay {
     display: none;
@@ -164,17 +194,6 @@ body {
     border-radius: 10px;
 }
 
-/* Styles for the popup form */
-.popup-form {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-    border-radius: 10px;
-}
 
 .datepicker::placeholder {
     color: black;
@@ -208,10 +227,7 @@ body {
     color: green
 }
 
-#comment {
-    background-color: rgb(212, 203, 203);
-    border-radius: 10px;
-}
+
 
 #fabButton {
     margin-top: 20px; /* Adjust the value as needed */
@@ -293,11 +309,6 @@ th {
     border-radius: 10px;
   }
   
-  form {
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-  }
   
   button {
     margin-top: 10px;
