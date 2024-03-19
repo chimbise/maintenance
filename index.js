@@ -182,18 +182,19 @@ querySnapshot.forEach((doc) => {
     buildingItem.classList.add("building-item");
     buildingItem.addEventListener("click", function() {
         // Handle click event for the building item (e.g., show details, etc.)
-        const keys = Object.keys(buildingName.data());
-        keys.forEach((room) => {
+        var data  = buildingName.data()
+        Object.keys(data).forEach((room) => {
             // Access document data using doc.data()
+            
             displayRooms();
-            addRoomToList(room);
-            populateQuestions()
+            addRoomToList(data,room);
         });        
     });
     buildingList.appendChild(buildingItem);
 }
 
-function addRoomToList(roomName){
+function addRoomToList(data, roomName){
+    console.log(data)
     const roomItem = document.createElement("div");
     roomItem.textContent = roomName;
     roomItem.classList.add("room-item");
@@ -203,34 +204,28 @@ function addRoomToList(roomName){
     dashSymbol.classList.add("dashsymbol");
     dashSymbol.style.color = "red"; // Set color to red
     dashSymbol.style.fontSize = "35px"; // Adjust font size for thicker stroke
-    // Append the dashSymbol to the roomItem
+    
+    // Set display to flex and align items to center
     dashSymbol.style.display = "flex";
     dashSymbol.style.alignItems = "center";
-    
 
     roomItem.addEventListener("click", function() {
         // Handle click event for the building item (e.g., show details, etc.)
+        if (questionContainer.style.display === "block") {
+            questionContainer.style.display = "none";
+        } else {
+            questionContainer.style.display = "block";
+        }
+        
         console.log(roomName)
     });
     dashSymbol.addEventListener("click", function() {
         // Handle click event for the building item (e.g., show details, etc.)
         roomItem.remove();
         dashSymbol.remove();
-        updateRooms(roomItem);
         console.log("delete")
     });
 
-    function updateRooms(roomItem){
-        // Remove the item with value 3
-        // Get the document data
-        // const docData = doc.data();
-        const index = buildingNames.findIndex(doc => doc.id === roomItem);
-        // // Remove the specified key from the document data
-        // delete docData[keyToRemove];
-
-        console.log(buildingNames[index].value)
-        
-    }
 
     const container = document.createElement("div");
     container.style.display = "flex"; // Set display to flex
@@ -242,12 +237,36 @@ function addRoomToList(roomName){
     container.appendChild(roomItem);
     container.appendChild(dashSymbol);
 
+    const questionContainer = document.createElement("div")
+    questionContainer.classList.add("questions");
+
     roomList.appendChild(container);
+    addQuestions(questionContainer,roomList, data)
+}
+function addQuestions(questionContainer,roomList, data){
+    //question container
+    console.log(data)
+    
+
+        
+        //var id = addNewTabAuto(room);
+
+        Object.keys(data).forEach((room) => {
+        const roomData = data[room];
+        console.log(room);
+            Object.keys(roomData).forEach((question) => {
+                console.log(room);
+                const ans = roomData[question];
+                addNewQuestionAuto(questionContainer,question, ans);
+                
+            });
+        });
+
+    roomList.appendChild(questionContainer)
 }
 function displayRooms(){
     buildingList.style.display = "none";
     roomList.style.display = "block";
-    myButton.style.pointerEvents = 'auto'
 }
 const backArrow = document.getElementById("backArrow");
 
@@ -256,26 +275,39 @@ backArrow.addEventListener("click", function() {
     // Handle click event (for example, navigate back)
     buildingList.style.display = "block";
     roomList.style.display = "none";
-    myButton.style.pointerEvents = 'none'
     while (roomList.childNodes.length > 1) {
         roomList.removeChild(roomList.lastChild);
     }
 });
 
-const myButton = document.getElementById('myButton');
-// Add a click event listener to the button
-myButton.addEventListener('click', function() {
-    // This function will be executed when the button is clicked
-    //alert('Button clicked!');
-    //var array = getSelectedValue();
-    
-    
-    //button click
-    //switchToTab('test2')
-    populateQuestions(array)
+function populateQuestions(array){
 
-    
-});
+    if (array.exists()) {
+      var data = array.data();
+      console.log(data)
+        loadData(data);
+    } else {
+      console.log('Document does not exist');
+      //load a load a default template
+      defaultTemplate()
+    }
+}
+//load available data function
+function loadData(data){
+    Object.keys(data).forEach((room) => {
+        var rom = room;
+        const roomData = data[room];
+        console.log(`Room: ${room}`);
+        //var id = addNewTabAuto(room);
+
+        Object.keys(roomData).forEach((question) => {
+        const ans = roomData[question];
+
+        addNewQuestionAuto(rom, question, ans);
+        });
+    });
+}
+
 
 
 
@@ -342,36 +374,23 @@ async function updateBuilding(id, ataObject){
         console.log('Document does not exist.');
       }
 }
-  async function populateQuestions(array){
 
-        if (documentSnapshot.exists()) {
-          var data = documentSnapshot.data();
-          console.log(data)
-            loadData(data);
-        } else {
-          console.log('Document does not exist');
-          //load a load a default template
-          defaultTemplate()
-        }
-     
-   
-}
 
-        //load available data function
-        function loadData(data){
-            Object.keys(data).forEach((room) => {
-                var rom = room;
-                const roomData = data[room];
-                console.log(`Room: ${room}`);
-                var id = addNewTabAuto(room);
+//load available data function
+// function loadData(data){
+//     Object.keys(data).forEach((room) => {
+//         var rom = room;
+//         const roomData = data[room];
+//         console.log(`Room: ${room}`);
+//         var id = addNewTabAuto(room);
 
-                Object.keys(roomData).forEach((question) => {
-                const ans = roomData[question];
+//         Object.keys(roomData).forEach((question) => {
+//         const ans = roomData[question];
 
-                addNewQuestionAuto(rom, id, question, ans);
-                });
-            });
-        }
+//         addNewQuestionAuto(rom, id, question, ans);
+//         });
+//     });
+// }
 
 function defaultTemplate(){
     //add default questions
@@ -447,21 +466,20 @@ document.getElementById('fabButton').addEventListener('click', function () {
 
 var selectValue = '1';
 var number = 0
-function addNewQuestionAuto(newRoom, id,userQuestion,value){
-    if (userQuestion === null || userQuestion.trim() === '') {
-        // Exit if the user cancels or provides an empty question
-        return;
-    }
+function addNewQuestionAuto(div,userQuestion,value){
+    // if (userQuestion === null || userQuestion.trim() === '') {
+    //     // Exit if the user cancels or provides an empty question
+    //     return;
+    // }
 
-    var addNewRoomContainer = document.getElementById(id);
 
     // Create a new question div
-    var newQuestionDiv = document.createElement('div');
-    newQuestionDiv.classList.add('question');
+     var newQuestionDiv = document.createElement('div');
+     newQuestionDiv.classList.add('question');
 
     //var innerDivsCount = addNewRoomContainer.getElementsByClassName('question').length;
     if(number === 0){
-        number = addNewRoomContainer.getElementsByClassName('question').length + 1;
+        number = newQuestionDiv.getElementsByClassName('question').length + 1;
     }else{
         number = number + 1
     }
@@ -473,15 +491,16 @@ function addNewQuestionAuto(newRoom, id,userQuestion,value){
 
     // Append the <p> element to the new question div
     newQuestionDiv.appendChild(questionParagraph);
-    var deleteQ = document.createElement('a')
-    deleteQ.classList.add("btn-floating", "btn-small", "waves-effect", "waves-light", "red", "right");
-    var deleteIconQ  = document.createElement("i");  
-    deleteIconQ .classList.add("material-icons");      
-    deleteIconQ .textContent = "delete"; 
-    deleteQ .appendChild(deleteIconQ); 
-    deleteQ.style.margin = '10px'
+    
+    // var deleteQ = document.createElement('a')
+    // deleteQ.classList.add("btn-floating", "btn-small", "waves-effect", "waves-light", "red", "right");
+    // var deleteIconQ  = document.createElement("i");  
+    // deleteIconQ .classList.add("material-icons");      
+    // deleteIconQ .textContent = "delete"; 
+    // deleteQ .appendChild(deleteIconQ); 
+    // deleteQ.style.margin = '10px'
 
-    newQuestionDiv.appendChild(deleteQ)
+    // newQuestionDiv.appendChild(deleteQ)
 
 
     // Create the comment form
@@ -506,7 +525,7 @@ function addNewQuestionAuto(newRoom, id,userQuestion,value){
                     // Create radio buttons for 'Yes' and 'No'
                     var yesRadioButton = document.createElement('input');
                     yesRadioButton.type = 'radio';
-                    yesRadioButton.name = newRoom + number;
+                    yesRadioButton.name =  number;
                     yesRadioButton.value = 'yes';
 
                     var yesLabel = document.createElement('label');
@@ -520,7 +539,7 @@ function addNewQuestionAuto(newRoom, id,userQuestion,value){
 
                     var noRadioButton = document.createElement('input');
                     noRadioButton.type = 'radio';
-                    noRadioButton.name = newRoom + number;
+                    noRadioButton.name =  number;
                     noRadioButton.value = 'no';
 
                     var noLabel = document.createElement('label');
@@ -544,18 +563,11 @@ function addNewQuestionAuto(newRoom, id,userQuestion,value){
         alert('Invalid selection. Please choose either 1 or 2.');
         return;
     }   
+    // deleteQ.addEventListener('click', function(){
+    //     newQuestionDiv.remove();
+    //  })   
+     div.appendChild(newQuestionDiv)
     
-
-    
-
-    deleteQ.addEventListener('click', function(){
-        newQuestionDiv.remove();
-         console.log('Clicked tab:', newQuestionDiv);
-     })   
-    
-
-    // Add the new question div to the 'addNewRoom' container
-    addNewRoomContainer.appendChild(newQuestionDiv);    
 }
 function addNewQuestion(newRoom){
     var userQuestion = prompt('Enter a question:');

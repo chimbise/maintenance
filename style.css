@@ -123,31 +123,24 @@ body {
     }
 
 
-
-
-    .inspect label {
-        /*font-weight: bold;*/
-        color: black;
-        border-radius: 10px;
-    }
-    
-    .date {
-        color: #0a0202; /* Set your desired text color */
-        border-radius: 10px;
-     /* Add padding for better appearance */
-    }
-    .date label {
-            /*font-weight: bold;*/
-            color: black;
-            border-radius: 10px;
-    }
+  
     
 
 
-.question {
-    margin-bottom: 20px;
+.questions {
+    margin-bottom: 5px;
     border-radius: 10px;
+    display: none;
+    padding: 20px;
 }
+.question {
+    display: flex;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: space-between; /* Center the content vertically */
+}
+
 
 .code {
     margin-top: 10px;
