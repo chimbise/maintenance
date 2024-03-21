@@ -50,7 +50,6 @@ body {
     .main {
         display: block;
         background: linear-gradient(to top, #87ceeb, #ffffff); /* Gradient from sky blue to white */
-        margin: 0 auto;
         padding: 20px;
         text-align: center;
         border-radius: 10px;
@@ -60,19 +59,99 @@ body {
         display: block;
     }
     .test1 {
-        display: flex;
-        align-items: center;
+        display: none;
         margin-bottom: 20px; /* Adjust the margin-bottom as needed */
         border-radius: 10px;
     }
         .rm {
-            display: flex;
-            align-items: center;
+            display: none;
         }
-        .back-arrow {
-            font-size: 25px; /* Adjust size as needed */
-            cursor: pointer;
-        }
+            .room-item-container{
+                margin-top: 20px;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            
+                .dashsymbol {
+                    color : red;
+                    font-size : 35px ;
+                    background :linear-gradient(to bottom, #1b6b8ac0, #ffffff34);
+                }
+                .dashsymbol:hover {
+                    background: #1b6a8a;/* Gradient from sky blue to white */
+                }
+                .room-item {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: linear-gradient(to bottom, #1b6b8aaf, #ffffff3d); /* Gradient from sky blue to white */
+                }
+                .room-item:hover {
+                    background: #1b6b8ac2;/* Gradient from sky blue to white */
+                
+                }
+                    .questions {
+                        background: linear-gradient(to top, rgb(27, 106, 138), #ffffff00);  /* Gradient from sky blue to white */
+                        margin-right: 20px;
+                        margin-left: 20px;
+                        display: none;
+                        transition: display 0.5s ease-in-out 0.2s; /* Transition the display property over 0.5 seconds with ease-in-out timing function and a delay of 0.2 seconds */
+                    
+                    }
+                    .question {
+                        display: flex;
+                        margin-bottom: 5px;
+                        border-radius: 10px;
+                        align-items: center;
+                        justify-content: space-between; /* Center the content vertically */
+                    }
+                    .form {
+                        visibility: hidden;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 20%;
+                        margin-bottom: 0px;
+                        padding-bottom: 0px;
+                        margin-left: 10px;
+                    }
+                        #comment {
+                            background-color: rgb(255, 255, 255);
+                            border-radius: 10px;
+                            align-self: center;
+                            margin-bottom: 0px;
+                            padding-bottom: 0px;
+                            border-color: #000;
+                        }
+                    .noLabel {
+                        width: 10%;
+                        color: #000;
+                    }
+                    .yesLabel {
+                        width: 10%;
+                        color: #000;
+                    }
+                    .par {
+                        width: 60%;
+                        text-align: left;
+                        padding-left: 5px;
+                    }
+                .roomTitleDiv {
+                    margin-left: 20px;
+                    margin-right: 20px;
+                    display: flex;
+                    align-items: center;
+                    }
+                    
+                    .back-arrow {
+                        font-size: 25px; /* Adjust size as needed */
+                        cursor: pointer;
+                    }
+                    
+                    .titleParagraph {
+                        flex: 1; /* Allow the paragraph to take up remaining space */
+                        text-align: center;
+                    }
     .test2 {
         display: none;
     }
@@ -107,72 +186,8 @@ body {
         background: rgb(27, 106, 138);/* Gradient from sky blue to white */
       
     }
-    .room-item {
-        background: linear-gradient(to bottom, #87ceeb, #ffffff); /* Gradient from sky blue to white */
-        padding: 10px;
-        margin-right: 0px;
-    }
-    .room-item:hover {
-        background: #1b6a8a;/* Gradient from sky blue to white */
-      
-    }
-  
-
-
-
-  
     
-
-
-.questions {
-    background: linear-gradient(to bottom, #87ceeb, #ffffff); /* Gradient from sky blue to white */
-    margin-bottom: 5px;
-    border-radius: 10px;
-    display: none;
-    padding: 20px;
-    transition: display 0.5s ease-in-out 0.2s; /* Transition the display property over 0.5 seconds with ease-in-out timing function and a delay of 0.2 seconds */
-
-}
-.question {
-    display: flex;
-    margin-bottom: 5px;
-    border-radius: 10px;
-    align-items: center;
-    justify-content: space-between; /* Center the content vertically */
-}
-.form {
-    visibility: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 20%;
-    margin-bottom: 0px;
-    padding-bottom: 0px;
-    margin-left: 10px;
-}
-    #comment {
-        background-color: rgb(212, 203, 203);
-        border-radius: 10px;
-        align-self: center;
-        margin-bottom: 0px;
-        padding-bottom: 0px;
-    }
-.noLabel {
-    width: 10%;
-
-}
-.yesLabel {
-    width: 10%;
-
-}
-.par{
-    width: 60%;
-    text-align: left;
-    padding-left: 5px;
-}
-
-
-
+  
 
 .code {
     margin-top: 10px;

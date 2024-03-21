@@ -163,8 +163,8 @@ var buildingNames = [];
 var inspectorNames = [];
 
 var buildingList = document.getElementById("buildingDiv");      //building display
-var roomList = document.getElementById("roomDiv");              //room display
-roomList.style.display = "none";                                //default display
+var roomList = document.getElementById("roomDiv");   
+var roomTitle = document.getElementById("roomTitleID");           //room display
 
 const querySnapshot = await getDocs(buildingsRef);
 
@@ -186,9 +186,13 @@ querySnapshot.forEach((doc) => {
         Object.keys(data).forEach((room) => {
             // Access document data using doc.data()
             
-            displayRooms();
+            
+            //roomList.textContent = buildingName.id;
             addRoomToList(data,room);
-        });        
+        });
+        displayRooms();
+        roomTitle.textContent = buildingName.id;
+               
     });
     buildingList.appendChild(buildingItem);
 }
@@ -202,9 +206,7 @@ function addRoomToList(data, roomName){
     const dashSymbol = document.createElement("span");
     dashSymbol.textContent = "-";
     dashSymbol.classList.add("dashsymbol");
-    dashSymbol.style.color = "red"; // Set color to red
-    dashSymbol.style.fontSize = "35px"; // Adjust font size for thicker stroke
-    dashSymbol.style.background = 'linear-gradient(to bottom, #87ceeb, #ffffff)';
+
 
     
     // Set display to flex and align items to center
@@ -216,10 +218,8 @@ function addRoomToList(data, roomName){
         // Handle click event for the building item (e.g., show details, etc.)
         if (questionContainer.style.display === "block") {
             questionContainer.style.display = "none";
-            roomItem.style.background = 'linear-gradient(to bottom, #87ceeb, #ffffff)';
         } else {
             questionContainer.style.display = "block";
-            roomItem.style.background = '#1b6a8a';
         }
         
         console.log(roomName)
@@ -234,6 +234,7 @@ function addRoomToList(data, roomName){
 
 
     const container = document.createElement("div");
+    container.classList.add("room-item-container")
     container.style.display = "flex"; // Set display to flex
     // Set flex-grow property for roomItem and dashSymbol
     roomItem.style.flexGrow = "9.5"; // Takes up 90%
@@ -272,8 +273,9 @@ function addQuestions(questionContainer,roomList, data){
 }
 function displayRooms(){
     buildingList.style.display = "none";
-    roomList.style.display = "block";
-    
+    roomList.style.display = "flex";
+    roomList.style.flexDirection = "column"
+ 
 }
 const backArrow = document.getElementById("backArrow");
 
@@ -282,7 +284,7 @@ backArrow.addEventListener("click", function() {
     // Handle click event (for example, navigate back)
     buildingList.style.display = "block";
     roomList.style.display = "none";
-    while (roomList.childNodes.length > 1) {
+    while (roomList.childNodes.length > 2) {
         roomList.removeChild(roomList.lastChild);
     }
 });
