@@ -15,7 +15,7 @@
     list-style: none;
     display: inline-block;
     margin: 10px; /* Adjust the margin as needed */
-    background-color: skyblue; /* Default background color */
+    background: linear-gradient(to top, rgb(27, 106, 138), #ffffff); /* Gradient from sky blue to white */
     border-radius: 5px; /* Rounded corners */
     transition: all 0.3s ease; /* Smooth transition */
 }
@@ -25,7 +25,6 @@
 }
 
 .navbar ul li a:hover{
-    color: #000;
     border-radius: 5px; /* Rounded corners */
     transform: scale(1.2); /* Converge when clicked */
     background-color: rgb(27, 106, 138);
