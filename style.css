@@ -123,19 +123,19 @@ body {
                             padding-bottom: 0px;
                             border-color: #000;
                         }
-                    .noLabel {
-                        width: 10%;
-                        color: #000;
-                    }
-                    .yesLabel {
-                        width: 10%;
-                        color: #000;
-                    }
-                    .par {
-                        width: 60%;
-                        text-align: left;
-                        padding-left: 5px;
-                    }
+                        .noLabel {
+                            width: 10%;
+                            color: #000;
+                        }
+                        .yesLabel {
+                            width: 10%;
+                            color: #000;
+                        }
+                        .par {
+                            width: 60%;
+                            text-align: left;
+                            padding-left: 5px;
+                        }
                 .roomTitleDiv {
                     margin-left: 20px;
                     margin-right: 20px;
@@ -144,7 +144,7 @@ body {
                     }
                     
                     .back-arrow {
-                        font-size: 25px; /* Adjust size as needed */
+                        font-size: 30px; /* Adjust size as needed */
                         cursor: pointer;
                     }
                     
@@ -152,6 +152,33 @@ body {
                         flex: 1; /* Allow the paragraph to take up remaining space */
                         text-align: center;
                     }
+            .submitInspection {
+                margin-top: 40px;
+                padding: 10px 20px; /* Adjust padding for medium size */
+                font-size: 16px; /* Adjust font size */
+                border-radius: 15px;
+                background-color: #59a05b; /* Green background color */
+                color: white; /* White text color */
+                transition: background-color 0.3s ease; /* Smooth transition for background color change */
+            }  
+            .submitInspection:hover {
+                background-color: #45a049; /* Darker green on hover */
+            }          
+.notification {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the notification both horizontally and vertically */
+    background-color: rgba(0, 128, 0, 0.932);
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
     .test2 {
         display: none;
     }

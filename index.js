@@ -192,7 +192,22 @@ querySnapshot.forEach((doc) => {
         });
         displayRooms();
         roomTitle.textContent = buildingName.id;
-               
+
+        //add submit button
+        const submit = document.createElement("button")
+        submit.type = "button"
+        submit.classList.add("submitInspection")
+        submit.textContent = "submit"
+        submit.style.alignSelf = "center"
+
+        
+        submit.addEventListener("click", function() {
+            // Handle click event for the building item (e.g., show details, etc.)
+            showNotification("Inspection has been submitted")
+        });
+
+
+        roomList.appendChild(submit)       
     });
     buildingList.appendChild(buildingItem);
 }
@@ -247,8 +262,27 @@ function addRoomToList(data, roomName){
     const questionContainer = document.createElement("div")
     questionContainer.classList.add("questions");
 
+
+
+
     roomList.appendChild(container);
+    
     addQuestions(questionContainer,roomList, data)
+}
+// Function to show notification
+function showNotification(message) {
+    // Create a notification element
+    const notification = document.createElement("div");
+    notification.classList.add("notification");
+    notification.textContent = message;
+
+    // Append notification to the body or any other container
+    document.body.appendChild(notification);
+
+    // Remove notification after 3 seconds
+    setTimeout(function() {
+        document.body.removeChild(notification);
+    }, 3000);
 }
 function addQuestions(questionContainer,roomList, data){
     //question container
