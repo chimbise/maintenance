@@ -29,101 +29,89 @@
                 <canvas id="distributionChart"></canvas>
             </div>
         </div>
-    
-
-    <!-- Overlay and Popup Form -->
-    <div class="overlay" id="overlaybuild">
-        <form class="popup-form" id="bui">
-            <!-- Your form fields go here -->
-            <label for="buildingName"> Enter Building name:</label>
-            <input type="text" id="buildingName" name="buildingName" >  
-            <button type="submit" onclick="buildtogglePopup()">add / cancel</button>
-        </form>  
-    </div>  
-    <div class="overlay" id="overlayinspector">
-        <form class="popup-form" id="ins">
-            <!-- Your form fields go here -->
-            <label for="inspectorName"> Enter Inspector name:</label>
-            <input type="text" id="inspectorName" name="inspectorName" >  
-            <button type="submit" onclick="inspectortogglePopup()">add / cancel</button>
-        </form>  
-    </div>
-    
-    <!--outer tabs-->
-    <div class="test1" id="test1">
-        <div class="build" id="buildingDiv">
-            BUILDINGS
+        <!-- Overlay and Popup Form -->
+        <div class="overlay" id="overlaybuild">
+            <form class="popup-form" id="bui">
+                <!-- Your form fields go here -->
+                <label for="buildingName"> Enter Building name:</label>
+                <input type="text" id="buildingName" name="buildingName" >  
+                <button type="submit" onclick="buildtogglePopup()">add / cancel</button>
+            </form>  
+        </div>  
+        <div class="overlay" id="overlayinspector">
+            <form class="popup-form" id="ins">
+                <!-- Your form fields go here -->
+                <label for="inspectorName"> Enter Inspector name:</label>
+                <input type="text" id="inspectorName" name="inspectorName" >  
+                <button type="submit" onclick="inspectortogglePopup()">add / cancel</button>
+            </form>  
         </div>
-        <div class="rm" id="roomDiv"> 
-            <div class="roomTitleDiv" id="roomTitle">
-                <span class="back-arrow" id="backArrow">&#8592;</span>
-                <p class="titleParagraph" id = "roomTitleID">ROOM</p>
+        <!--outer tabs-->
+        <div class="test1" id="test1">
+            <div class="build" id="buildingDiv">
+                BUILDINGS
             </div>
-            
+            <div class="rm" id="roomDiv"> 
+                <div class="roomTitleDiv" id="roomTitle">
+                    <span class="back-arrow" id="backArrow">&#8592;</span>
+                    <p class="titleParagraph" id = "roomTitleID">ROOM</p>
+                </div>
+                
+            </div>
         </div>
-    </div>
     
-    <div class="test2" id="test2">
-        <!-- add new question -->
-        <a class="waves-effect waves-light btn-small" id="fabButton"><i class="material-icons right">add</i>room</a>
-        <!--Check list inner tabs-->
-            <ul class="innerTabs">
-
-            </ul>
-        <!--inner tabs-->
-        <a class="waves-effect waves-light btn-small " id="submit2"></i>submit</a>
-        <a class="waves-effect waves-light btn-small right" id="back"></i>back</a>           
-    </div>
-    <div id="report-container">
-
-
-        <!-- Building Information  -->
-        <h5>Inspection Report</h5> 
-        <p><strong>Building Name:</strong> <span id="presentBuildingName"></span></p>
-        <p><strong>Inspector Name:</strong> <span id="presentInspectorName"></span></p>
-        <p><strong>Date of Inspection:</strong> <span id="inspectionDate"></span></p>
-
-        <div id="undeterminedRooms"></div>
-        <a class="waves-effect waves-light btn-small" id="exportToExcel"></i>export</a> 
-        <a class="waves-effect waves-light btn-small right" id="back2"></i>back</a>   
-    </div>
-    <div class="Configure" id="Configure">
-        <h5>configuration page</h5>
-        <div class="inspect" id="inspectorDiv">
-            <label>Select Inspector Name</label>
-            <select title="awe" class="browser-default" id="ii">
-                <option value="addInspector" >Add New Inspector</option>
-                <br>
-            </select>
+        <div id="report-container">
+            <!-- Building Information  -->
+            <h5>Report</h5> 
+            <div id="undeterminedRooms"></div>
+        </div>
+        <div class="Configure" id="Configure">
+            <div class="configuration">
+                <div class="configureContainer" id="configureContainer">
+                    <div class="leftSide" id="leftSide">CONFIGURATION
+                        <ul class="selections">
+                            <li class="selection"><a href="">Reports</a></li>
+                            <li class="selection"><a href="">Inspections</a></li>
+                            <li class="selection"><a href="">new Building</a></li>
+                            <li class="selection"><a href="">new User</a></li>
+                        </ul>
+                    </div>
+                    <div class="rightSide" id="rightSide">
+                        <div class="Reports" id="Reports">Content for Div 1</div>
+                        <div class="Inspections" id="Inspections">Content for Div 2</div>
+                        <div class="newBuilding" id="newBuilding">Content for Div 1</div>
+                        <div class="newUser" id="newUser">Content for Div 2</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
     <!-- Sign-in/Sign-up Modal -->
-<div id="authModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeSignIn">&times;</span>
-      <div id="signInForm">
-        <h4>Sign In</h4>
-        <form>
-          <label for="email">Email:</label>
-          <input type="email" id="email" required>
-          <label for="password">Password:</label>
-          <input type="password" id="password" required>
-          <button type="button" id="submitSignIn">Sign In</button>
-        </form>
-      </div>
-      <div id="signUpForm">
-        <h4>Sign Up</h4>
-        <form >
-          <label for="newEmail">Email:</label>
-          <input type="email" id="newEmail" required>
-          <label for="newPassword">Password:</label>
-          <input type="password" id="newPassword" required>
-          <button type="button" id="submitSignUp">Sign Up</button>
-        </form>
-      </div>
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeSignIn">&times;</span>
+            <div id="signInForm">
+                <h4>Sign In</h4>
+                <form>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                    <button type="button" id="submitSignIn">Sign In</button>
+                </form>
+            </div>
+            <div id="signUpForm">
+                <h4>Sign Up</h4>
+                <form >
+                    <label for="newEmail">Email:</label>
+                    <input type="email" id="newEmail" required>
+                    <label for="newPassword">Password:</label>
+                    <input type="password" id="newPassword" required>
+                    <button type="button" id="submitSignUp">Sign Up</button>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
     
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -132,6 +120,7 @@
 
     <script type="module" src="/index.js"></script>
     <script type="module" src="/home.js"></script>   
+    <script type="module" src="/configure.js"></script>  
     <script>
        
     //initialize date
@@ -142,8 +131,6 @@
     var elems = document.querySelectorAll('.tabs');
     M.Tabs.init(elems);
     
-    
-
     function buildtogglePopup() {
         var overlay = document.getElementById('overlaybuild');
         overlay.style.display = (overlay.style.display === 'none' || overlay.style.display === '') ? 'flex' : 'none';

@@ -62,6 +62,8 @@ body {
         display: none;
         margin-bottom: 20px; /* Adjust the margin-bottom as needed */
         border-radius: 10px;
+        height: 100%;
+
     }
         .rm {
             display: none;
@@ -175,16 +177,69 @@ body {
     border-radius: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
-
-
-
-
-    .test2 {
-        display: none;
-    }
     .Configure{
         display: none;
-    }
+        height: 100%;
+
+    }   
+        .configuration{
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+        }
+            .configureContainer {
+                display: flex;
+                height: 100%;
+            } 
+                .leftSide {
+                    display: flex;
+                    flex-flow: column;
+                    flex: 0.25;
+                    background: #11495f;
+                    border-radius: 15px;
+                    text-align: left;
+                    padding: 20px;
+                    color: #ffffff;
+                }
+                    .selections{
+                        font-weight: bold;
+                    }
+                        .selection{
+                            padding: 10px;
+                            border-bottom: 2px solid #87CEEB; /* Light blue color */
+                            color: #ffffff;
+                        }
+                        .selection a {
+                            color: #ffffff;
+                        }
+                .rightSide {
+                    display: flex;
+                    flex-flow: column;
+                    flex: 0.75;
+                    height: 100%;
+                    background: lightblue;
+                    border-radius: 15px;
+
+                }
+                    .Reports{
+                        display: block;
+                        margin-bottom: 20px;
+                    }
+                    .Inspections{
+                        display: none;
+                        margin-bottom: 20px;
+
+                    }
+                    .newBuilding{
+                        display: none;
+                        margin-bottom: 20px;
+
+                    }
+                    .newUser{
+                        display: none;
+                        margin-bottom: 20px;
+
+                    }
     .chart-container {
         margin-top: 20px;
     }
@@ -197,12 +252,9 @@ body {
         border-radius: 10px;
     }
 
-    
-    
-    .waves-effect {    /* inspect button */
-        pointer-events: none;
+    .inspect{
+        display: flex;
     }
-    
 
     .building-item {
         background: linear-gradient(to bottom, #87ceeb, #ffffff); /* Gradient from sky blue to white */

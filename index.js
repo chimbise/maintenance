@@ -40,6 +40,7 @@ const firebaseConfig = {
         const signup = document.getElementById('submitSignUp');
 
         var authValue = false
+        var inspector = "John Doe"
     
         closeSignin.addEventListener('click', function() {
             closeModal()
@@ -117,16 +118,16 @@ const firebaseConfig = {
             // Retrieve user role from Firebase Realtime Database
             
             console.log(userId);
-            get(ref(database, `users/${userId}/role`)).then((snapshot) => {
+            get(ref(database, `users/${userId}`)).then((snapshot) => {
                 const userRole = snapshot.val();
                 console.log(userRole);       
 
                 // Check user role and enable/disable features accordingly
-                if (userRole === 'admin') {
+                if (userRole["role"] === 'admin') {
                     // Enable admin features
                     enableConfig();
                 } 
-
+                inspector = userRole['name']
             }).catch((error) => {
                 console.error('Error getting user role:', error);
             });
@@ -174,7 +175,7 @@ const querySnapshot = await getDocs(buildingsRef);
 querySnapshot.forEach((doc) => {
     // Access document data using doc.data()
     
-    buildingNames.push(doc);
+    buildingNames.push(doc.id);
     addBuildingToList(doc);
   });
 
@@ -211,6 +212,7 @@ querySnapshot.forEach((doc) => {
             // Handle click event for the building item (e.g., show details, etc.)
             showNotification("Inspection has been submitted")
             chosenData();
+            backArrowClicked()
         });
 
 
@@ -294,21 +296,17 @@ function showNotification(message) {
 }
 
 function addQuestions(questionContainer,roomList, data){
-    //question container
-    console.log(data.id)
-       
-        //var id = addNewTabAuto(room);
-
-        Object.keys(data).forEach((room) => {
-        const roomData = data[room];
-        console.log(room);
-            Object.keys(roomData).forEach((question) => {
-                console.log(room);
-                const ans = roomData[question];
-                addNewQuestionAuto(questionContainer,question, ans);
-                
-            });
+    //question container       
+    Object.keys(data).forEach((room) => {
+    const roomData = data[room];
+    console.log(room);
+        Object.keys(roomData).forEach((question) => {
+            console.log(room);
+            const ans = roomData[question];
+            addNewQuestionAuto(questionContainer,question, ans);
+            
         });
+    });
 
     roomList.appendChild(questionContainer)
 }
@@ -323,12 +321,15 @@ const backArrow = document.getElementById("backArrow");
 // Add click event listener to the back arrow
 backArrow.addEventListener("click", function() {
     // Handle click event (for example, navigate back)
+    backArrowClicked()
+});
+function backArrowClicked(){
     buildingList.style.display = "block";
     roomList.style.display = "none";
     while (roomList.childNodes.length > 2) {
         roomList.removeChild(roomList.lastChild);
     }
-});
+}
 
 function populateQuestions(array){
 
@@ -463,32 +464,49 @@ function checkRadioButtons(newQuestionDiv){
             });
         });
     }
+function getTime(){
+    // Create a new Date object representing the current date and time
+    const currentDate = new Date();
 
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const hours = String(currentDate.getHours()).padStart(2, '0');
+    const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+    const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+
+    // Concatenate the date and time into a single string
+    const currentDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return currentDateTime
+}
 function chosenData(){
     var roomsdata = {};
     var roomTemplate  = {};
+    var building = document.querySelector('.titleParagraph').textContent
 
+    roomsdata['buildingName'] = building;
+    roomsdata['inspectorName'] = inspector;
+    roomsdata['inspectionTime'] = getTime()
 
-    var questionAndAnswer = {};
-    var questionTemplate = {};
-    var questionDivs = document.querySelectorAll('.question')
-    questionDivs.forEach((questionDiv) => {
-        var question = questionDiv.querySelector('p').textContent
-        
-        const radioButtons = questionDiv.querySelectorAll('input[type="radio"]');
+    var roomsDiv = document.querySelectorAll('.room-item')
+    roomsDiv.forEach((rooms) => {
+        var room = rooms.textContent
+        var questionAndAnswer = {};
+        var questionTemplate = {};
+        var questionDivs = document.querySelectorAll('.question')
+        questionDivs.forEach((questionDiv) => {
+            var question = questionDiv.querySelector('p').textContent
+            const radioButtons = questionDiv.querySelectorAll('input[type="radio"]');
             var answer = []
             var answerTemplate = []
-
             if(radioButtons.length !== 0){ //check answer type
                 var isAnyRadioButtonChecked = Array.from(radioButtons).some((radio) => radio.checked);
-
                 if (!isAnyRadioButtonChecked) {
                     // At least one radio button is checked for this question
                     alert('Please select an answer');
                     throw new Error('Please select an answer'); // Exit the function or block of code
                 }
                 let selectedValue;
-
                 // Iterate through the radio buttons to find the checked one
                 radioButtons.forEach((radio) => {
                     if (radio.checked) {
@@ -507,7 +525,6 @@ function chosenData(){
                     }
                 });
                 answerTemplate = "1";
-
             }else{
                 const commentDiv = questionDiv.querySelector('.form');
                 var comment = commentDiv.comment.value;
@@ -521,129 +538,150 @@ function chosenData(){
             }
             questionAndAnswer[question] = answer;
             questionTemplate[question] = answerTemplate;
-            console.log(questionAndAnswer)
-            console.log(questionTemplate)
-    })
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function getSelectedChecklistValues(){
-    // Reference to the main collection
-    var roomsdata = {};
-    var roomTemplate  = {};
-    var newTabIndex = document.querySelectorAll('.innerTabs .tab')
-    
-    newTabIndex.forEach((li) => {
-        const anchorTag = li.querySelector('a');
-        const linkText = anchorTag.textContent;
-
-        var roomQuestionsAndAnswers = {}
-        var roomQ = {}
-        
-        
-        const p = li.querySelectorAll('div .question');
-        var questionAndAnswer = {};
-        var questionA = {};
-        p.forEach((q) => {
-            var question = q.querySelector('p').textContent
-        
-            const radioButtons = q.querySelectorAll('input[type="radio"]');
-            var answer = []
-            var ans2 = []
-            if(radioButtons.length !== 0){ //check answer type
-
-                var isAnyRadioButtonChecked = Array.from(radioButtons).some((radio) => radio.checked);
-
-                if (!isAnyRadioButtonChecked) {
-                    // At least one radio button is checked for this question
-                    alert('Please select an answer');
-                    throw new Error('Please select an answer'); // Exit the function or block of code
-                }
-                let selectedValue;
-
-                // Iterate through the radio buttons to find the checked one
-                radioButtons.forEach((radio) => {
-                    if (radio.checked) {
-                        selectedValue = radio.value;
-                        answer.push(selectedValue)
-                    }
-                    if(selectedValue === 'no'){
-                        const commentDiv = q.querySelector('.form');
-                        var comment = commentDiv.comment.value;
-                        if (!comment.trim()) {
-                            // If comment is empty or contains only whitespace
-                            alert('Please enter a comment');
-                            return; // Exit the function or block of code
-                        }
-                        answer.push(comment)
-                    }
-                });
-                ans2 = "1";
-            }else{
-                const commentDiv = q.querySelector('.form');
-                var comment = commentDiv.comment.value;
-                if (!comment.trim()) {
-                    // If comment is empty or contains only whitespace
-                    alert('Please enter a comment');
-                    throw new Error('Please enter comment');  // Exit the function or block of code
-                }
-                answer.push(comment)
-                ans2 = "2";
-            }
-            
-            questionAndAnswer[question] = answer;
-            questionA[question] = ans2;
-            
-            roomQuestionsAndAnswers = questionAndAnswer;
-            roomQ = questionA;
-            
         })
-        roomsdata[linkText] = roomQuestionsAndAnswers;
-        roomTemplate[linkText] = roomQ;           
-    });
-    //const mainCollectionRef = firebase.firestore().collection('Government Building');
-    
+        roomsdata[room] = questionAndAnswer
+        roomTemplate[room] = questionTemplate
+    })
     console.log(roomsdata)
-    return [roomsdata, roomTemplate];
-    // Add a document to the subcollection 
+    console.log(roomTemplate)
+    uploadToDatase(roomsdata, roomTemplate)
 }
+function uploadToDatase(dataObject,dataObject1){
+    if(authValue){ 
+        addDoc(inspectionsRef, dataObject)
+            .then((doc)=>{
+            console.log(doc)
+            })
+        uploadBuildings(dataObject["buildingName"], dataObject1)
+    }else{
+        alert("Sign In to submit report")
+        openModal()
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function getSelectedChecklistValues(){
+//     // Reference to the main collection
+//     var roomsdata = {};
+//     var roomTemplate  = {};
+//     var newTabIndex = document.querySelectorAll('.innerTabs .tab')
+    
+//     newTabIndex.forEach((li) => {
+//         const anchorTag = li.querySelector('a');
+//         const linkText = anchorTag.textContent;
+
+//         var roomQuestionsAndAnswers = {}
+//         var roomQ = {}
+        
+        
+//         const p = li.querySelectorAll('div .question');
+//         var questionAndAnswer = {};
+//         var questionA = {};
+//         p.forEach((q) => {
+//             var question = q.querySelector('p').textContent
+        
+//             const radioButtons = q.querySelectorAll('input[type="radio"]');
+//             var answer = []
+//             var ans2 = []
+//             if(radioButtons.length !== 0){ //check answer type
+
+//                 var isAnyRadioButtonChecked = Array.from(radioButtons).some((radio) => radio.checked);
+
+//                 if (!isAnyRadioButtonChecked) {
+//                     // At least one radio button is checked for this question
+//                     alert('Please select an answer');
+//                     throw new Error('Please select an answer'); // Exit the function or block of code
+//                 }
+//                 let selectedValue;
+
+//                 // Iterate through the radio buttons to find the checked one
+//                 radioButtons.forEach((radio) => {
+//                     if (radio.checked) {
+//                         selectedValue = radio.value;
+//                         answer.push(selectedValue)
+//                     }
+//                     if(selectedValue === 'no'){
+//                         const commentDiv = q.querySelector('.form');
+//                         var comment = commentDiv.comment.value;
+//                         if (!comment.trim()) {
+//                             // If comment is empty or contains only whitespace
+//                             alert('Please enter a comment');
+//                             return; // Exit the function or block of code
+//                         }
+//                         answer.push(comment)
+//                     }
+//                 });
+//                 ans2 = "1";
+//             }else{
+//                 const commentDiv = q.querySelector('.form');
+//                 var comment = commentDiv.comment.value;
+//                 if (!comment.trim()) {
+//                     // If comment is empty or contains only whitespace
+//                     alert('Please enter a comment');
+//                     throw new Error('Please enter comment');  // Exit the function or block of code
+//                 }
+//                 answer.push(comment)
+//                 ans2 = "2";
+//             }
+            
+//             questionAndAnswer[question] = answer;
+//             questionA[question] = ans2;
+            
+//             roomQuestionsAndAnswers = questionAndAnswer;
+//             roomQ = questionA;
+            
+//         })
+//         roomsdata[linkText] = roomQuestionsAndAnswers;
+//         roomTemplate[linkText] = roomQ;           
+//     });
+//     //const mainCollectionRef = firebase.firestore().collection('Government Building');
+    
+//     console.log(roomsdata)
+//     return [roomsdata, roomTemplate];
+//     // Add a document to the subcollection 
+// }
 const insQuerySnapshot = await getDocs(inspectorsRef);
 // Iterate through the documents in the query snapshot
 insQuerySnapshot.forEach((doc) => {
     // Access document data using doc.data()
 
     inspectorNames.push(doc.id);
-    doc.id !== 'default' && addOptionsInspector(doc.id);
 
 });
 
-function uploadBuildings(building,id,ataObject){
-
+function uploadBuildings(building,ataObject){
+    
     if(buildingNames.includes(building)){
 
-        updateBuilding(id, ataObject)
+        updateBuilding(building, ataObject)
 
     }else{
         //const documentRef = doc(inspectionsRef, documentId);
         
-        setDoc(doc(buildingsRef, id), ataObject)
+        setDoc(doc(buildingsRef, building), ataObject)
 
     }
 }
@@ -759,11 +797,11 @@ function switchToTab2(tabId) {
 // })
 
 // Add a click event listener to the FAB button
-document.getElementById('fabButton').addEventListener('click', function () {
-    // Perform actions when the button is clicked
-    addNewTab()
+// document.getElementById('fabButton').addEventListener('click', function () {
+//     // Perform actions when the button is clicked
+//     addNewTab()
     
-});
+// });
 
 var selectValue = '1';
 var number = 0
@@ -1189,25 +1227,25 @@ function addOptionsInspector(index) {
 //     }
 // }
 const mySendButton = document.getElementById('submit2');
-const backButton = document.getElementById('back');
+//const backButton = document.getElementById('back');
 const backButton2 = document.getElementById('back2');
-const exportTo = document.getElementById('exportToExcel');
+//const exportTo = document.getElementById('exportToExcel');
 
-backButton.addEventListener('click', function() {
-    window.location.reload();
-})
-backButton2.addEventListener('click', function() {
-    var undeterminedRoomsContainer = document.getElementById("undeterminedRooms");
-    // Remove all child elements
-while (undeterminedRoomsContainer.firstChild) {
-    undeterminedRoomsContainer.removeChild(undeterminedRoomsContainer.firstChild);
-}
-    switchToTab('test2')
-})
+// backButton.addEventListener('click', function() {
+//     window.location.reload();
+// })
+// backButton2.addEventListener('click', function() {
+//     var undeterminedRoomsContainer = document.getElementById("undeterminedRooms");
+//     // Remove all child elements
+// while (undeterminedRoomsContainer.firstChild) {
+//     undeterminedRoomsContainer.removeChild(undeterminedRoomsContainer.firstChild);
+// }
+//     switchToTab('test2')
+// })
 
-exportTo.addEventListener('click', function() {
-    exportToExcel(a);
-})
+// exportTo.addEventListener('click', function() {
+//     exportToExcel(a);
+// })
 function exportToExcel(tables){
    
     //const flattenedData = flattenData(data);
@@ -1245,47 +1283,7 @@ function exportToExcel(tables){
 //     return flattenedData;
 // }
 let a;
-mySendButton.addEventListener('click', function() {
-    
-    if(authValue){
-        
-        var array = getSelectedValue()    
-        var dataObject = getSelectedChecklistValues()
-            // Your custom logic goes here
-            dataObject[0]['buildingName'] = array[0];
-            dataObject[0]['inspectorName'] = array[1];
-            dataObject[0]['inspectionTime'] = array[2];
-            
-        if(array[0] !== '' && array[1] !== '' && array[2] !== ''){
-            addDoc(inspectionsRef, dataObject[0])
-                .then((doc)=>{
-                console.log(doc)
-                alert("your report has been submitted")
-                
-                }).then(function() {
-                    //window.location.reload();
-                    switchToTab('report-container')
-                    //killTab('tab')
-                    //killTab('tabs')
-                    console.log(dataObject[0])
-                    a = presentData(dataObject[0]);
-                    console.log(a)
-                    
-                })
-                    uploadBuildings(array[0],array[0], dataObject[1])
-        }else if(array[0] === '' || array[1] === '' || array[2] === ''){
-            //switch to building specification tab
-            alert("Enter all Building specifications to continue")
-        }else{
-            alert("answer all questions to submit")
-        }
-    }else{
-        alert("Sign In to submit report")
-        openModal()
-    }
-    
 
-})
 
 function presentData(data){
     // Function to create HTML table for a given set of nested data
@@ -1376,6 +1374,7 @@ function checkAuth(){
             menu.textContent = "Sign Out"
             checkUserRole(user.uid);
             authValue = true
+            
         } else {
             // User is signed out
             menu.textContent = "Sign In"
