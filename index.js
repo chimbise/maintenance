@@ -162,6 +162,8 @@ const inspectorsRef = collection(db, 'inspectors')
 var buildingNames = [];
 var inspectorNames = [];
 
+//record object
+
 var buildingList = document.getElementById("buildingDiv");      //building display
 var roomList = document.getElementById("roomDiv");   
 var roomTitle = document.getElementById("roomTitleID");           //room display
@@ -190,8 +192,11 @@ querySnapshot.forEach((doc) => {
             //roomList.textContent = buildingName.id;
             addRoomToList(data,room);
         });
+        var building = buildingName.id;
+       
         displayRooms();
-        roomTitle.textContent = buildingName.id;
+        roomTitle.textContent = building;
+
 
         //add submit button
         const submit = document.createElement("button")
@@ -200,10 +205,12 @@ querySnapshot.forEach((doc) => {
         submit.textContent = "submit"
         submit.style.alignSelf = "center"
 
+
         
         submit.addEventListener("click", function() {
             // Handle click event for the building item (e.g., show details, etc.)
             showNotification("Inspection has been submitted")
+            chosenData();
         });
 
 
@@ -213,7 +220,7 @@ querySnapshot.forEach((doc) => {
 }
 
 function addRoomToList(data, roomName){
-    console.log(data)
+    console.log(roomName)
     const roomItem = document.createElement("div");
     roomItem.textContent = roomName;
     roomItem.classList.add("room-item");
@@ -265,6 +272,7 @@ function addRoomToList(data, roomName){
 
 
 
+
     roomList.appendChild(container);
     
     addQuestions(questionContainer,roomList, data)
@@ -284,12 +292,11 @@ function showNotification(message) {
         document.body.removeChild(notification);
     }, 3000);
 }
+
 function addQuestions(questionContainer,roomList, data){
     //question container
-    console.log(data)
-    
-
-        
+    console.log(data.id)
+       
         //var id = addNewTabAuto(room);
 
         Object.keys(data).forEach((room) => {
@@ -351,11 +358,6 @@ function loadData(data){
     });
 }
 function addNewQuestionAuto(div,userQuestion,value){
-    // if (userQuestion === null || userQuestion.trim() === '') {
-    //     // Exit if the user cancels or provides an empty question
-    //     return;
-    // }
-
 
     // Create a new question div
      var newQuestionDiv = document.createElement('div');
@@ -377,17 +379,6 @@ function addNewQuestionAuto(div,userQuestion,value){
     // Append the <p> element to the new question div
     newQuestionDiv.appendChild(questionParagraph);
     
-    // var deleteQ = document.createElement('a')
-    // deleteQ.classList.add("btn-floating", "btn-small", "waves-effect", "waves-light", "red", "right");
-    // var deleteIconQ  = document.createElement("i");  
-    // deleteIconQ .classList.add("material-icons");      
-    // deleteIconQ .textContent = "delete"; 
-    // deleteQ .appendChild(deleteIconQ); 
-    // deleteQ.style.margin = '10px'
-
-    // newQuestionDiv.appendChild(deleteQ)
-
-
     // Create the comment form
     var commentForm = document.createElement('form');
     commentForm.classList.add('form');
@@ -457,6 +448,83 @@ function addNewQuestionAuto(div,userQuestion,value){
      div.appendChild(newQuestionDiv)
     
 }
+function checkRadioButtons(newQuestionDiv){
+    
+    const commentDiv = newQuestionDiv.querySelector('.form');
+    
+        const radioButtons = newQuestionDiv.querySelectorAll('input[type="radio"]');
+        radioButtons.forEach((radio) => {
+            radio.addEventListener('change', function () {
+                if (this.value === 'no') {
+                    commentDiv.style.visibility = "visible";
+                 } else{
+                    commentDiv.style.visibility = "hidden";
+                 }
+            });
+        });
+    }
+
+function chosenData(){
+    var roomsdata = {};
+    var roomTemplate  = {};
+
+
+    var questionAndAnswer = {};
+    var questionTemplate = {};
+    var questionDivs = document.querySelectorAll('.question')
+    questionDivs.forEach((questionDiv) => {
+        var question = questionDiv.querySelector('p').textContent
+        
+        const radioButtons = questionDiv.querySelectorAll('input[type="radio"]');
+            var answer = []
+            var answerTemplate = []
+
+            if(radioButtons.length !== 0){ //check answer type
+                var isAnyRadioButtonChecked = Array.from(radioButtons).some((radio) => radio.checked);
+
+                if (!isAnyRadioButtonChecked) {
+                    // At least one radio button is checked for this question
+                    alert('Please select an answer');
+                    throw new Error('Please select an answer'); // Exit the function or block of code
+                }
+                let selectedValue;
+
+                // Iterate through the radio buttons to find the checked one
+                radioButtons.forEach((radio) => {
+                    if (radio.checked) {
+                        selectedValue = radio.value;
+                        answer.push(selectedValue)
+                    }
+                    if(selectedValue === 'no'){
+                        const commentDiv = q.querySelector('.form');
+                        var comment = commentDiv.comment.value;
+                        if (!comment.trim()) {
+                            // If comment is empty or contains only whitespace
+                            alert('Please enter a comment');
+                            throw new Error('Please enter a comment'); // Exit the function or block of code
+                        }
+                        answer.push(comment)
+                    }
+                });
+                answerTemplate = "1";
+
+            }else{
+                const commentDiv = questionDiv.querySelector('.form');
+                var comment = commentDiv.comment.value;
+                if (!comment.trim()) {
+                    // If comment is empty or contains only whitespace
+                    alert('Please enter a comment');
+                    throw new Error('Please enter comment');  // Exit the function or block of code
+                }
+                answer.push(comment)
+                answerTemplate = "2";
+            }
+            questionAndAnswer[question] = answer;
+            questionTemplate[question] = answerTemplate;
+            console.log(questionAndAnswer)
+            console.log(questionTemplate)
+    })
+}
 
 
 
@@ -472,6 +540,90 @@ function addNewQuestionAuto(div,userQuestion,value){
 
 
 
+
+
+
+
+function getSelectedChecklistValues(){
+    // Reference to the main collection
+    var roomsdata = {};
+    var roomTemplate  = {};
+    var newTabIndex = document.querySelectorAll('.innerTabs .tab')
+    
+    newTabIndex.forEach((li) => {
+        const anchorTag = li.querySelector('a');
+        const linkText = anchorTag.textContent;
+
+        var roomQuestionsAndAnswers = {}
+        var roomQ = {}
+        
+        
+        const p = li.querySelectorAll('div .question');
+        var questionAndAnswer = {};
+        var questionA = {};
+        p.forEach((q) => {
+            var question = q.querySelector('p').textContent
+        
+            const radioButtons = q.querySelectorAll('input[type="radio"]');
+            var answer = []
+            var ans2 = []
+            if(radioButtons.length !== 0){ //check answer type
+
+                var isAnyRadioButtonChecked = Array.from(radioButtons).some((radio) => radio.checked);
+
+                if (!isAnyRadioButtonChecked) {
+                    // At least one radio button is checked for this question
+                    alert('Please select an answer');
+                    throw new Error('Please select an answer'); // Exit the function or block of code
+                }
+                let selectedValue;
+
+                // Iterate through the radio buttons to find the checked one
+                radioButtons.forEach((radio) => {
+                    if (radio.checked) {
+                        selectedValue = radio.value;
+                        answer.push(selectedValue)
+                    }
+                    if(selectedValue === 'no'){
+                        const commentDiv = q.querySelector('.form');
+                        var comment = commentDiv.comment.value;
+                        if (!comment.trim()) {
+                            // If comment is empty or contains only whitespace
+                            alert('Please enter a comment');
+                            return; // Exit the function or block of code
+                        }
+                        answer.push(comment)
+                    }
+                });
+                ans2 = "1";
+            }else{
+                const commentDiv = q.querySelector('.form');
+                var comment = commentDiv.comment.value;
+                if (!comment.trim()) {
+                    // If comment is empty or contains only whitespace
+                    alert('Please enter a comment');
+                    throw new Error('Please enter comment');  // Exit the function or block of code
+                }
+                answer.push(comment)
+                ans2 = "2";
+            }
+            
+            questionAndAnswer[question] = answer;
+            questionA[question] = ans2;
+            
+            roomQuestionsAndAnswers = questionAndAnswer;
+            roomQ = questionA;
+            
+        })
+        roomsdata[linkText] = roomQuestionsAndAnswers;
+        roomTemplate[linkText] = roomQ;           
+    });
+    //const mainCollectionRef = firebase.firestore().collection('Government Building');
+    
+    console.log(roomsdata)
+    return [roomsdata, roomTemplate];
+    // Add a document to the subcollection 
+}
 const insQuerySnapshot = await getDocs(inspectorsRef);
 // Iterate through the documents in the query snapshot
 insQuerySnapshot.forEach((doc) => {
@@ -719,21 +871,7 @@ var number = 0
 //     addNewRoomContainer.appendChild(newQuestionDiv);    
 // }
 
-function checkRadioButtons(newQuestionDiv){
-    
-const commentDiv = newQuestionDiv.querySelector('.form');
 
-    const radioButtons = newQuestionDiv.querySelectorAll('input[type="radio"]');
-    radioButtons.forEach((radio) => {
-        radio.addEventListener('change', function () {
-            if (this.value === 'no') {
-                commentDiv.style.visibility = "visible";
-             } else{
-                commentDiv.style.visibility = "hidden";
-             }
-        });
-    });
-}
     
 
 function addNewTabAuto(room) {
@@ -1196,86 +1334,7 @@ function presentData(data){
     return tables
 }
 
-function getSelectedChecklistValues(){
-    // Reference to the main collection
-    var roomsdata = {};
-    var roomTemplate  = {};
-    var newTabIndex = document.querySelectorAll('.innerTabs .tab')
-    
-    newTabIndex.forEach((li) => {
-        const anchorTag = li.querySelector('a');
-        const linkText = anchorTag.textContent;
 
-        var roomQuestionsAndAnswers = {}
-        var roomQ = {}
-        
-        
-        const p = li.querySelectorAll('div .question');
-        var questionAndAnswer = {};
-        var questionA = {};
-        p.forEach((q) => {
-            var question = q.querySelector('p').textContent
-        
-            const radioButtons = q.querySelectorAll('input[type="radio"]');
-            var answer = []
-            var ans2 = []
-        if(radioButtons.length !== 0){ //check answer type
-
-            var isAnyRadioButtonChecked = Array.from(radioButtons).some((radio) => radio.checked);
-
-            if (!isAnyRadioButtonChecked) {
-                // At least one radio button is checked for this question
-                alert('Please select an answer');
-                throw new Error('Please select an answer'); // Exit the function or block of code
-            }
-            let selectedValue;
-
-            // Iterate through the radio buttons to find the checked one
-            radioButtons.forEach((radio) => {
-                if (radio.checked) {
-                    selectedValue = radio.value;
-                    answer.push(selectedValue)
-                }
-                if(selectedValue === 'no'){
-                    const commentDiv = q.querySelector('.form');
-                    var comment = commentDiv.comment.value;
-                    if (!comment.trim()) {
-                        // If comment is empty or contains only whitespace
-                        alert('Please enter a comment');
-                        return; // Exit the function or block of code
-                      }
-                    answer.push(comment)
-                }
-            });
-            ans2 = "1";
-        }else{
-            const commentDiv = q.querySelector('.form');
-            var comment = commentDiv.comment.value;
-            if (!comment.trim()) {
-                // If comment is empty or contains only whitespace
-                alert('Please enter a comment');
-                throw new Error('Please enter comment');  // Exit the function or block of code
-              }
-            answer.push(comment)
-            ans2 = "2";
-        }
-            
-            questionAndAnswer[question] = answer;
-            questionA[question] = ans2;
-            
-            roomQuestionsAndAnswers = questionAndAnswer;
-            roomQ = questionA;
-            
-        })
-        roomsdata[linkText] = roomQuestionsAndAnswers;
-        roomTemplate[linkText] = roomQ;           
-    });
-    //const mainCollectionRef = firebase.firestore().collection('Government Building');
-    
-    console.log(roomsdata)
-    return [roomsdata, roomTemplate];
-    // Add a document to the subcollection 
-}
 
 // function getSelectedValue() {
 
