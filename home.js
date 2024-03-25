@@ -105,10 +105,10 @@
     const navList = document.getElementById("navList");
     const liElements = navList.getElementsByTagName("li");
 
-    const Home = document.getElementById("home")
-    const inspecction = document.getElementById("test1")
-    const reporrt = document.getElementById("report-container")
-    const Configure = document.getElementById("Configure")
+    const Home = document.getElementById("home");
+    const inspecction = document.getElementById("test1");
+    const reporrt = document.getElementById("report-container");
+    const Configure = document.getElementById("Configure");
 
     for (let i = 0; i < liElements.length; i++) {
         liElements[i].addEventListener("click", function(e) {
