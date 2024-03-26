@@ -233,8 +233,12 @@ body {
                     .newBuilding{
                         display: none;
                         margin-bottom: 20px;
-
+                        padding: 10px;
                     }
+                        .buildnameContainer{
+                            background-color: white;
+                            border-radius: 10px;        
+                        }
                     .newUser{
                         display: none;
                         margin-bottom: 20px;
@@ -409,3 +413,23 @@ th {
     border-radius: 10px;
   }
   
+
+  .parent {
+    font-weight: bold;
+    }
+    /* Style for child list items */
+    .child {
+        margin-left: 20px; /* Indent child items */
+        color: #666; /* Dim color for child items */
+    }
+    /* Style for delete and add widgets */
+    .widget {
+        cursor: pointer;
+        margin-left: 5px;
+    }
+    .delete-widget {
+        color: #ff0000; /* Red color for delete icon */
+    }
+    .add-widget {
+        color: #008000; /* Green color for add icon */
+    }
