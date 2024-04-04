@@ -29,23 +29,7 @@
                 <canvas id="distributionChart"></canvas>
             </div>
         </div>
-        <!-- Overlay and Popup Form -->
-        <div class="overlay" id="overlaybuild">
-            <form class="popup-form" id="bui">
-                <!-- Your form fields go here -->
-                <label for="buildingName"> Enter Building name:</label>
-                <input type="text" id="buildingName" name="buildingName" >  
-                <button type="submit" onclick="buildtogglePopup()">add / cancel</button>
-            </form>  
-        </div>  
-        <div class="overlay" id="overlayinspector">
-            <form class="popup-form" id="ins">
-                <!-- Your form fields go here -->
-                <label for="inspectorName"> Enter Inspector name:</label>
-                <input type="text" id="inspectorName" name="inspectorName" >  
-                <button type="submit" onclick="inspectortogglePopup()">add / cancel</button>
-            </form>  
-        </div>
+
         <!--outer tabs-->
         <div class="test1" id="test1">
             <div class="build" id="buildingDiv">
@@ -81,7 +65,7 @@
                         <div class="Reports" id="Reports">Content for Reports</div>
                         <div class="Inspections" id="Inspections">Content for Inspections</div>
                         <div class="newBuilding" id="newBuilding">
-                            <div class="buildnameContainer">
+                            <div class="buildnameContainer" id="buildnameContainer">
                                 <ul id="mainList">
                                     
                                 </ul>             

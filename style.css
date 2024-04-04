@@ -373,6 +373,9 @@ th {
 
 
   
+
+
+
   .modal {
     display: none;
     position: fixed;
@@ -405,31 +408,42 @@ th {
     cursor: pointer;
     border-radius: 10px;
   }
-  
-  
-  button {
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 10px;
-  }
-  
 
-  .parent {
+  .configBuilding {
+    
+    padding: 10px;
     font-weight: bold;
+    background: linear-gradient(to top, rgb(27, 106, 138), #ffffff);
+    margin-bottom: 10px;
     }
     /* Style for child list items */
-    .child {
+    .configRoom {
         margin-left: 20px; /* Indent child items */
         color: #666; /* Dim color for child items */
     }
-    /* Style for delete and add widgets */
+
     .widget {
         cursor: pointer;
-        margin-left: 5px;
     }
+    
     .delete-widget {
         color: #ff0000; /* Red color for delete icon */
     }
+    
     .add-widget {
         color: #008000; /* Green color for add icon */
     }
+
+   
+
+    .horizontal-list {
+        list-style-type: none;
+        padding: 0;
+      }
+      .horizontal-list li {
+        display: flex;
+        align-items: center;
+      }
+      .horizontal-list li p {
+        margin-right: 10px;
+      }
