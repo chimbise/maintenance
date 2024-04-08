@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebas
 import { getFirestore, collection, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
 import { getDatabase, ref,get, set, update,push,onValue } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
-import isEqual from '/node_modules/lodash-es/isEqual.js';
+//import isEqual from '/node_modules/lodash-es/isEqual.js';
 
 
 
@@ -242,12 +242,12 @@ function addRoomToList(data, roomName){
 
     roomItem.addEventListener("click", function() {
         // Handle click event for the building item (e.g., show details, etc.)
-        if (questionContainer.style.display === "block") {
-            questionContainer.style.display = "none";
+       
+        if (questionContainer.style.maxHeight === '0px' || questionContainer.style.maxHeight === '') {
+            questionContainer.style.maxHeight = questionContainer.scrollHeight + 'px';
         } else {
-            questionContainer.style.display = "block";
-        }
-        
+            questionContainer.style.maxHeight = '0px';
+        }  
         console.log(roomName)
     });
     dashSymbol.addEventListener("click", function() {

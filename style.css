@@ -65,15 +65,20 @@ body {
         height: 100%;
 
     }
+    .building-item {
+        border-radius: 10px;
+    }
+    
         .rm {
             display: none;
         }
             .room-item-container{
+                display: flex;
                 margin-top: 20px;
-                padding-left: 20px;
-                padding-right: 20px;
+                margin-left: 20px;
+                margin-right: 20px;
+                border-radius: 10px; /* Applies border-radius only to the top */
             }
-            
                 .dashsymbol {
                     color : red;
                     font-size : 35px ;
@@ -96,16 +101,16 @@ body {
                         background: linear-gradient(to top, rgb(27, 106, 138), #ffffff00);  /* Gradient from sky blue to white */
                         margin-right: 20px;
                         margin-left: 20px;
-                        display: none;
-                        transition: display 0.5s ease-in-out 0.2s; /* Transition the display property over 0.5 seconds with ease-in-out timing function and a delay of 0.2 seconds */
-                    
+                        overflow: hidden; /* Hide content when it exceeds the maxHeight */
+                        max-height: 0; /* Initially hide the element */
+                        transition: max-height 0.5s ease; /* Smooth transition over 0.3 seconds */
+                        border-radius: 0 0 10px 10px; /* Applies border-radius only to the top */
                     }
                     .question {
                         display: flex;
                         margin-bottom: 5px;
                         border-radius: 10px;
                         align-items: center;
-                        justify-content: space-between; /* Center the content vertically */
                     }
                     .form {
                         visibility: hidden;
@@ -291,12 +296,6 @@ body {
     border-radius: 10px;
 }
 
-
-.datepicker::placeholder {
-    color: black;
-    padding-left: 10px;
-    border-radius: 10px;
-}
 .content {
     display: none;
     border-radius: 10px;
