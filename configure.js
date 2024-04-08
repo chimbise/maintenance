@@ -70,11 +70,15 @@ function createParentItem(doc) {
         // }
         listItem.appendChild(newItem)
 
+        listItem.addEventListener('click', function(e) {
+            if (e.target === this) { // Check if the clicked element is the listItem itself
+                toggleVisibility(this);
+            }
+        });
+
     return listItem;
 }
-function createTitleDiv(textContent){
-    
-}
+
 
 // Function to create a new room list item
 function createChildItem(key,doc) {
@@ -91,9 +95,10 @@ function createGrandChildItem(key,questionObject) {
     const p = document.createElement('p');
     p.textContent = key;
 
-    const radio1 = createRadioButton(key, key, 'comment-only', 'Comment Only');
-    const radio2 = createRadioButton(key, key, 'comment-with-yes', 'Comment with Yes or No');
+    const radio1 = createRadioButton(key+'comment-only' , key, 'comment-only',questionObject);
+    const radio2 = createRadioButton(key+'comment-with-yes', key, 'comment-with-yes',questionObject);
 
+    
     // Append elements
     listItem.appendChild(p);
     listItem.appendChild(radio1);
@@ -105,25 +110,35 @@ function createGrandChildItem(key,questionObject) {
     return listItem;
 }
     // Function to create radio button
-    function createRadioButton(id, name, value, labelText) {
+    function createRadioButton(id, name, value,questionObject) {
+
         const input = document.createElement('input');
         input.type = 'radio';
-        input.id = id;
         input.name = name;
         input.value = value;
+        input.id = id;
+
+        if(questionObject[name] === '1' && value === 'comment-with-yes'){
+            input.checked = true;
+        }
+        
+        if(questionObject[name] === '2' && value === 'comment-only'){
+            input.checked = true;
+        }
+    
+        
 
         const label = document.createElement('label');
-        label.htmlFor = id;
-        label.textContent = labelText;
+        label.appendChild(input);
 
-        const container = document.createElement('div');
-        container.style.display = 'flex'; // Make the container a flexbox
-        container.style.flexDirection = 'column'; // Align items vertically
-        container.style.alignItems = 'center'; // Align items in the center
-        container.appendChild(input);
-        container.appendChild(label);
+        var span = document.createElement('span');
+        span.id = 'span';
+        span.appendChild(document.createTextNode(value));
 
-        return container;
+        label.appendChild(span);
+        label.classList.add(value)
+
+        return label;
     }
 
 
@@ -169,7 +184,7 @@ function addChildListItem(doc) {
 function addGrandChildListItem(questionObject) {
     var sublist2 = document.createElement('ul');
     sublist2.classList.add("horizontal-list")
-    sublist2.id = questionObject
+    //sublist2.id = questionObject
     // Loop through each key in the 'data' object
     console.log(questionObject);
     for (let key in questionObject) {
@@ -201,7 +216,7 @@ function addGrandChildListItem(questionObject) {
 // Function to add a delete widget to a list item
 function addDeleteWidget(item) {
     var deleteWidget = document.createElement('span');
-    deleteWidget.textContent = 'X';
+    deleteWidget.textContent = '-';
     deleteWidget.classList.add('widget', 'delete-widget');
     deleteWidget.onclick = function() {
         removeListItem(this);
@@ -248,3 +263,11 @@ addParentListItem(myVariable)
 //   parentItems.forEach((item) => {
 //       addChildListItem(item, 'Child Item 1');
 //   });
+function toggleVisibility(ul) {
+    var ulElement = ul.querySelector('.configBuilding > ul');
+    if (ulElement.style.maxHeight === '0px' || ulElement.style.maxHeight === '') {
+        ulElement.style.maxHeight = ulElement.scrollHeight + 'px';
+    } else {
+        ulElement.style.maxHeight = '0px';
+    }
+  }

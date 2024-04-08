@@ -415,11 +415,18 @@ th {
     font-weight: bold;
     background: linear-gradient(to top, rgb(27, 106, 138), #ffffff);
     margin-bottom: 10px;
+    border-radius: 10px;
+    }
+    .configBuilding > ul {
+        overflow: hidden; /* Hide content when it exceeds the maxHeight */
+        max-height: 0; /* Initially hide the element */
+        transition: max-height 0.5s ease; /* Smooth transition over 0.3 seconds */
     }
     /* Style for child list items */
     .configRoom {
         margin-left: 20px; /* Indent child items */
-        color: #666; /* Dim color for child items */
+        color: black; /* Dim color for child items */
+        text-align: left;
     }
 
     .widget {
@@ -437,6 +444,8 @@ th {
    
 
     .horizontal-list {
+        font-weight: normal;
+        color: #000;
         list-style-type: none;
         padding: 0;
       }
@@ -446,4 +455,6 @@ th {
       }
       .horizontal-list li p {
         margin-right: 10px;
+        flex: 40%;
+        text-align: left;
       }
