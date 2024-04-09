@@ -8,6 +8,7 @@
     align-items:center;
     height: 115px;
     padding-right: 10px;
+
 }
     
 .navbar ul li{
@@ -44,16 +45,21 @@ body {
     margin: 20px;
     background-color: rgb(146, 157, 168)
     
+    
     }
 
 
+
     .main {
+        
         display: block;
         background: linear-gradient(to top, #87ceeb, #ffffff); /* Gradient from sky blue to white */
         padding: 20px;
         text-align: center;
         border-radius: 10px;
         margin-top: 20px;
+        overflow: auto; /* Enable scrolling */
+        max-height: 600px; /* Set a maximum height for the scrollable area */
     }
     .home {
         display: block;

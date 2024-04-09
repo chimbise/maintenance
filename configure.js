@@ -68,7 +68,10 @@ function createParentItem(doc) {
         // for (let key in doc.data()) {
         //     createChildItem(key,doc,listItem)
         // }
+        addDeleteWidget(listItem);
+        addAddWidget(listItem);
         listItem.appendChild(newItem)
+        
 
         listItem.addEventListener('click', function(e) {
             if (e.target === this) { // Check if the clicked element is the listItem itself
@@ -86,7 +89,10 @@ function createChildItem(key,doc) {
     listItem.textContent = key;
     listItem.classList.add('configRoom');
     var newItem = addGrandChildListItem(doc[key])
+    addDeleteWidget(listItem);
+    addAddWidgetGrand(listItem);
     listItem.appendChild(newItem);
+   
     return listItem;
 }
 // Function to create a new question list item
@@ -133,6 +139,7 @@ function createGrandChildItem(key,questionObject) {
 
         var span = document.createElement('span');
         span.id = 'span';
+        span.style.color = 'black'; // Set text color to black
         span.appendChild(document.createTextNode(value));
 
         label.appendChild(span);
@@ -153,11 +160,11 @@ function addParentListItem(docs) {
     var mainList = document.getElementById('mainList');
 
     docs.forEach((doc) => {
+        
         // Access document data using doc.data()
         var newItem = createParentItem(doc);
         mainList.appendChild(newItem);
-        addDeleteWidget(newItem);
-        addAddWidget(newItem);
+        
       });
 
     //return newItem;
@@ -173,10 +180,11 @@ function addChildListItem(doc) {
             console.log('Value:', data[key]);
             var newItem = createChildItem(key,data);
             sublist.appendChild(newItem);
-            addDeleteWidget(newItem);
-            addAddWidgetGrand(newItem);
         }
       }
+       // Apply CSS to make listItem scrollable
+       sublist.style.overflow = 'auto';
+       sublist.style.maxHeight = '200px'; // Set the maximum height as per your requirement
     return sublist;
 }
 
@@ -216,7 +224,8 @@ function addGrandChildListItem(questionObject) {
 // Function to add a delete widget to a list item
 function addDeleteWidget(item) {
     var deleteWidget = document.createElement('span');
-    deleteWidget.textContent = '-';
+    deleteWidget.textContent = '⎻';
+    deleteWidget.style.margin = '10px'
     deleteWidget.classList.add('widget', 'delete-widget');
     deleteWidget.onclick = function() {
         removeListItem(this);
@@ -237,7 +246,7 @@ function addAddWidget(parentItem) {
 function addAddWidgetGrand(childItem) {
     var addWidget = document.createElement('span');
     addWidget.textContent = '+';
-    addWidget.classList.add('grand-add-widget');
+    addWidget.classList.add('grand-add-widget','add-widget');
     addWidget.onclick = function() {
         addGrandChildListItem(childItem, 'New Child Item');
     };
