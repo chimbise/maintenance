@@ -68,7 +68,9 @@ function createParentItem(doc) {
         // for (let key in doc.data()) {
         //     createChildItem(key,doc,listItem)
         // }
-        addDeleteWidget(listItem);
+        var widge = addDeleteWidget(listItem);
+        widge.setAttribute('data-tooltip', 'delete Building')
+
         addAddWidget(listItem);
         listItem.appendChild(newItem)
         
@@ -89,7 +91,8 @@ function createChildItem(key,doc) {
     listItem.textContent = key;
     listItem.classList.add('configRoom');
     var newItem = addGrandChildListItem(doc[key])
-    addDeleteWidget(listItem);
+    var widge = addDeleteWidget(listItem);
+    widge.setAttribute('data-tooltip', 'delete room')
     addAddWidgetGrand(listItem);
     listItem.appendChild(newItem);
    
@@ -110,7 +113,8 @@ function createGrandChildItem(key,questionObject) {
     listItem.appendChild(radio1);
     listItem.appendChild(radio2);
 
-    addDeleteWidget(listItem);
+    var widge = addDeleteWidget(listItem);
+    widge.setAttribute('data-tooltip', 'delete question')
 
     listItem.classList.add('configQuestion');
     return listItem;
@@ -231,11 +235,13 @@ function addDeleteWidget(item) {
         removeListItem(this);
     };
     item.appendChild(deleteWidget);
+    return deleteWidget
 }
 // Function to add an add widget to a parent list item
 function addAddWidget(parentItem) {
     var addWidget = document.createElement('span');
     addWidget.textContent = '+';
+    addWidget.setAttribute('data-tooltip', 'add new room')
     addWidget.classList.add('widget', 'add-widget');
     addWidget.onclick = function() {
         addChildListItem(parentItem, 'New Child Item');
@@ -246,7 +252,8 @@ function addAddWidget(parentItem) {
 function addAddWidgetGrand(childItem) {
     var addWidget = document.createElement('span');
     addWidget.textContent = '+';
-    addWidget.classList.add('grand-add-widget','add-widget');
+    addWidget.setAttribute('data-tooltip', 'add new Question')
+    addWidget.classList.add('widget','grand-add-widget','add-widget');
     addWidget.onclick = function() {
         addGrandChildListItem(childItem, 'New Child Item');
     };

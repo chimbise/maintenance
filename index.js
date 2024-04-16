@@ -63,8 +63,8 @@ const firebaseConfig = {
         }
         
         function signIn() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const email = document.getElementById('Username').value;
+            const password = document.getElementById('Password').value;
             // Implement Firebase sign-in logic here
             
             signInWithEmailAndPassword(auth,email, password)
