@@ -43,7 +43,7 @@
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
-    background-color: rgb(146, 157, 168)
+    background-color: rgb(146, 157, 168);
     }
 
 
@@ -55,8 +55,7 @@ body {
         text-align: center;
         border-radius: 10px;
         margin-top: 20px;
-        overflow: auto; /* Enable scrolling */
-        max-height: 600px; /* Set a maximum height for the scrollable area */
+        min-height: min-content;
     }
     .home {
         display: block;
@@ -187,17 +186,14 @@ body {
 }
     .Configure{
         display: none;
-        height: 100%;
+        min-height: 500px;
 
     }   
         .configuration{
-            display: flex;
             flex-flow: column;
-            height: 100%;
         }
             .configureContainer {
                 display: flex;
-                height: 100%;
             } 
                 .leftSide {
                     display: flex;
@@ -208,6 +204,7 @@ body {
                     text-align: left;
                     padding: 20px;
                     color: #ffffff;
+                    height: max-content;
                 }
                     .selections{
                         font-weight: bold;
@@ -391,9 +388,12 @@ th {
     border-radius: 10px;
     }
     .configBuilding > ul {
+        padding-top: 30px;/* allowance for delete/add popups */
         overflow: hidden; /* Hide content when it exceeds the maxHeight */
         max-height: 0; /* Initially hide the element */
         transition: max-height 0.5s ease; /* Smooth transition over 0.3 seconds */
+        overflow: 'auto';
+        max-Height: '500px'; 
     }
     /* Style for child list items */
     .configRoom {
@@ -564,3 +564,23 @@ th {
       .register-link p a:hover{
         text-decoration: underline;
       }
+/* For WebKit browsers (Chrome, Safari) */
+/* Track */
+::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+    height: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #535353; /* Color of the scrollbar handle */
+    border-radius: 4px; /* Rounded corners */
+}
+
+
+#textInputForm {
+    display: none; /* Hide the form by default */
+}
+#textInputForm2 {
+    display: none; /* Hide the form by default */
+}

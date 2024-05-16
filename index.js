@@ -678,7 +678,7 @@ function uploadBuildings(building,ataObject){
     
     if(buildingNames.includes(building)){
 
-        updateBuilding(building, ataObject)
+        //updateBuilding(building, ataObject)
 
     }else{
         //const documentRef = doc(inspectionsRef, documentId);
@@ -689,32 +689,32 @@ function uploadBuildings(building,ataObject){
 }
   // Check if the document exists
   // const documentSnapshot = await getDoc(documentRef);
-async function updateBuilding(id, ataObject){
+// async function updateBuilding(id, ataObject){
     
-    const documentRef = doc(buildingsRef, id);
-    //new data is equal to ataObject
-    // Get the document snapshot
-    const documentSnapshot = await getDoc(documentRef);
+//     const documentRef = doc(buildingsRef, id);
+//     //new data is equal to ataObject
+//     // Get the document snapshot
+//     const documentSnapshot = await getDoc(documentRef);
     
-    if (!documentSnapshot.empty) {
-        // Retrieve the existing data
-        const existingData = documentSnapshot.data();
+//     if (!documentSnapshot.empty) {
+//         // Retrieve the existing data
+//         const existingData = documentSnapshot.data();
       
-        // Check if the new data is different from the existing data
-        const isDataChanged = !isEqual(existingData, ataObject);
-        console.log(existingData);
-        if (isDataChanged) {
-          // Update the document only if the data has changed
+//         // Check if the new data is different from the existing data
+//         const isDataChanged = !isEqual(existingData, ataObject);
+//         console.log(existingData);
+//         if (isDataChanged) {
+//           // Update the document only if the data has changed
 
-          setDoc(documentRef, ataObject);
-          console.log('Document updated successfully!');
-        } else {
-          console.log('Data is the same. No update needed.');
-        }
-      } else {
-        console.log('Document does not exist.');
-      }
-}
+//           setDoc(documentRef, ataObject);
+//           console.log('Document updated successfully!');
+//         } else {
+//           console.log('Data is the same. No update needed.');
+//         }
+//       } else {
+//         console.log('Document does not exist.');
+//       }
+// }
 
 
 //load available data function

@@ -71,7 +71,7 @@ function createParentItem(doc) {
         var widge = addDeleteWidget(listItem);
         widge.setAttribute('data-tooltip', 'delete Building')
 
-        addAddWidget(listItem);
+        addAddWidget(listItem, doc.id);
         listItem.appendChild(newItem)
         
 
@@ -86,26 +86,29 @@ function createParentItem(doc) {
 
 
 // Function to create a new room list item
-function createChildItem(key,doc) {
+function createChildItem(key,doc,build) {
+    var buildRoom = build+key
     var listItem = document.createElement('li');
     listItem.textContent = key;
     listItem.classList.add('configRoom');
-    var newItem = addGrandChildListItem(doc[key])
+    console.log(buildRoom)
+    var newItem = addGrandChildListItem(doc[key],buildRoom)
     var widge = addDeleteWidget(listItem);
     widge.setAttribute('data-tooltip', 'delete room')
-    addAddWidgetGrand(listItem);
+    addAddWidgetGrand(listItem, buildRoom);
     listItem.appendChild(newItem);
    
     return listItem;
 }
 // Function to create a new question list item
-function createGrandChildItem(key,questionObject) {
+function createGrandChildItem(key,questionObject,buildRoom) {
+    
     var listItem = document.createElement('li');
     const p = document.createElement('p');
     p.textContent = key;
 
-    const radio1 = createRadioButton(key+'comment-only' , key, 'comment-only',questionObject);
-    const radio2 = createRadioButton(key+'comment-with-yes', key, 'comment-with-yes',questionObject);
+    const radio1 = createRadioButton(buildRoom+key+'comment-only' , buildRoom+key, 'comment-only',questionObject);
+    const radio2 = createRadioButton(buildRoom+key+'comment-with-yes', buildRoom+key, 'comment-with-yes',questionObject);
 
     
     // Append elements
@@ -164,38 +167,56 @@ function addParentListItem(docs) {
     var mainList = document.getElementById('mainList');
 
     docs.forEach((doc) => {
-        
+    
         // Access document data using doc.data()
         var newItem = createParentItem(doc);
         mainList.appendChild(newItem);
-        
-      });
+    
+    });
 
     //return newItem;
 }
 
 // Function to add a new child list item
+
 function addChildListItem(doc) {
+    
     var sublist = document.createElement('ul');
+    var build = doc.id;
+    sublist.id = build;
     var data = doc.data()
+
     for (let key in data) {
         if (data.hasOwnProperty(key)) {
-            console.log('Key:', key);
+            console.log('data:', data);
             console.log('Value:', data[key]);
-            var newItem = createChildItem(key,data);
+            var newItem = createChildItem(key,data,build);
             sublist.appendChild(newItem);
         }
       }
-       // Apply CSS to make listItem scrollable
-       sublist.style.overflow = 'auto';
-       sublist.style.maxHeight = '200px'; // Set the maximum height as per your requirement
+    console.log('Key:', sublist);
+    // Apply CSS to make listItem scrollable
+    //sublist.style.overflow = 'auto';
+    //sublist.style.height // Set the maximum height as per your requirement
     return sublist;
+}
+function updateRoomUl(roomObject,docId){
+    var roomUl = document.getElementById(docId)
+    for (let key in roomObject) {
+        if (roomObject.hasOwnProperty(key)) {
+            console.log('data:', roomObject);
+            console.log('Value:', roomObject[key]);
+            var newItem = createChildItem(key,roomObject);
+            roomUl.appendChild(newItem);
+        }
+      }
 }
 
 // Function to add a new child list item
-function addGrandChildListItem(questionObject) {
+function addGrandChildListItem(questionObject,buildRoom) {
     var sublist2 = document.createElement('ul');
     sublist2.classList.add("horizontal-list")
+    sublist2.id = buildRoom;
     //sublist2.id = questionObject
     // Loop through each key in the 'data' object
     console.log(questionObject);
@@ -203,27 +224,23 @@ function addGrandChildListItem(questionObject) {
         if (questionObject.hasOwnProperty(key)) {
         console.log('Question:', key);
         console.log('ans:', questionObject[key]);
-        var newItem = createGrandChildItem(key,questionObject);
+        var newItem = createGrandChildItem(key,questionObject,buildRoom);
         sublist2.appendChild(newItem);
         }
     }
     return sublist2
 }
     // Function to add a new child list item
-    function addGrandChildWidget(questionObject) {
-        var sublist2 = document.getElementById(questionObject)
-        
-        // Loop through each key in the 'data' object
-        console.log(questionObject);
+    function updateQuestionUl(questionObject,buildRoom){
+        var questionUl = document.getElementById(buildRoom)
         for (let key in questionObject) {
             if (questionObject.hasOwnProperty(key)) {
             console.log('Question:', key);
             console.log('ans:', questionObject[key]);
-            var newItem = createGrandChildItem(key,questionObject);
-            sublist2.appendChild(newItem);
+            var newItem = createGrandChildItem(key,questionObject,buildRoom);
+            questionUl.appendChild(newItem);
             }
         }
-        return sublist2
     }
 // Function to add a delete widget to a list item
 function addDeleteWidget(item) {
@@ -238,38 +255,96 @@ function addDeleteWidget(item) {
     return deleteWidget
 }
 // Function to add an add widget to a parent list item
-function addAddWidget(parentItem) {
+var docId = null;
+function addAddWidget(parentItem, docIdx) {
     var addWidget = document.createElement('span');
     addWidget.textContent = '+';
     addWidget.setAttribute('data-tooltip', 'add new room')
     addWidget.classList.add('widget', 'add-widget');
     addWidget.onclick = function() {
-        addChildListItem(parentItem, 'New Child Item');
+        docId = docIdx;
+        document.getElementById("textInputForm").style.display = "block";
+        //if(Object.keys( doc).length === 0){
+
+            
     };
     parentItem.appendChild(addWidget);
 }
+    // Add event listener to the form for handling submission
+    document.getElementById("textInputForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        
+        var inputValue = document.getElementById("textInput").value;
+        // Get the value of the text input
+        if (inputValue === null || inputValue.trim() === '') {
+            // Exit if the user cancels or provides an empty question
+            return;
+            }
+        // Display the input value (You can perform any action here)
+        console.log("User input:", inputValue);
+        var data  =  {
+            [inputValue]: {'new where?': '1', 'new is the Ups off?': '1'}
+        }
+
+        updateRoomUl(data,docId)
+        // Clear the input field
+        document.getElementById("textInput").value = "";
+
+        // Hide the form after submission
+        document.getElementById("textInputForm").style.display = "none";
+    });
 // Function to add an add widget to a child list item
-function addAddWidgetGrand(childItem) {
+var buildRoom = null;
+function addAddWidgetGrand(childItem, buildRoomx) {
     var addWidget = document.createElement('span');
     addWidget.textContent = '+';
     addWidget.setAttribute('data-tooltip', 'add new Question')
     addWidget.classList.add('widget','grand-add-widget','add-widget');
     addWidget.onclick = function() {
-        addGrandChildListItem(childItem, 'New Child Item');
+        
+        buildRoom = buildRoomx;
+        console.log(buildRoom, buildRoomx)
+        document.getElementById("textInputForm2").style.display = "block";
+        //addGrandChildListItem(childItem, 'New Child Item');
     };
     childItem.appendChild(addWidget);
 }
 
-// Add click event listener to parent items
-document.querySelectorAll('.configBuilding').forEach(function(item) {
-    item.addEventListener('click', function() {
-        var sublist = item.querySelectorAll('ul');
-        console.log(item)
-        sublist.forEach(function(sub) {
-            sublist.style.display = sublist.style.display === 'none' ? 'block' : 'none';
-        })
-    });
+document.getElementById("textInputForm2").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    
+    var inputValue = document.getElementById("textInput2").value;
+    // Get the value of the text input
+    if (inputValue === null || inputValue.trim() === '') {
+        // Exit if the user cancels or provides an empty question
+        return;
+        }
+    // Display the input value (You can perform any action here)
+    console.log("User input:", inputValue);
+    var data  =  {
+        [inputValue]: '1'
+    }
+
+    updateQuestionUl(data,buildRoom)
+    // Clear the input field
+    document.getElementById("textInput2").value = "";
+
+    // Hide the form after submission
+    document.getElementById("textInputForm2").style.display = "none";
 });
+
+// Add click event listener to parent items
+// document.querySelectorAll('.configBuilding').forEach(function(item) {
+//     item.addEventListener('click', function() {
+//         var sublist = item.querySelectorAll('ul');
+//         console.log(item)
+//         sublist.forEach(function(sub) {
+//             sublist.style.display = sublist.style.display === 'none' ? 'block' : 'none';
+//         })
+//     });
+// });
 
 //call addParentListItem()
 addParentListItem(myVariable)
