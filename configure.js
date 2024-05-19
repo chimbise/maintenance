@@ -362,3 +362,7 @@ function toggleVisibility(ul) {
         ulElement.style.maxHeight = '0px';
     }
   }
+
+  function getData(){
+    
+  }
