@@ -239,9 +239,11 @@ body {
                         display: none;
                         margin-bottom: 20px;
                         padding: 10px;
+                        position: relative; /* Make sure the parent has a positioning context */
                     }
                         .buildnameContainer{
-                            border-radius: 10px;        
+                            border-radius: 10px; 
+                            margin-top: 40px;       
                         }
                     .newUser{
                         display: none;
@@ -380,7 +382,7 @@ th {
   }
 
   .configBuilding {
-    
+    cursor: pointer;
     padding: 10px;
     font-weight: bold;
     background: linear-gradient(to bottom, rgb(27, 106, 138), #ffffff);
@@ -394,6 +396,7 @@ th {
         transition: max-height 0.5s ease; /* Smooth transition over 0.3 seconds */
         overflow: 'auto';
         max-Height: '500px'; 
+        cursor: auto;
     }
     /* Style for child list items */
     .configRoom {
@@ -615,4 +618,43 @@ th {
 #textInputForm2 input[type="text"]::placeholder {
     color: rgba(0, 0, 0, 0.662);
     text-align: center;
+}
+#addNewBuildingForm {
+    display:  none; /* Hide the form by default */
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: max-content;
+    height: 20px;
+}
+#addNewBuildingForm input {
+    background: linear-gradient(to bottom, rgb(27, 138, 38), #ffffff);
+    padding-left: 5px;
+    border-radius: 15px;
+}
+#addNewBuildingForm input[type="text"]::placeholder {
+    color: rgba(0, 0, 0, 0.662);
+    text-align: center;
+}
+.save {
+    background-color: #1b6b8a72;
+    border-radius: 10px;
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    cursor: pointer;
+}
+.addNewBuilding {
+    background-color: #1b6b8a72;
+    border-radius: 10px;
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10px;
+    cursor: pointer;
 }

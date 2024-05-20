@@ -51,14 +51,7 @@
         </div>
         <div class="Configure" id="Configure">
             <div class="configuration">
-                <form id="textInputForm">
-                    <input type="text" id="textInput" name="textInput" placeholder="Enter room name">
-                    <button type="submit">Submit</button>
-                </form>
-                <form id="textInputForm2">
-                    <input type="text" id="textInput2" name="textInput2" placeholder="Enter new question">
-                    <button type="submit">Submit</button>
-                </form>
+
                 <div class="configureContainer" id="configureContainer">
                     <div class="leftSide" id="leftSide">CONFIGURATION
                         <ul class="selections">
@@ -73,16 +66,31 @@
                         <div class="Reports" id="Reports">Content for Reports</div>
                         <div class="Inspections" id="Inspections">Content for Inspections</div>
                         <div class="newBuilding" id="newBuilding">
+                            <button type="button" class="addNewBuilding" id="add-new-building">add new building</button>
+                            <button type="button" class="save" id="save">save all changes</button>
+
                             <div class="buildnameContainer" id="buildnameContainer">
                                 <ul id="mainList">
                                     
                                 </ul>             
                             </div>
-                            <button type="submit" class="save" id="save">save</button>
+                            <form id="addNewBuildingForm">
+                                <input type="text" id="addNewBuildingInput" name = "addNewBuildingInput" placeholder="add new bulding name">
+                                <button type="submit">Submit</button>
+                            </form>
+                            <form id="textInputForm">
+                                <input type="text" id="textInput" name="textInput" placeholder="Enter room name">
+                                <button type="submit">Submit</button>
+                            </form>
+                            <form id="textInputForm2">
+                                <input type="text" id="textInput2" name="textInput2" placeholder="Enter new question">
+                                <button type="submit">Submit</button>
+                            </form>
                         </div>
                         <div class="newUser" id="newUser">Content for new User</div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

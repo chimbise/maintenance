@@ -87,7 +87,7 @@ function createParentItem(doc) {
 
 // Function to create a new room list item
 function createChildItem(key,doc,build) {
-    var buildRoom = build+key
+    var buildRoom = build+'#'+key                 //separate string with # for easy extraction when getting data
     var listItem = document.createElement('li');
     listItem.textContent = key;
     listItem.classList.add('configRoom');
@@ -174,9 +174,51 @@ function addParentListItem(docs) {
     
     });
 
-    //return newItem;
 }
+function updateBuildUl(doc){
+    var mainList = document.getElementById('mainList');
+    var newItem = createParentItem(doc);
+    console.log(doc.id)
+    mainList.appendChild(newItem);
+}
+document.getElementById('add-new-building').onclick = function() {
+    // Call your function here
+    console.log('clicked')
+    document.getElementById("addNewBuildingForm").style.display = "block";
+    
+}
+    // Add event listener to the form for handling submission
+    document.getElementById("addNewBuildingForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
+        
+        var inputValue = document.getElementById("addNewBuildingInput").value;
+        // Get the value of the text input
+        if (inputValue === null || inputValue.trim() === '') {
+            // Exit if the user cancels or provides an empty question
+            return;
+            }
+        // Display the input value (You can perform any action here)
+        console.log("User input:", inputValue);
+        var data  =  {
+            [inputValue]:{ 'room1': {'new where?': '1', 'new is the Ups off?': '1'}},
+            data: function() {              // this to match the object from database and synce the code style
+                return this[inputValue];   
+              },
+            get id(){                       // this to match the object from database and synce the code style
+                for (var key in this) {
+                        return key;
+                }
+            }
+        }
+
+        updateBuildUl(data)
+        // Clear the input field
+        document.getElementById("addNewBuildingInput").value = "";
+
+        // Hide the form after submission
+        document.getElementById("addNewBuildingForm").style.display = "none";
+    });
 // Function to add a new child list item
 
 function addChildListItem(doc) {
@@ -231,17 +273,17 @@ function addGrandChildListItem(questionObject,buildRoom) {
     return sublist2
 }
     // Function to add a new child list item
-    function updateQuestionUl(questionObject,buildRoom){
-        var questionUl = document.getElementById(buildRoom)
-        for (let key in questionObject) {
-            if (questionObject.hasOwnProperty(key)) {
-            console.log('Question:', key);
-            console.log('ans:', questionObject[key]);
-            var newItem = createGrandChildItem(key,questionObject,buildRoom);
-            questionUl.appendChild(newItem);
-            }
+function updateQuestionUl(questionObject,buildRoom){
+    var questionUl = document.getElementById(buildRoom)
+    for (let key in questionObject) {
+        if (questionObject.hasOwnProperty(key)) {
+        console.log('Question:', key);
+        console.log('ans:', questionObject[key]);
+        var newItem = createGrandChildItem(key,questionObject,buildRoom);
+        questionUl.appendChild(newItem);
         }
     }
+}
 // Function to add a delete widget to a list item
 function addDeleteWidget(item) {
     var deleteWidget = document.createElement('span');
@@ -265,8 +307,6 @@ function addAddWidget(parentItem, docIdx) {
         docId = docIdx;
         document.getElementById("textInputForm").style.display = "block";
         //if(Object.keys( doc).length === 0){
-
-            
     };
     parentItem.appendChild(addWidget);
 }
@@ -311,49 +351,33 @@ function addAddWidgetGrand(childItem, buildRoomx) {
     childItem.appendChild(addWidget);
 }
 
-document.getElementById("textInputForm2").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent the default form submission
+    document.getElementById("textInputForm2").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
-    
-    var inputValue = document.getElementById("textInput2").value;
-    // Get the value of the text input
-    if (inputValue === null || inputValue.trim() === '') {
-        // Exit if the user cancels or provides an empty question
-        return;
+        
+        var inputValue = document.getElementById("textInput2").value;
+        // Get the value of the text input
+        if (inputValue === null || inputValue.trim() === '') {
+            // Exit if the user cancels or provides an empty question
+            return;
+            }
+        // Display the input value (You can perform any action here)
+        console.log("User input:", inputValue);
+        var data  =  {
+            [inputValue]: '1'
         }
-    // Display the input value (You can perform any action here)
-    console.log("User input:", inputValue);
-    var data  =  {
-        [inputValue]: '1'
-    }
 
-    updateQuestionUl(data,buildRoom)
-    // Clear the input field
-    document.getElementById("textInput2").value = "";
+        updateQuestionUl(data,buildRoom)
+        // Clear the input field
+        document.getElementById("textInput2").value = "";
 
-    // Hide the form after submission
-    document.getElementById("textInputForm2").style.display = "none";
-});
+        // Hide the form after submission
+        document.getElementById("textInputForm2").style.display = "none";
+    });
 
-// Add click event listener to parent items
-// document.querySelectorAll('.configBuilding').forEach(function(item) {
-//     item.addEventListener('click', function() {
-//         var sublist = item.querySelectorAll('ul');
-//         console.log(item)
-//         sublist.forEach(function(sub) {
-//             sublist.style.display = sublist.style.display === 'none' ? 'block' : 'none';
-//         })
-//     });
-// });
 
-//call addParentListItem()
 addParentListItem(myVariable)
 
-  // Add some initial child items
-//   var parentItems = document.querySelectorAll('.parent');
-//   parentItems.forEach((item) => {
-//       addChildListItem(item, 'Child Item 1');
-//   });
 function toggleVisibility(ul) {
     var ulElement = ul.querySelector('.configBuilding > ul');
     if (ulElement.style.maxHeight === '0px' || ulElement.style.maxHeight === '') {
@@ -363,6 +387,12 @@ function toggleVisibility(ul) {
     }
   }
 
-  function getData(){
-    
-  }
+
+document.getElementById('save').onclick = function() {
+
+    getData();
+}
+function getData(){
+
+
+}
