@@ -134,28 +134,42 @@ function createGrandChildItem(key,questionObject,buildRoom) {
         let building = words[0];
         let room = words[1];
 
+        
         if(questionObject[name] === '1' && value === 'comment-with-yes'){
             input.checked = true;
 
             grandChildObject[name] = '1';;
-            childObject[room] = grandChildObject;
+            childObject[room] = {...childObject[room], ...grandChildObject};
+            parentObject[building] = {...parentObject[building], ...childObject};
+            //parentObject = {...parentObject, ...childObject}
+            grandChildObject = {}
         }
         
         if(questionObject[name] === '2' && value === 'comment-only'){
             input.checked = true;
 
             grandChildObject[name] = '2';;
-            childObject[room] = grandChildObject;
+            childObject[room] = {...childObject[room], ...grandChildObject};
+            parentObject[building] = {...parentObject[building], ...childObject};
+            //parentObject = {...parentObject, ...childObject}
+            grandChildObject = {}
         }
-        console.log(childObject);
+        
+        mainObject = {...mainObject, ...parentObject}
+        
+        //childObject = {}
+        console.log(parentObject);
+        console.log(mainObject);
         // Add event listener to capture the change event
         input.addEventListener('change', function() {
             if (input.checked) {
                 console.log('Selected value:', input.value);
+                console.log(buildRoom)
+                
                 if(input.value === 'comment-only' ){
-                    building[room][name] = '2'
+                    //building[room][name] = '2'
                 }else{
-                    building[room][name] = '1'
+                    //building[room][name] = '1'
                 }
                 // You can also perform other actions here based on the changed value
             } 
@@ -390,6 +404,8 @@ document.getElementById("textInputForm2").addEventListener("submit", function(ev
     // Hide the form after submission
     document.getElementById("textInputForm2").style.display = "none";
 });
+
+
 addParentListItem(myVariable)
 function toggleVisibility(ul) {
     var ulElement = ul.querySelector('.configBuilding > ul');
@@ -403,6 +419,7 @@ document.getElementById('save').onclick = function() {
     getData();
 }
 function getData(){
+
 
     
 }
