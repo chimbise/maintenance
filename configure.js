@@ -82,6 +82,9 @@ function createParentItem(doc) {
 }
 // Function to create a new room list item
 function createChildItem(key,doc,build) {
+
+    childObject = {}; // reset room whenever a new one is loaded
+
     var buildRoom = build+'#'+key                 //separate string with # for easy extraction when getting data
     var listItem = document.createElement('li');
     listItem.textContent = key;
@@ -101,6 +104,8 @@ var childObject = {};
 var grandChildObject = {};
 // Function to create a new question list item
 function createGrandChildItem(key,questionObject,buildRoom) {
+
+    grandChildObject = {}
 
     var listItem = document.createElement('li');
     const p = document.createElement('p');
@@ -138,26 +143,26 @@ function createGrandChildItem(key,questionObject,buildRoom) {
         if(questionObject[name] === '1' && value === 'comment-with-yes'){
             input.checked = true;
 
-            grandChildObject[name] = '1';;
+            grandChildObject[name] = '1';
             childObject[room] = {...childObject[room], ...grandChildObject};
             parentObject[building] = {...parentObject[building], ...childObject};
             //parentObject = {...parentObject, ...childObject}
-            grandChildObject = {}
         }
         
         if(questionObject[name] === '2' && value === 'comment-only'){
             input.checked = true;
 
-            grandChildObject[name] = '2';;
+            grandChildObject[name] =  '2';
             childObject[room] = {...childObject[room], ...grandChildObject};
             parentObject[building] = {...parentObject[building], ...childObject};
             //parentObject = {...parentObject, ...childObject}
-            grandChildObject = {}
         }
         
         mainObject = {...mainObject, ...parentObject}
         
         //childObject = {}
+        
+
         console.log(parentObject);
         console.log(mainObject);
         // Add event listener to capture the change event
@@ -208,6 +213,9 @@ function addParentListItem(docs) {
 
 }
 function updateBuildUl(doc){
+
+    
+
     var mainList = document.getElementById('mainList');
     var newItem = createParentItem(doc);
     console.log(doc.id)
