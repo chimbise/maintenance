@@ -1,4 +1,6 @@
-import { myVariable } from './index.js';
+import { myVariable,dbx } from './index.js';
+import { getFirestore, collection,deleteDoc, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
+
 
 const configList = document.getElementById("leftSide");
 const liElement = configList.getElementsByTagName("li");
@@ -83,8 +85,6 @@ function createParentItem(doc) {
 // Function to create a new room list item
 function createChildItem(key,doc,build) {
 
-    childObject = {}; // reset room whenever a new one is loaded
-
     var buildRoom = build+'#'+key                 //separate string with # for easy extraction when getting data
     var listItem = document.createElement('li');
     listItem.textContent = key;
@@ -93,19 +93,14 @@ function createChildItem(key,doc,build) {
     var newItem = addGrandChildListItem(doc[key],buildRoom)
     var widge = addDeleteWidget(listItem);
     widge.setAttribute('data-tooltip', 'delete room')
-    addAddWidgetGrand(listItem, buildRoom);
+    addAddWidgetGrand(listItem,buildRoom);
     listItem.appendChild(newItem);
    
     return listItem;
 }
-var mainObject = {}
-var parentObject = {};
-var childObject = {};
-var grandChildObject = {};
+
 // Function to create a new question list item
 function createGrandChildItem(key,questionObject,buildRoom) {
-
-    grandChildObject = {}
 
     var listItem = document.createElement('li');
     const p = document.createElement('p');
@@ -136,50 +131,48 @@ function createGrandChildItem(key,questionObject,buildRoom) {
         input.id = id;
 
         let words = buildRoom.split('#');
-        let building = words[0];
-        let room = words[1];
+        // let building = words[0];
+        // let room = words[1];
 
         
         if(questionObject[name] === '1' && value === 'comment-with-yes'){
             input.checked = true;
 
-            grandChildObject[name] = '1';
-            childObject[room] = {...childObject[room], ...grandChildObject};
-            parentObject[building] = {...parentObject[building], ...childObject};
+            // grandChildObject = {...grandChildObject, [name]: '1'};
+            // childObject[room] = {...childObject[room], ...grandChildObject};
+            // parentObject[building] = {...parentObject[building], ...childObject};
             //parentObject = {...parentObject, ...childObject}
         }
         
         if(questionObject[name] === '2' && value === 'comment-only'){
             input.checked = true;
 
-            grandChildObject[name] =  '2';
-            childObject[room] = {...childObject[room], ...grandChildObject};
-            parentObject[building] = {...parentObject[building], ...childObject};
+            // grandChildObject = {...grandChildObject, [name]: '2'};
+            // childObject[room] = {...childObject[room], ...grandChildObject};
+            // parentObject[building] = {...parentObject[building], ...childObject};
             //parentObject = {...parentObject, ...childObject}
         }
         
-        mainObject = {...mainObject, ...parentObject}
+        //mainObject = {...mainObject, ...parentObject}
         
         //childObject = {}
         
 
-        console.log(parentObject);
-        console.log(mainObject);
         // Add event listener to capture the change event
-        input.addEventListener('change', function() {
-            if (input.checked) {
-                console.log('Selected value:', input.value);
-                console.log(buildRoom)
+        // input.addEventListener('change', function() {
+        //     if (input.checked) {
+        //         console.log('Selected value:', input.value);
+        //         console.log(buildRoom)
                 
-                if(input.value === 'comment-only' ){
-                    //building[room][name] = '2'
-                }else{
-                    //building[room][name] = '1'
-                }
-                // You can also perform other actions here based on the changed value
-            } 
-            //console.log(mainObject);
-        });
+        //         if(input.value === 'comment-only' ){
+        //             //building[room][name] = '2'
+        //         }else{
+        //             //building[room][name] = '1'
+        //         }
+        //         // You can also perform other actions here based on the changed value
+        //     } 
+        //     //console.log(mainObject);
+        // });
 
         const label = document.createElement('label');
         label.appendChild(input);
@@ -240,8 +233,8 @@ document.getElementById('add-new-building').onclick = function() {
             }
         // Display the input value (You can perform any action here)
         console.log("User input:", inputValue);
-        var data  =  {
-            [inputValue]:{ 'room1': {'new where?': '1', 'new is the Ups off?': '1'}},
+        var data = {
+            [inputValue]: { 'room1': { 'new where?': '1', 'new is the Ups off?': '1' } },
             data: function() {              // this to match the object from database and synce the code style
                 return this[inputValue];   
               },
@@ -250,7 +243,11 @@ document.getElementById('add-new-building').onclick = function() {
                         return key;
                 }
             }
-        }
+        };
+
+        
+
+        
 
         updateBuildUl(data)
         // Clear the input field
@@ -287,7 +284,7 @@ function updateRoomUl(roomObject,docId){
         if (roomObject.hasOwnProperty(key)) {
             console.log('data:', roomObject);
             console.log('Value:', roomObject[key]);
-            var newItem = createChildItem(key,roomObject);
+            var newItem = createChildItem(key,roomObject,docId);
             roomUl.appendChild(newItem);
         }
       }
@@ -318,10 +315,13 @@ function updateQuestionUl(questionObject,buildRoom){
         console.log('Question:', key);
         console.log('ans:', questionObject[key]);
         var newItem = createGrandChildItem(key,questionObject,buildRoom);
+        console.log(newItem)
         questionUl.appendChild(newItem);
         }
     }
 }
+
+var deleteIds = [];
 // Function to add a delete widget to a list item
 function addDeleteWidget(item) {
     var deleteWidget = document.createElement('span');
@@ -329,6 +329,11 @@ function addDeleteWidget(item) {
     deleteWidget.style.margin = '10px'
     deleteWidget.classList.add('widget', 'delete-widget');
     deleteWidget.onclick = function() {
+        var parent = deleteWidget.parentElement
+        if(parent.classList.value === 'configBuilding'){
+            deleteIds.push(parent.childNodes[0].nodeValue.trim())
+        }
+        console.log(deleteIds)    
         removeListItem(this);
     };
     item.appendChild(deleteWidget);
@@ -363,6 +368,7 @@ function addAddWidget(parentItem, docIdx) {
         console.log("User input:", inputValue);
         var data  =  {
             [inputValue]: {'new where?': '1', 'new is the Ups off?': '1'}
+            
         }
 
         updateRoomUl(data,docId)
@@ -374,15 +380,13 @@ function addAddWidget(parentItem, docIdx) {
     });
 // Function to add an add widget to a child list item
 var buildRoom = null;
-function addAddWidgetGrand(childItem, buildRoomx) {
+function addAddWidgetGrand(childItem,buildRoomx) {
     var addWidget = document.createElement('span');
     addWidget.textContent = '+';
     addWidget.setAttribute('data-tooltip', 'add new Question')
     addWidget.classList.add('widget','grand-add-widget','add-widget');
     addWidget.onclick = function() {
-        
-        buildRoom = buildRoomx;
-        console.log(buildRoom, buildRoomx)
+        buildRoom = buildRoomx
         document.getElementById("textInputForm2").style.display = "block";
         //addGrandChildListItem(childItem, 'New Child Item');
     };
@@ -424,10 +428,92 @@ function toggleVisibility(ul) {
     }
   }
 document.getElementById('save').onclick = function() {
-    getData();
+   getData();
 }
+
+
 function getData(){
+    var parentObject = {};
 
+    // Select all elements with the class name 'configbuilding'
+    const configBuildings = document.querySelectorAll('.configBuilding');
+    // Iterate through each 'configbuilding' element
+    configBuildings.forEach((building, buildingIndex) => {
+        const buildingName = building.childNodes[0].nodeValue.trim();
+        // Ensure the building object exists
+        if (!parentObject[buildingName]) {
+            parentObject[buildingName] = {};
+        }
 
-    
+        // Select all child elements with the name 'roomconfig'
+        const roomConfigs = building.querySelectorAll('.configRoom');
+        // Iterate through each 'roomconfig' element
+        roomConfigs.forEach((room, roomIndex) => {
+            const roomName = room.childNodes[0].nodeValue.trim();
+
+            // Ensure the room object exists
+            if (!parentObject[buildingName][roomName]) {
+                parentObject[buildingName][roomName] = {};
+            }
+
+            // Select all elements with the class name 'questions' within each 'roomconfig'
+            const questions = room.querySelectorAll('.configQuestion');
+            // Iterate through each 'questions' element
+            questions.forEach((question, questionIndex) => {
+                // Select all <p> elements within each 'questions' element
+                const questionElement = question.querySelector('p');
+                const q = questionElement ? questionElement.textContent.trim() : `Question ${questionIndex + 1}`;
+                console.log(q)
+                // Select all radio buttons within each 'questions' element
+                const radioButtons = question.querySelectorAll('input[type="radio"]');
+                // Determine which radio button is checked
+                radioButtons.forEach((radioButton, radioButtonIndex) => {
+                    if (radioButton.checked) {
+                        var ans = '1'
+                        if(radioButton.value === 'comment-only' ){
+                            ans = '2'
+                        }else{
+                            ans = '1'
+                        }
+                        parentObject[buildingName][roomName][q] = ans;
+                    }
+                });
+                
+            });
+            console.log(parentObject[buildingName][roomName])
+        });
+        console.log(parentObject[buildingName])
+        updateDocument('buildings',buildingName,parentObject[buildingName])
+    });
+console.log(parentObject)
 }
+
+async function updateDocument(collectionName, documentId, newData) {
+    try {
+        // Remove undefined and empty values from newData
+
+        const docRef = doc(dbx, collectionName, documentId);
+
+        // Use setDoc with merge: true to create the document if it doesn't exist, or update it if it does
+        await setDoc(docRef, newData, { merge: false });
+        deleteMultipleDocuments(collectionName, deleteIds)
+
+        console.log(`Document ${documentId} successfully updated in collection ${collectionName}`);
+    } catch (error) {
+        console.error("Error updating document: ", error);
+    }
+}
+async function deleteMultipleDocuments(collectionName, documentIds) {
+    try {
+        const deletePromises = documentIds.map(async (documentId) => {
+            const docRef = doc(dbx, collectionName, documentId);
+            await deleteDoc(docRef);
+            console.log(`Document ${documentId} successfully deleted from collection ${collectionName}`);
+            documentIds = [];
+        });
+        await Promise.all(deletePromises);
+    } catch (error) {
+        console.error("Error deleting documents: ", error);
+    }
+}
+

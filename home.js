@@ -1,3 +1,4 @@
+    import {adminx} from './index.js';
 
     const navList = document.getElementById("navList");
     const liElements = navList.getElementsByTagName("li");
@@ -43,11 +44,14 @@ function handleLiClick(liElement) {
             // Add your code to handle the "Report" click event
             break;
         case "Configure":
-            Home.style.display = 'none'
-            inspecction.style.display = 'none'
-            reporrt.style.display = 'none'
-            Configure.style.display = 'block'
+            if(adminx){
+                Home.style.display = 'none'
+                inspecction.style.display = 'none'
+                reporrt.style.display = 'none'
+                Configure.style.display = 'block'
             // Add your code to handle the "Configure" click event
+            }
+                
             break;
         default:
             // Default case, if needed

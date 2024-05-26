@@ -39,6 +39,13 @@
     transform: scale(1.2); /* Converge when clicked */
 
 }
+#configure-link {
+    background-color: rgba(128, 128, 128, 0.664); /* Make the text grey */
+    pointer-events: none; /* Disable clicking */
+    border-radius: 5px; /* Rounded corners */
+    color: #000000a6;
+
+}
 
 body {
     font-family: Arial, sans-serif;
@@ -403,6 +410,11 @@ th {
         margin-left: 20px; /* Indent child items */
         color: black; /* Dim color for child items */
         text-align: left;
+    }
+    .configQuestion {
+        overflow: visible; /* Show scroll bars if content overflows */
+        white-space: normal; /* Allow text to wrap normally */
+        word-wrap: break-word; /* Handle long words */
     }
 
     .widget {
