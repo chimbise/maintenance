@@ -117,8 +117,6 @@ function handleLiClick(liElement) {
         }
     });
 
- 
-
     // Create distribution chart
     let distributionChart = new Chart(distributionCanvas, {
         type: 'pie',
@@ -152,7 +150,3 @@ function updateChart(){
         }
     });
 }
-    
-   
-  
- 

@@ -1,0 +1,49 @@
+.reporting {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.reporting form {
+    display: flex;
+    flex-direction: column;
+}
+
+.reporting label {
+    margin-top: 10px;
+}
+
+.reporting input, textarea {
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+.reporting button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.reporting button:hover {
+    background-color: #0056b3;
+}
+
+.reporting #confirmationMessage {
+    margin-top: 20px;
+    text-align: center;
+}
+select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}

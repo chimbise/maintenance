@@ -6,8 +6,6 @@ import { getDatabase, ref,get, set, update,push,onValue } from "https://www.gsta
 //import isEqual from '/node_modules/lodash-es/isEqual.js';
 
 
-
-
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyDU5een_L9w9ArISJLeLFRl5B-i5400IaA",
@@ -581,8 +579,6 @@ menu.addEventListener('click', function(event) {
     }
     
 })
-
-
 
 
 export const myVariable = querySnapshot;

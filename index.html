@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>maintenance</title>
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/report.css">
 </head>
 <body>
     <nav class="navbar" id="navList">
@@ -45,9 +46,36 @@
         </div>
     
         <div id="report-container">
-            <!-- Building Information  -->
-            <h5>Report</h5> 
-            <div id="undeterminedRooms"></div>
+            <h5>Reports</h5> 
+            <div class="reporting">
+                <form id="defectForm">
+                    <label for="buildingr">Building</label>
+                    <select class="" id="buildingr" name="buildingr" required>
+                        <option value="" disabled selected>Select a building</option>
+                        <option value="Building A">Building A</option>
+                        <option value="Building B">Building B</option>
+                        <option value="Building C">Building C</option>
+                        <!-- Add more buildings as needed -->
+                    </select>
+        
+                    <label for="roomr">Room</label>
+                    <select id="roomr" name="roomr" required>
+                        <option value="" disabled selected>Select a room</option>
+                        <option value="Room 101">Room 101</option>
+                        <option value="Room 102">Room 102</option>
+                        <option value="Room 103">Room 103</option>
+                        <!-- Add more rooms as needed -->
+                    </select>
+        
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" required></textarea>
+        
+                    <label for="reporter">Reported By:</label>
+                    <input type="text" id="reporter" name="reporter" required>
+        
+                    <button type="submit">Submit Report</button>
+                </form>
+            </div>
         </div>
         <div class="Configure" id="Configure">
             <div class="configuration">
@@ -152,6 +180,7 @@
     <script type="module" src="/index.js"></script>
     <script type="module" src="/home.js"></script>   
     <script type="module" src="/configure.js"></script>  
+    <script type="module" src="/report.js"></script>
     <script>
        
     //initialize date
