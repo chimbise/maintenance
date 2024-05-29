@@ -1,24 +1,29 @@
 .reporting {
     max-width: 600px;
     margin: 50px auto;
-    background-color: #fff;
+    background: linear-gradient(to bottom, rgb(27, 106, 138), #ffffff); /* Gradient from sky blue to white */
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
 }
 
-.reporting form {
+.defectForm {
     display: flex;
     flex-direction: column;
+    border-radius: 15px;
 }
 
 .reporting label {
     margin-top: 10px;
+    color: black;
 }
 
 .reporting input, textarea {
     padding: 10px;
     margin-top: 5px;
     font-size: 16px;
+    background-color: #fff;
+    background: #fff;
 }
 
 .reporting button {
@@ -29,6 +34,7 @@
     border: none;
     cursor: pointer;
     font-size: 16px;
+    border-radius: 5px;
 }
 
 .reporting button:hover {
@@ -46,4 +52,7 @@ select {
     margin-top: 5px;
     font-size: 16px;
     box-sizing: border-box;
+}
+#defectForm {
+    border-radius: 5px;
 }

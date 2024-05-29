@@ -1,6 +1,6 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js"
-import { getFirestore, collection, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
+import { getFirestore, collection,limit, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
 import { getDatabase, ref,get, set, update,push,onValue } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 //import isEqual from '/node_modules/lodash-es/isEqual.js';
@@ -189,9 +189,11 @@ const firebaseConfig = {
 //building reference for reading firebase
 const buildingsRef = collection(db, 'buildings')
 const inspectionsRef = collection(db, 'inspections')
-const inspectorsRef = collection(db, 'inspectors')
+//const inspectorsRef = collection(db, 'inspectors')
+const reportBuildingsRef = collection(db,'reportbuildings')
+const reportsRef = collection(db, 'reports')
 
-//sorting retrieved data
+
 
 //Tab functions
 
@@ -584,4 +586,5 @@ menu.addEventListener('click', function(event) {
 export const myVariable = querySnapshot;
 export const dbx = db;
 export var adminx = admin;
-console.log(adminx)
+export const reportBuildingsRefx = reportBuildingsRef
+export const reportsRefx = reportsRef

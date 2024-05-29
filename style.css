@@ -74,9 +74,7 @@ body {
         height: 100%;
 
     }
-    .building-item {
-        border-radius: 10px;
-    }
+
     
         .rm {
             display: none;
@@ -274,9 +272,10 @@ body {
     }
 
     .building-item {
-        background: linear-gradient(to bottom, #87ceeb, #ffffff); /* Gradient from sky blue to white */
+        background: linear-gradient(to bottom, rgb(27, 106, 138), #ffffff); /* Gradient from sky blue to white */
         margin: 20px;
         padding: 10px;
+        border-radius: 10px;
     }
     .building-item:hover {
         background: rgb(27, 106, 138);/* Gradient from sky blue to white */

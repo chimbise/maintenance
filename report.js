@@ -1,18 +1,53 @@
 
+import { getFirestore,limit, collection,deleteDoc, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
+import {reportBuildingsRefx,reportsRefx} from './index.js';
 
+//sorting retrieved data
+const q = query(reportBuildingsRefx, limit(1));
+const querySnapshot = await getDocs(q);
+
+// Extract the document data
+const doccc = querySnapshot.docs[0];
+console.log('Document ID:', doccc.id);
+console.log('Document Data:', doccc.data());
+
+var roomsByBuildingx = doccc.data();
+// Iterate through the documents in the query snapshot
 const roomsByBuilding = {
-    "Building A": ["Room 101", "Room 102", "Room 103"],
-    "Building B": ["Room 201", "Room 202", "Room 203"],
-    "Building C": ["Room 301", "Room 302", "Room 303"],
-    // Add more buildings and rooms as needed
+    ...roomsByBuildingx
 };
 
-document.getElementById('buildingr').addEventListener('change', function() {
+// Function to add options to a select element
+function addOptions(selectElement, options) {
+    options.forEach(optionText => {
+        const option = document.createElement('option');
+        option.value = optionText;
+        option.textContent = optionText;
+        selectElement.appendChild(option);
+    });
+}
+
+// Get the select elements
+const buildingSelect = document.getElementById('buildingr');
+const roomSelect = document.getElementById('roomr');
+
+
+// Get an array of all keys (building names)
+const buildingKeys = Object.keys(roomsByBuilding);
+
+// Get the value of the first key
+const firstKey = buildingKeys[0];
+const firstValue = roomsByBuilding[firstKey];
+// Add options to the select elements
+addOptions(buildingSelect, buildingKeys);
+addOptions(roomSelect, firstValue);
+
+
+buildingSelect.addEventListener('change', function() {
     const building = this.value;
-    const roomDropdown = document.getElementById('roomr');
 
     // Clear existing options
-    roomDropdown.innerHTML = '<option value="" disabled selected>Select a room</option>';
+    roomSelect.innerHTML = '<option value="" disabled selected>Select a room</option>';
 
     if (building) {
         const rooms = roomsByBuilding[building];
@@ -20,10 +55,11 @@ document.getElementById('buildingr').addEventListener('change', function() {
             const option = document.createElement('option');
             option.value = room;
             option.textContent = room;
-            roomDropdown.appendChild(option);
+            roomSelect.appendChild(option);
         });
     }
 });
+
 document.getElementById('defectForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent the form from submitting the traditional way
 
