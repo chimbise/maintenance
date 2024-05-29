@@ -68,14 +68,33 @@ document.getElementById('defectForm').addEventListener('submit', function(event)
     const description = document.getElementById('description').value;
     const reporter = document.getElementById('reporter').value;
 
+    var dataObject = {}
+    dataObject['building'] = building;
+    dataObject['room'] = room;
+    dataObject['reporter'] = reporter;
+    dataObject['description'] = description;
     // Display a confirmation message
-    const confirmationMessage = document.getElementById('confirmationMessage');
-    confirmationMessage.innerHTML = `
-        <p>Thank you, ${reporter}.</p>
-        <p>Your report for <strong>${room}</strong> in <strong>${building}</strong> has been submitted.</p>
-        <p>Defect Description: ${description}</p>
-    `;
+    // const confirmationMessage = document.getElementById('confirmationMessage');
+    // confirmationMessage.innerHTML = `
+    //     <p>Thank you, ${reporter}.</p>
+    //     <p>Your report for <strong>${room}</strong> in <strong>${building}</strong> has been submitted.</p>
+    //     <p>Defect Description: ${description}</p>
+    // `;
+
+    uploadToDatase(dataObject);
 
     // Clear the form
     document.getElementById('defectForm').reset();
 });
+function uploadToDatase(dataObject){
+    if(authValue){ 
+        addDoc(reportsRefx, dataObject)
+            .then((doc)=>{
+            console.log(doc)
+            })
+        //uploadBuildings(dataObject["buildingName"], dataObject1)
+    }else{
+        alert("Sign In to submit report")
+        openModal();
+    }
+}
