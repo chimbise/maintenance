@@ -147,7 +147,6 @@ const firebaseConfig = {
         // Function to check user role
         function checkUserRole(userId) {
             // Retrieve user role from Firebase Realtime Database
-            
             console.log(userId);
             get(ref(database, `users/${userId}`)).then((snapshot) => {
                 const userRole = snapshot.val();
@@ -588,3 +587,5 @@ export const dbx = db;
 export var adminx = admin;
 export const reportBuildingsRefx = reportBuildingsRef
 export const reportsRefx = reportsRef
+export var authValuex = authValue
+export var authx = auth

@@ -1,0 +1,33 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "Government Building",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "Location",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "`Inspector Name`",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Government Building",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "Location",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "inspectionTime",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

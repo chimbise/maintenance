@@ -1,6 +1,6 @@
 
 import { getFirestore,limit, collection,deleteDoc, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
-import {reportBuildingsRefx,reportsRefx} from './index.js';
+import {reportBuildingsRefx,reportsRefx, authValuex} from './index.js';
 
 //sorting retrieved data
 const q = query(reportBuildingsRefx, limit(1));
@@ -86,8 +86,9 @@ document.getElementById('defectForm').addEventListener('submit', function(event)
     // Clear the form
     document.getElementById('defectForm').reset();
 });
+
 function uploadToDatase(dataObject){
-    if(authValue){ 
+    if(authValuex){ 
         addDoc(reportsRefx, dataObject)
             .then((doc)=>{
             console.log(doc)

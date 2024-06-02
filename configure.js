@@ -1,6 +1,6 @@
-import { myVariable,dbx } from './index.js';
+import { myVariable,dbx,authx } from './index.js';
 import { getFirestore, collection,deleteDoc, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
-
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
 
 const configList = document.getElementById("leftSide");
 const liElement = configList.getElementsByTagName("li");
@@ -137,42 +137,12 @@ function createGrandChildItem(key,questionObject,buildRoom) {
         
         if(questionObject[name] === '1' && value === 'comment-with-yes'){
             input.checked = true;
-
-            // grandChildObject = {...grandChildObject, [name]: '1'};
-            // childObject[room] = {...childObject[room], ...grandChildObject};
-            // parentObject[building] = {...parentObject[building], ...childObject};
-            //parentObject = {...parentObject, ...childObject}
         }
         
         if(questionObject[name] === '2' && value === 'comment-only'){
             input.checked = true;
-
-            // grandChildObject = {...grandChildObject, [name]: '2'};
-            // childObject[room] = {...childObject[room], ...grandChildObject};
-            // parentObject[building] = {...parentObject[building], ...childObject};
-            //parentObject = {...parentObject, ...childObject}
         }
         
-        //mainObject = {...mainObject, ...parentObject}
-        
-        //childObject = {}
-        
-
-        // Add event listener to capture the change event
-        // input.addEventListener('change', function() {
-        //     if (input.checked) {
-        //         console.log('Selected value:', input.value);
-        //         console.log(buildRoom)
-                
-        //         if(input.value === 'comment-only' ){
-        //             //building[room][name] = '2'
-        //         }else{
-        //             //building[room][name] = '1'
-        //         }
-        //         // You can also perform other actions here based on the changed value
-        //     } 
-        //     //console.log(mainObject);
-        // });
 
         const label = document.createElement('label');
         label.appendChild(input);
@@ -515,5 +485,44 @@ async function deleteMultipleDocuments(collectionName, documentIds) {
     } catch (error) {
         console.error("Error deleting documents: ", error);
     }
+}
+
+
+
+//Add new user code
+var users = {};
+var addUserButton = document.getElementById('addNewUser');
+var userDiv = document.getElementById('newUserDiv');
+
+addUserButton.addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent the default behavior of anchor elements
+    userDiv.classList.toggle("show");
+
+});
+
+document.getElementById('newUserForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the form from submitting the traditional way
+
+    const newName = document.getElementById('fName').value;
+    const newLastname = document.getElementById('lName').value;
+    const newEmail = document.getElementById('emailAddress').value;
+
+
+    createUser(newEmail)
+    // Clear the form
+    document.getElementById('newUserForm').reset();
+});
+
+
+// Initialize Firebase
+const auth = authx
+
+async function createUser(email) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email , 'inspection101');
+    console.log('Successfully created new user:', userCredential.user.uid);
+  } catch (error) {
+    console.error('Error creating new user:', error.message);
+  }
 }
 
