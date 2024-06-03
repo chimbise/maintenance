@@ -17,3 +17,27 @@ import logger from "firebase-functions/logger";
 //   logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp();
+
+exports.createUser = functions.https.onCall(async (data, context) => {
+  // Authentication/Authorization check
+  if (!context.auth) {
+    // Throwing an HttpsError so that the client gets the error details.
+    throw new functions.https.HttpsError('failed-precondition', 'The function must be called while authenticated.');
+  }
+
+  try {
+    const userRecord = await admin.auth().createUser({
+      email: data.email,
+      emailVerified: false,
+      password: data.password,
+      displayName: data.displayName,
+      disabled: false,
+    });
+    return { uid: userRecord.uid };
+  } catch (error) {
+    throw new functions.https.HttpsError('internal', error.message, error);
+  }
+});

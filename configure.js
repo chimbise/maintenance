@@ -525,4 +525,19 @@ async function createUser(email) {
     console.error('Error creating new user:', error.message);
   }
 }
+const functions = firebase.functions();
+
+    document.getElementById('addUserButton').addEventListener('click', async () => {
+      try {
+        const createUser = functions.httpsCallable('createUser');
+        const result = await createUser({
+          email: 'newuser@example.com',
+          password: 'newUserPassword',
+          displayName: 'New User',
+        });
+        console.log('Successfully created new user:', result.data.uid);
+      } catch (error) {
+        console.error('Error creating new user:', error.message);
+      }
+    });
 
