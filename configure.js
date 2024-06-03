@@ -1,4 +1,4 @@
-import { myVariable,dbx,authx } from './index.js';
+import { myVariable,dbx,authx,funcx } from './index.js';
 import { getFirestore, collection,deleteDoc, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
 
@@ -490,7 +490,6 @@ async function deleteMultipleDocuments(collectionName, documentIds) {
 
 
 //Add new user code
-var users = {};
 var addUserButton = document.getElementById('addNewUser');
 var userDiv = document.getElementById('newUserDiv');
 
@@ -508,7 +507,7 @@ document.getElementById('newUserForm').addEventListener('submit', function(event
     const newEmail = document.getElementById('emailAddress').value;
 
 
-    createUser(newEmail)
+    createUser(newEmail,newName,newLastname)
     // Clear the form
     document.getElementById('newUserForm').reset();
 });
@@ -517,27 +516,29 @@ document.getElementById('newUserForm').addEventListener('submit', function(event
 // Initialize Firebase
 const auth = authx
 
-async function createUser(email) {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email , 'inspection101');
-    console.log('Successfully created new user:', userCredential.user.uid);
-  } catch (error) {
-    console.error('Error creating new user:', error.message);
-  }
-}
-const functions = firebase.functions();
+// async function createUser(email) {
+//   try {
+//     const userCredential = await createUserWithEmailAndPassword(auth, email , 'inspection101');
+//     console.log('Successfully created new user:', userCredential.user.uid);
+//   } catch (error) {
+//     console.error('Error creating new user:', error.message);
+//   }
+// }
+// Import Firebase modules
 
-    document.getElementById('addUserButton').addEventListener('click', async () => {
-      try {
-        const createUser = functions.httpsCallable('createUser');
-        const result = await createUser({
-          email: 'newuser@example.com',
-          password: 'newUserPassword',
-          displayName: 'New User',
-        });
-        console.log('Successfully created new user:', result.data.uid);
-      } catch (error) {
-        console.error('Error creating new user:', error.message);
-      }
+////colect firebase functions
+
+async function createUser(emailx, fname,lname) {
+    try {
+    const createUser = funcx.httpsCallable('createUser');
+    const result = await createUser({
+        email: emailx,
+        password: 'newUserPassword',
+        displayName: fname + ' ' + lname,
     });
+    console.log('Successfully created new user:', result.data.uid);
+    } catch (error) {
+    console.error('Error creating new user:', error.message);
+    }
+};
 
