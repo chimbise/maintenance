@@ -3,11 +3,11 @@ import { getFirestore,limit, collection,deleteDoc, onSnapshot,setDoc,updateDoc ,
 import {reportBuildingsRefx,reportsRefx, authValuex} from './index.js';
 
 //sorting retrieved data
-const q = query(reportBuildingsRefx, limit(1));
-const querySnapshot = await getDocs(q);
+const querySnapshot = doc(reportBuildingsRefx, 'rooms');
+const doccc = await getDoc(querySnapshot);
 
 // Extract the document data
-const doccc = querySnapshot.docs[0];
+// const doccc = querySnapshot.docs[0];
 console.log('Document ID:', doccc.id);
 console.log('Document Data:', doccc.data());
 
