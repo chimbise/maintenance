@@ -187,6 +187,7 @@ const firebaseConfig = {
         
 //building reference for reading firebase
 const buildingsRef = collection(db, 'buildings')
+//const buildingsRefReport = collection(db, 'reportBuildings')
 const inspectionsRef = collection(db, 'inspections')
 //const inspectorsRef = collection(db, 'inspectors')
 const reportBuildingsRef = collection(db,'reportbuildings')
@@ -210,6 +211,7 @@ var roomTitle = document.getElementById("roomTitleID");           //room display
 
 const querySnapshot = await getDocs(buildingsRef);
 
+const querySnapshotReport = doc(reportBuildingsRef, "rooms");
 // Iterate through the documents in the query snapshot
 querySnapshot.forEach((doc) => {
     // Access document data using doc.data()
@@ -581,7 +583,7 @@ menu.addEventListener('click', function(event) {
     
 })
 
-
+export const myVariableReport = querySnapshotReport;
 export const myVariable = querySnapshot;
 export const dbx = db;
 export var adminx = admin;

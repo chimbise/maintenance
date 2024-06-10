@@ -1,4 +1,4 @@
-import { myVariable,dbx,authx } from './index.js';
+import { myVariable,myVariableReport,dbx,authx } from './index.js';
 import { getFirestore, collection,deleteDoc, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
 
@@ -64,22 +64,17 @@ function createParentItem(doc) {
         listItem.classList.add('configBuilding');
 
         var newItem = addChildListItem(doc)
-        // for (let key in doc.data()) {
-        //     createChildItem(key,doc,listItem)
-        // }
         var widge = addDeleteWidget(listItem);
         widge.setAttribute('data-tooltip', 'delete Building')
 
         addAddWidget(listItem, doc.id);
         listItem.appendChild(newItem)
         
-
         listItem.addEventListener('click', function(e) {
             if (e.target === this) { // Check if the clicked element is the listItem itself
                 toggleVisibility(this);
             }
         });
-
     return listItem;
 }
 // Function to create a new room list item
@@ -162,23 +157,17 @@ function removeListItem(element) {
     var listItem = element.parentNode;
     listItem.parentNode.removeChild(listItem);
 }
+
 // Function to add a new parent list item
 function addParentListItem(docs) {
     var mainList = document.getElementById('mainList');
-
-    docs.forEach((doc) => {
-    
+    docs.forEach((doc) => {    
         // Access document data using doc.data()
         var newItem = createParentItem(doc);
         mainList.appendChild(newItem);
-    
     });
-
 }
 function updateBuildUl(doc){
-
-    
-
     var mainList = document.getElementById('mainList');
     var newItem = createParentItem(doc);
     console.log(doc.id)
@@ -243,9 +232,6 @@ function addChildListItem(doc) {
         }
       }
     console.log('Key:', sublist);
-    // Apply CSS to make listItem scrollable
-    //sublist.style.overflow = 'auto';
-    //sublist.style.height // Set the maximum height as per your requirement
     return sublist;
 }
 function updateRoomUl(roomObject,docId){
@@ -387,7 +373,6 @@ document.getElementById("textInputForm2").addEventListener("submit", function(ev
     document.getElementById("textInputForm2").style.display = "none";
 });
 
-
 addParentListItem(myVariable)
 function toggleVisibility(ul) {
     var ulElement = ul.querySelector('.configBuilding > ul');
@@ -525,5 +510,128 @@ async function createUser(email) {
     console.error('Error creating new user:', error.message);
   }
 }
+//
 
+
+
+
+addParentListItemReport(myVariableReport);
+
+
+
+// Function to add a new parent list item
+function addParentListItemReport(userDocRef) {
+    var mainListReport = document.getElementById('mainListReport');
+    console.log(userDocRef)
+
+    // docs.forEach((doc) => {    
+    //     console.log(doc)
+    //     // Access document data using doc.data()
+    //     var newItem = createParentItemReport(doc);
+    //     mainListReport.appendChild(newItem);
+    // });
+
+    // Get the document
+    getDoc(userDocRef)
+    .then((docSnapshot) => {
+        if (docSnapshot.exists()) {
+            // Document data
+            // const userData = {
+            // id: docSnapshot.id, // Document ID
+            // displayName: docSnapshot.data().displayName,
+            // email: docSnapshot.data().email
+            // };
+            var newItem = createParentItemReport(docSnapshot);
+            mainListReport.appendChild(newItem);
+            console.log(docSnapshot.data());
+            // Use the userData object as needed in your application
+        } else {
+            console.log("No such document!");
+        }
+    })
+    .catch((error) => {
+    console.error("Error getting document:", error);
+    });
+}
+function updateBuildUlReport(doc){
+    var mainListReport = document.getElementById('mainListReport');
+    var newItem = createParentItemReport(doc);
+    console.log(doc.id)
+    mainListReport.appendChild(newItem);
+}
+function createParentItemReport(doc) {
+    var listItem = document.createElement('li');
+
+        listItem.textContent = doc.id;
+        listItem.classList.add('configBuildingReport');
+
+        var newItem = addChildListItemReport(doc)
+        var widge = addDeleteWidget(listItem);
+        widge.setAttribute('data-tooltip', 'delete Building')
+
+        addAddWidget(listItem, doc.id);
+        listItem.appendChild(newItem);
+        
+        listItem.addEventListener('click', function(e) {
+            if (e.target === this) { // Check if the clicked element is the listItem itself
+                toggleVisibilityReport(this);
+            }
+        });
+    return listItem;
+}
+function toggleVisibilityReport(ul) {
+    var ulElement = ul.querySelector('.configBuildingReport > ul');
+    if (ulElement.style.maxHeight === '0px' || ulElement.style.maxHeight === '') {
+        ulElement.style.maxHeight = ulElement.scrollHeight + 'px';
+    } else {
+        ulElement.style.maxHeight = '0px';
+    }
+  }
+
+// Function to add a new child list item
+function addChildListItemReport(doc) {
+    
+    var sublist = document.createElement('ul');
+    var build = doc.id;
+    sublist.id = build;
+    var data = doc.data()
+
+    for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+            console.log('data:', data);
+            console.log('Value:', data[key]);
+            var newItem = createChildItemReport(key,data,build);
+            sublist.appendChild(newItem);
+        }
+      }
+    console.log('Key:', sublist);
+    return sublist;
+}
+function updateRoomUlReport(roomObject,docId){
+    var roomUl = document.getElementById(docId)
+    for (let key in roomObject) {
+        if (roomObject.hasOwnProperty(key)) {
+            console.log('data:', roomObject);
+            console.log('Value:', roomObject[key]);
+            var newItem = createChildItem(key,roomObject,docId);
+            roomUl.appendChild(newItem);
+        }
+      }
+}
+// Function to create a new room list item
+function createChildItemReport(key,doc,build) {
+
+    var buildRoom = build+'#'+key                 //separate string with # for easy extraction when getting data
+    var listItem = document.createElement('li');
+    listItem.textContent = key;
+    listItem.classList.add('configRoom');
+    console.log(buildRoom)
+    //var newItem = addGrandChildListItem(doc[key],buildRoom)
+    var widge = addDeleteWidget(listItem);
+    widge.setAttribute('data-tooltip', 'delete room')
+    addAddWidgetGrand(listItem,buildRoom);
+    //listItem.appendChild(newItem);
+   
+    return listItem;
+}
 

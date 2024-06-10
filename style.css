@@ -234,7 +234,29 @@ body {
                     .Reports{
                         display: block;
                         margin-bottom: 20px;
+                        padding: 10px;
+                        position: relative; /* Make sure the parent has a positioning context */
                     }
+                        .addNewBuildingReport {
+                            background-color: #1b6b8a72;
+                            border-radius: 10px;
+                            padding: 5px;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            margin: 10px;
+                            cursor: pointer;
+                        }
+                        .saveReportConfig {
+                            background-color: #1b6b8a72;
+                            border-radius: 10px;
+                            padding: 5px;
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            margin: 10px;
+                            cursor: pointer;
+                        }
                     .Inspections{
                         display: none;
                         margin-bottom: 20px;
