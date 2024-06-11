@@ -272,6 +272,10 @@ body {
                             border-radius: 10px; 
                             margin-top: 40px;       
                         }
+                        .buildnameContainerReport{
+                            border-radius: 10px; 
+                            margin-top: 40px;       
+                        }
                     .newUser{
                         display: none;
                         margin-bottom: 20px;
@@ -417,7 +421,24 @@ th {
     margin-bottom: 20px;
     border-radius: 10px;
     }
+    .configBuildingReport {
+        cursor: pointer;
+        padding: 10px;
+        font-weight: bold;
+        background: linear-gradient(to bottom, rgb(27, 106, 138), #ffffff);
+        margin-bottom: 20px;
+        border-radius: 10px;
+        }
     .configBuilding > ul {
+        padding-top: 30px;/* allowance for delete/add popups */
+        overflow: hidden; /* Hide content when it exceeds the maxHeight */
+        max-height: 0; /* Initially hide the element */
+        transition: max-height 0.5s ease; /* Smooth transition over 0.3 seconds */
+        overflow: 'auto';
+        max-Height: '500px'; 
+        cursor: auto;
+    }
+    .configBuildingReport > ul {
         padding-top: 30px;/* allowance for delete/add popups */
         overflow: hidden; /* Hide content when it exceeds the maxHeight */
         max-height: 0; /* Initially hide the element */
@@ -428,6 +449,11 @@ th {
     }
     /* Style for child list items */
     .configRoom {
+        margin-left: 20px; /* Indent child items */
+        color: black; /* Dim color for child items */
+        text-align: left;
+    }
+    .configRoomReport {
         margin-left: 20px; /* Indent child items */
         color: black; /* Dim color for child items */
         text-align: left;

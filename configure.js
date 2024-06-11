@@ -539,11 +539,16 @@ function addParentListItemReport(userDocRef) {
             // const userData = {
             // id: docSnapshot.id, // Document ID
             // displayName: docSnapshot.data().displayName,
+            var datas =  docSnapshot.data();
+            for (const building in datas) {
+                console.log(`Rooms in ${building}:`);
+                var newItem = createParentItemReport(building, datas);
+                mainListReport.appendChild(newItem);                
+            }
+            
             // email: docSnapshot.data().email
             // };
-            var newItem = createParentItemReport(docSnapshot);
-            mainListReport.appendChild(newItem);
-            console.log(docSnapshot.data());
+           
             // Use the userData object as needed in your application
         } else {
             console.log("No such document!");
@@ -559,17 +564,18 @@ function updateBuildUlReport(doc){
     console.log(doc.id)
     mainListReport.appendChild(newItem);
 }
-function createParentItemReport(doc) {
+function createParentItemReport(building, datas) {
+
     var listItem = document.createElement('li');
 
-        listItem.textContent = doc.id;
+        listItem.textContent = building;
         listItem.classList.add('configBuildingReport');
 
-        var newItem = addChildListItemReport(doc)
+        var newItem = addChildListItemReport(building, datas)
         var widge = addDeleteWidget(listItem);
         widge.setAttribute('data-tooltip', 'delete Building')
 
-        addAddWidget(listItem, doc.id);
+        addAddWidget(listItem, building);
         listItem.appendChild(newItem);
         
         listItem.addEventListener('click', function(e) {
@@ -589,22 +595,26 @@ function toggleVisibilityReport(ul) {
   }
 
 // Function to add a new child list item
-function addChildListItemReport(doc) {
+function addChildListItemReport(building,datas) {
     
     var sublist = document.createElement('ul');
-    var build = doc.id;
+    var build = datas[building];
     sublist.id = build;
-    var data = doc.data()
 
-    for (let key in data) {
-        if (data.hasOwnProperty(key)) {
-            console.log('data:', data);
-            console.log('Value:', data[key]);
-            var newItem = createChildItemReport(key,data,build);
-            sublist.appendChild(newItem);
-        }
-      }
-    console.log('Key:', sublist);
+    for (const room of datas[building]) {
+        console.log(room);
+        var newItem = createChildItemReport(room,building,build);
+        sublist.appendChild(newItem);
+    }
+    // for (let key in data) {
+    //     if (data.hasOwnProperty(key)) {
+    //         console.log('data:', data);
+    //         console.log('Value:', data[key]);
+    //         var newItem = createChildItemReport(key,data,build);
+    //         sublist.appendChild(newItem);
+    //     }
+    //   }
+    // console.log('Key:', sublist);
     return sublist;
 }
 function updateRoomUlReport(roomObject,docId){
@@ -619,17 +629,17 @@ function updateRoomUlReport(roomObject,docId){
       }
 }
 // Function to create a new room list item
-function createChildItemReport(key,doc,build) {
+function createChildItemReport(room,doc,build) {
 
-    var buildRoom = build+'#'+key                 //separate string with # for easy extraction when getting data
+    var buildRoom = build+'#'+room                 //separate string with # for easy extraction when getting data
     var listItem = document.createElement('li');
-    listItem.textContent = key;
-    listItem.classList.add('configRoom');
+    listItem.textContent = room;
+    //listItem.classList.add('configRoomReport');
     console.log(buildRoom)
     //var newItem = addGrandChildListItem(doc[key],buildRoom)
     var widge = addDeleteWidget(listItem);
     widge.setAttribute('data-tooltip', 'delete room')
-    addAddWidgetGrand(listItem,buildRoom);
+    //addAddWidgetGrand(listItem,buildRoom);
     //listItem.appendChild(newItem);
    
     return listItem;
