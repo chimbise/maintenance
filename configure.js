@@ -30,14 +30,14 @@ function handleLiClicks(li) {
             newUser.style.display = 'none'
             // Add your code to handle the "Home" click event
             break;
-        case "Inspections":
+        case "New Building":
             reports.style.display = 'none'
             Inspections.style.display = 'block'
             newBuilding.style.display = 'none'
             newUser.style.display = 'none'
             // Add your code to handle the "Inspection" click event
             break;
-        case "New Building":
+        case "Inspections":
             reports.style.display = 'none'
             Inspections.style.display = 'none'
             newBuilding.style.display = 'block'
@@ -606,15 +606,7 @@ function addChildListItemReport(building,datas) {
         var newItem = createChildItemReport(room,building,build);
         sublist.appendChild(newItem);
     }
-    // for (let key in data) {
-    //     if (data.hasOwnProperty(key)) {
-    //         console.log('data:', data);
-    //         console.log('Value:', data[key]);
-    //         var newItem = createChildItemReport(key,data,build);
-    //         sublist.appendChild(newItem);
-    //     }
-    //   }
-    // console.log('Key:', sublist);
+
     return sublist;
 }
 function updateRoomUlReport(roomObject,docId){
@@ -634,7 +626,7 @@ function createChildItemReport(room,doc,build) {
     var buildRoom = build+'#'+room                 //separate string with # for easy extraction when getting data
     var listItem = document.createElement('li');
     listItem.textContent = room;
-    //listItem.classList.add('configRoomReport');
+    listItem.classList.add('configRoomReport');
     console.log(buildRoom)
     //var newItem = addGrandChildListItem(doc[key],buildRoom)
     var widge = addDeleteWidget(listItem);
