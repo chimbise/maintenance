@@ -1,4 +1,4 @@
-import { myVariable,myVariableReport,dbx,authx } from './index.js';
+import { myVariable,dbx,authx } from './index.js';
 import { getFirestore, collection,deleteDoc, onSnapshot,setDoc,updateDoc , addDoc, doc, query,getDoc, getDocs, where, orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
 
@@ -475,7 +475,6 @@ async function deleteMultipleDocuments(collectionName, documentIds) {
 
 
 //Add new user code
-var users = {};
 var addUserButton = document.getElementById('addNewUser');
 var userDiv = document.getElementById('newUserDiv');
 
@@ -493,7 +492,7 @@ document.getElementById('newUserForm').addEventListener('submit', function(event
     const newEmail = document.getElementById('emailAddress').value;
 
 
-    createUser(newEmail)
+    createUser(newEmail,newName,newLastname)
     // Clear the form
     document.getElementById('newUserForm').reset();
 });
@@ -510,130 +509,19 @@ async function createUser(email) {
     console.error('Error creating new user:', error.message);
   }
 }
-//
+const functions = firebase.functions();
 
-
-
-
-addParentListItemReport(myVariableReport);
-
-
-
-// Function to add a new parent list item
-function addParentListItemReport(userDocRef) {
-    var mainListReport = document.getElementById('mainListReport');
-    console.log(userDocRef)
-
-    // docs.forEach((doc) => {    
-    //     console.log(doc)
-    //     // Access document data using doc.data()
-    //     var newItem = createParentItemReport(doc);
-    //     mainListReport.appendChild(newItem);
-    // });
-
-    // Get the document
-    getDoc(userDocRef)
-    .then((docSnapshot) => {
-        if (docSnapshot.exists()) {
-            // Document data
-            // const userData = {
-            // id: docSnapshot.id, // Document ID
-            // displayName: docSnapshot.data().displayName,
-            var datas =  docSnapshot.data();
-            for (const building in datas) {
-                console.log(`Rooms in ${building}:`);
-                var newItem = createParentItemReport(building, datas);
-                mainListReport.appendChild(newItem);                
-            }
-            
-            // email: docSnapshot.data().email
-            // };
-           
-            // Use the userData object as needed in your application
-        } else {
-            console.log("No such document!");
-        }
-    })
-    .catch((error) => {
-    console.error("Error getting document:", error);
-    });
-}
-function updateBuildUlReport(doc){
-    var mainListReport = document.getElementById('mainListReport');
-    var newItem = createParentItemReport(doc);
-    console.log(doc.id)
-    mainListReport.appendChild(newItem);
-}
-function createParentItemReport(building, datas) {
-
-    var listItem = document.createElement('li');
-
-        listItem.textContent = building;
-        listItem.classList.add('configBuildingReport');
-
-        var newItem = addChildListItemReport(building, datas)
-        var widge = addDeleteWidget(listItem);
-        widge.setAttribute('data-tooltip', 'delete Building')
-
-        addAddWidget(listItem, building);
-        listItem.appendChild(newItem);
-        
-        listItem.addEventListener('click', function(e) {
-            if (e.target === this) { // Check if the clicked element is the listItem itself
-                toggleVisibilityReport(this);
-            }
+    document.getElementById('addUserButton').addEventListener('click', async () => {
+      try {
+        const createUser = functions.httpsCallable('createUser');
+        const result = await createUser({
+          email: 'newuser@example.com',
+          password: 'newUserPassword',
+          displayName: 'New User',
         });
-    return listItem;
-}
-function toggleVisibilityReport(ul) {
-    var ulElement = ul.querySelector('.configBuildingReport > ul');
-    if (ulElement.style.maxHeight === '0px' || ulElement.style.maxHeight === '') {
-        ulElement.style.maxHeight = ulElement.scrollHeight + 'px';
-    } else {
-        ulElement.style.maxHeight = '0px';
-    }
-  }
-
-// Function to add a new child list item
-function addChildListItemReport(building,datas) {
-    
-    var sublist = document.createElement('ul');
-    var build = datas[building];
-    sublist.id = build;
-
-    for (const room of datas[building]) {
-        console.log(room);
-        var newItem = createChildItemReport(room,building,build);
-        sublist.appendChild(newItem);
-    }
-
-    return sublist;
-}
-function updateRoomUlReport(roomObject,docId){
-    var roomUl = document.getElementById(docId)
-    for (let key in roomObject) {
-        if (roomObject.hasOwnProperty(key)) {
-            console.log('data:', roomObject);
-            console.log('Value:', roomObject[key]);
-            var newItem = createChildItem(key,roomObject,docId);
-            roomUl.appendChild(newItem);
-        }
+        console.log('Successfully created new user:', result.data.uid);
+      } catch (error) {
+        console.error('Error creating new user:', error.message);
       }
-}
-// Function to create a new room list item
-function createChildItemReport(room,doc,build) {
-
-    var buildRoom = build+'#'+room                 //separate string with # for easy extraction when getting data
-    var listItem = document.createElement('li');
-    listItem.textContent = room;
-    listItem.classList.add('configRoomReport');
-    console.log(buildRoom)
-    //var newItem = addGrandChildListItem(doc[key],buildRoom)
-    var widge = addDeleteWidget(listItem);
-    widge.setAttribute('data-tooltip', 'delete room')
-    //addAddWidgetGrand(listItem,buildRoom);
-    //listItem.appendChild(newItem);
-   
-    return listItem;
-}
+    });
 

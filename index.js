@@ -4,6 +4,8 @@ import { getFirestore, collection,limit, onSnapshot,setDoc,updateDoc , addDoc, d
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
 import { getDatabase, ref,get, set, update,push,onValue } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 //import isEqual from '/node_modules/lodash-es/isEqual.js';
+import { getFunctions, httpsCallable } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-functions.js';
+
 
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -24,6 +26,7 @@ const firebaseConfig = {
   const db = getFirestore(firebaseApp)
   const auth = getAuth(firebaseApp);
   const database = getDatabase(firebaseApp);
+  const func = getFunctions(firebaseApp)
 
     // // Sign up with email and password
     // firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -59,36 +62,27 @@ const firebaseConfig = {
         function closeModal() {
             authModal.style.display = 'none';
         }
-        const user = null;
-        
-        function signIn() {
+        const menu = document.getElementById('sign-out-link')
+
+        async function signIn() {
             const email = document.getElementById('Username').value;
             const password = document.getElementById('Password').value;
-            console.log(auth);    
-             // Check if the auth object is properly initialized
-            if (!auth) {
-                console.error("Firebase Auth is not initialized.");
-                return;
-            }
-            // Implement Firebase sign-in logic here
-            console.log(auth);
-            signInWithEmailAndPassword(auth,email, password)
-            .then((userCredential) => {
-            // Signed in
-            
-                user = userCredential.user;
-                console.log(`Signed in as ${user.email}`);
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                console.log('Successfully signed in:', userCredential.user.uid);
+
                 closeModal();
-                
-            })
-            .catch((error) => {
-                console.error(error.message);
-            });
-            //checkAuth(user);
+                console.log(userCredential)
+              } catch (error) {
+                console.error('Error signing in:', error.message);
+
+              }
+
+              console.log(email)
         }
         // Check user authentication state
         //signout menu button
-        const menu = document.getElementById('sign-out-link')
         auth.onAuthStateChanged(user => {
             if (user) {
                 // User is signed in
@@ -145,7 +139,7 @@ const firebaseConfig = {
  
         var admin = false;
         // Function to check user role
-        function checkUserRole(userId) {
+        async function checkUserRole(userId) {
             // Retrieve user role from Firebase Realtime Database
             console.log(userId);
             get(ref(database, `users/${userId}`)).then((snapshot) => {
@@ -591,3 +585,4 @@ export const reportBuildingsRefx = reportBuildingsRef
 export const reportsRefx = reportsRef
 export var authValuex = authValue
 export var authx = auth
+export var funcx = func
