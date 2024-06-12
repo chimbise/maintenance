@@ -4,7 +4,6 @@ import { getFirestore, collection,limit, onSnapshot,setDoc,updateDoc , addDoc, d
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
 import { getDatabase, ref,get, set, update,push,onValue } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 //import isEqual from '/node_modules/lodash-es/isEqual.js';
-import { getFunctions, httpsCallable } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-functions.js';
 
 
 
@@ -26,7 +25,6 @@ const firebaseConfig = {
   const db = getFirestore(firebaseApp)
   const auth = getAuth(firebaseApp);
   const database = getDatabase(firebaseApp);
-  const func = getFunctions(firebaseApp)
 
     // // Sign up with email and password
     // firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -585,4 +583,3 @@ export const reportBuildingsRefx = reportBuildingsRef
 export const reportsRefx = reportsRef
 export var authValuex = authValue
 export var authx = auth
-export var funcx = func
